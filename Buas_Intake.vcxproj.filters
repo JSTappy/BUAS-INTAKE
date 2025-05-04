@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\collidius">
+      <UniqueIdentifier>{48c8af7b-c156-4fee-ad35-44de1825f18a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common">
+      <UniqueIdentifier>{67171528-3986-42fc-b501-4d465149bce9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\collidius">
+      <UniqueIdentifier>{f8063277-04b9-4ea2-b40d-d8022f61e330}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common">
+      <UniqueIdentifier>{c8bbddeb-c2fc-41c7-ac1c-0c155ed76cfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets">
+      <UniqueIdentifier>{c6ac48b9-ce5f-423f-b6dd-1424fd031b8f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="collidius\ActionBlock.cpp">
+      <Filter>Source Files\collidius</Filter>
+    </ClCompile>
+    <ClCompile Include="collidius\CommandWindow.cpp">
+      <Filter>Source Files\collidius</Filter>
+    </ClCompile>
+    <ClCompile Include="collidius\Enemy.cpp">
+      <Filter>Source Files\collidius</Filter>
+    </ClCompile>
+    <ClCompile Include="collidius\GameEntity.cpp">
+      <Filter>Source Files\collidius</Filter>
+    </ClCompile>
+    <ClCompile Include="collidius\myscene.cpp">
+      <Filter>Source Files\collidius</Filter>
+    </ClCompile>
+    <ClCompile Include="collidius\Player.cpp">
+      <Filter>Source Files\collidius</Filter>
+    </ClCompile>
+    <ClCompile Include="collidius\Projectile.cpp">
+      <Filter>Source Files\collidius</Filter>
+    </ClCompile>
+    <ClCompile Include="collidius\TurnManager.cpp">
+      <Filter>Source Files\collidius</Filter>
+    </ClCompile>
+    <ClCompile Include="collidius\VisualSlider.cpp">
+      <Filter>Source Files\collidius</Filter>
+    </ClCompile>
+    <ClCompile Include="common\camera.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\entity.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\game.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\inputmanager.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\myentity.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\renderer.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\resourcemanager.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\scene.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\sprite.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\timer.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="collidius\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="common\camera.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\config.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\entity.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\game.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\inputmanager.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\keyconfig.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\myentity.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\renderer.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\resourcemanager.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\scene.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\sprite.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\timer.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="collidius\ActionBlock.h">
+      <Filter>Header Files\collidius</Filter>
+    </ClInclude>
+    <ClInclude Include="collidius\CommandWindow.h">
+      <Filter>Header Files\collidius</Filter>
+    </ClInclude>
+    <ClInclude Include="collidius\Enemy.h">
+      <Filter>Header Files\collidius</Filter>
+    </ClInclude>
+    <ClInclude Include="collidius\GameEntity.h">
+      <Filter>Header Files\collidius</Filter>
+    </ClInclude>
+    <ClInclude Include="collidius\myscene.h">
+      <Filter>Header Files\collidius</Filter>
+    </ClInclude>
+    <ClInclude Include="collidius\Player.h">
+      <Filter>Header Files\collidius</Filter>
+    </ClInclude>
+    <ClInclude Include="collidius\Projectile.h">
+      <Filter>Header Files\collidius</Filter>
+    </ClInclude>
+    <ClInclude Include="collidius\TurnManager.h">
+      <Filter>Header Files\collidius</Filter>
+    </ClInclude>
+    <ClInclude Include="collidius\VisualSlider.h">
+      <Filter>Header Files\collidius</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

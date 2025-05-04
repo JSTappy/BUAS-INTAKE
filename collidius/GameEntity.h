@@ -1,0 +1,92 @@
+#ifndef GAMEENTITY_H
+#define GAMEENTITY_H
+
+
+class TurnManager;
+#include "entity.h"
+#include "Projectile.h"
+#include "timer.h"
+
+
+class GameEntity : public Entity
+{
+public:
+	/// @brief Constructor
+	GameEntity(int ID, int Level, int Health, int Power, int Defense, int Speed, float DamageReduction, int CriticalChance, int Money, int ExperiencePoints);
+
+	/// @brief Destructor
+	~GameEntity();
+
+	/// @brief update method
+	/// @param deltaTime
+	/// @return void
+	virtual void Update(float deltaTime); //update
+
+	virtual void ReturnToStartPos();
+	virtual void HandleProjectileAction();
+	void HandleProjectileCollision(Projectile* p, GameEntity* t);
+	void DestroyProjectile(Projectile* p);
+	void SetStartPos();
+
+	int CalculateAttackStat(int damage, int moveMultiplier);
+	int CalculateDefenseStat(int Defense, int DamageReduction);
+	void DealDamage(GameEntity* target, int multiplier);
+
+	bool completedTurn;
+	bool alive;
+
+	bool choosingAction;
+	bool choosingCommand;
+	bool choosingTarget;
+
+	int health;
+	int power;
+	int defense;
+	int speed;
+
+	int GetID() { return _id; }
+	int GetLevel(){ return _level; }
+	float GetDamageReduction() { return _damageReduction; }
+	int GetCriticalChance() { return _criticalChance; }
+	int GetMoney() { return _money; }
+	int GetExperiencePoints() { return _experiencePoints; }
+
+	glm::vec3 GetStartPos() { return _startPos; }
+
+	enum State
+	{
+		attacking,
+		choosing,
+		defending,
+		idle,
+	};
+
+	enum State gameEntityState = idle;
+
+	void SetTurnManager(TurnManager* turnManager) { _turnManager = turnManager; }
+	TurnManager* GetTurnManager() const { return _turnManager; }
+
+
+protected:
+
+	TurnManager* _turnManager;
+
+	GameEntity* _target;
+	glm::vec3 _startPos;
+
+	std::vector<Projectile*> _projectiles;
+	float _damageReduction;
+	int _criticalChance;
+
+	int _selectedEntityCount;
+	bool _shotsFired = false;
+
+
+private:
+	int _maxHealth;
+	int _id;
+	int _level;
+	int _money;
+	int _experiencePoints;
+};
+#endif // !GAMEENTITY_H
