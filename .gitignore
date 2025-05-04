@@ -1,3 +1,10 @@
-build
-doc
 .vs*
+doc
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+x64/
+x86/
