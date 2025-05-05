@@ -22,7 +22,8 @@ public:
 	/// @return void
 	virtual void Update(float deltaTime); //update
 
-	virtual void ReturnToStartPos();
+	virtual void ReturnToNewPosition(glm::vec3 position);
+	virtual void MoveTowardsPosition(glm::vec3 position, float deltaTime);
 	virtual void HandleProjectileAction();
 	void HandleProjectileCollision(Projectile* p, GameEntity* t);
 	void DestroyProjectile(Projectile* p);
@@ -69,6 +70,7 @@ public:
 
 protected:
 
+	Timer* _movingTimer;
 	TurnManager* _turnManager;
 
 	GameEntity* _target;
@@ -81,6 +83,8 @@ protected:
 	int _selectedEntityCount;
 	bool _shotsFired = false;
 
+	glm::vec3 ObtainNormalizedVector(glm::vec3 targetPosition);
+	glm::vec3 _initialTargetVector;
 
 private:
 	int _maxHealth;

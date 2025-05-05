@@ -26,15 +26,21 @@ public:
 	virtual void Update(float deltaTime); //update
 	void EnableJump(float deltaTime);
 
-	void AssignJumpKey(int jumpKey);
+	void AssignActionKey(int jumpKey);
+
 	void BasicAttack(int damage, GameEntity* target);
 	void PunchAttack(GameEntity* target);
 	void MashProjectileAttack(GameEntity* target);
+	void JumpAttack(GameEntity* target);
+
 	void SelectBlock();
 	void HandleAction();
+
 	void HandleProjectileAction() override;
 	void HandlePunch();
 	void HandleProjectileMash();
+	void HandleJumpAttack(float deltaTime);
+
 	void PerformAttack(int attackLevel);
 	void InitiateVisualSlider();
 
@@ -45,14 +51,17 @@ private:
 
 	Timer* _attackingTimer;
 
+	Timer* _waitingTimer;
+
 	Timer* _multipleProjectileTimer;
 
+	int _jumpAttacksHit = 0;
 	bool _shouldFall;
 	bool _isgrounded;
 	bool _completedMash = false;
 
 	int _attackType;
-	int _jumpKey;
+	int _actionKey;
 
 	float _projectileChargeStored = 0.0f; //the amount of 'charge' stored
 	float _projectileChargeGain = 0.25f; //the amount of 'charge' gained
@@ -64,7 +73,11 @@ private:
 	glm::vec3 _velocity = glm::vec3(0,0,0);
 
 	void Move(float deltaTime);
-	void Jump();
+	void Jump(float jumpForcefloat, float jumpforceMultiplier);
+	void GroundCheck();
+
+	void SwitchAttackType(float deltaTime);
+	void HandleChoosing();
 
 	void ClearHUD();
 	void ResetToIdle();

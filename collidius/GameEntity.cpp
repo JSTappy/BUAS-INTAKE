@@ -21,6 +21,10 @@ GameEntity::GameEntity(int ID, int Level, int Health, int Power, int Defense, in
 	choosingCommand = false;
 	choosingTarget = false;
 
+	_movingTimer = new Timer();
+	this->AddChild(_movingTimer);
+	_movingTimer->StopTimer();
+
 
 }
 
@@ -72,15 +76,16 @@ void GameEntity::DealDamage(GameEntity* target, int multiplier)
 
 void GameEntity::HandleProjectileCollision(Projectile* p, GameEntity* t)
 {
-	//Divide right and bottom by 2 to get close to the mid point 
-	float projLeft = p->position.x;
+	//Divide right and bottom by 2 to get close to the mid point
+
+	float projLeft = p->position.x - p->sprite->GetWidth() / 2;
 	float projRight = p->position.x + p->sprite->GetWidth() / 2; 
-	float projTop = p->position.y;
+	float projTop = p->position.y - p->sprite->GetHeight() / 2;
 	float projBottom = p->position.y + p->sprite->GetHeight() / 2;
 
-	float targetLeft = t->position.x;
+	float targetLeft = t->position.x - t->sprite->GetWidth() / 2;
 	float targetRight = t->position.x + t->sprite->GetWidth() / 2;
-	float targetTop = t->position.y;
+	float targetTop = t->position.y - t->sprite->GetHeight() / 2;
 	float targetBottom = t->position.y + t->sprite->GetHeight() / 2;
 
 	if (projRight >= targetLeft &&
@@ -122,9 +127,31 @@ void GameEntity::Update(float deltaTime)
 
 }
 
-void GameEntity::ReturnToStartPos()
+void GameEntity::ReturnToNewPosition(glm::vec3 position)
 {
-	this->position = _startPos;
+	this->position = position;
+}
+
+glm::vec3 GameEntity::ObtainNormalizedVector(glm::vec3 targetPosition)
+{
+	// Calculate the distance between positions
+	glm::vec3 direction = targetPosition - this->position;
+
+	// Normalize the direction vector
+	glm::vec3 directionNormalized = glm::normalize(direction);
+
+	return directionNormalized;
+}
+
+void GameEntity::MoveTowardsPosition(glm::vec3 targetPosition, float deltaTime)
+{
+	float distanceToTarget = glm::length(_initialTargetVector);
+
+	// Calculate the movement for this frame
+	float distanceThisFrame = 600.0f * deltaTime;
+
+	// Apply movement
+	this->position += _initialTargetVector * distanceThisFrame;
 }
 
 void GameEntity::SetStartPos()

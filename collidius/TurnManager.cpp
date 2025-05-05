@@ -35,7 +35,6 @@ void TurnManager::Update(float deltaTime)
 {
 	if (_nextInTurn == nullptr) return;
 	if (!_nextInTurn->completedTurn) return;
-	if (_nextInTurn->position != _nextInTurn->GetStartPos()) return;
 	if (!_timerStarted)
 	{
 		_waitingTimer->StartTimer();
@@ -89,6 +88,7 @@ void TurnManager::DecideNextInTurn()
 	_nextInTurn->gameEntityState = _nextInTurn->choosing;
 	_nextInTurn->choosingCommand = false;
 	_nextInTurn->choosingAction = true;
+	std::cout << "Next in turn is entity with ID: " << _nextInTurn->GetID() << std::endl;
 }
 
 void TurnManager::GiveTurnToNext()
@@ -98,7 +98,7 @@ void TurnManager::GiveTurnToNext()
 	_waitingTimer->StopTimer();
 	_nextInTurn->gameEntityState = _nextInTurn->idle;
 	_nextInTurn->completedTurn = true;
-	_nextInTurn->ReturnToStartPos();
+	_nextInTurn->ReturnToNewPosition(_nextInTurn->GetStartPos());
 	_nextInTurn = nullptr;
 	_timerStarted = false;
 	DecideNextInTurn();

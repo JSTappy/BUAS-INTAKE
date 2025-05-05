@@ -17,16 +17,15 @@ MyScene::MyScene() : Scene()
 	_player1->SetSprite("assets/sprites/kchar.tga");
 	_player1->position = glm::vec3(400.0f, 300.0f, 0.0f);
 	_player1->SetStartPos();
-	_player1->AssignJumpKey(KEY_K);
+	_player1->AssignActionKey(KEY_K);
 	_layer2->AddChild(_player1);
 	gameEntities.push_back(_player1);
 
 	_player2 = new Player(2, 1, 70, 35, 16, 36, 0.0f, 2, 200, 0);
 	_player2->SetSprite("assets/sprites/jchar.tga");
 	_player2->position = glm::vec3(250.0f, 500.0f, 0.0f);
-	_player2->scale = glm::vec3(2.0f, 2.0f, 0.0f);
 	_player2->SetStartPos();
-	_player2->AssignJumpKey(KEY_J);
+	_player2->AssignActionKey(KEY_J);
 	_layer2->AddChild(_player2);
 	gameEntities.push_back(_player2);
 

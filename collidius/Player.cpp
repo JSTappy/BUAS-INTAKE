@@ -4,18 +4,21 @@
 Player::Player(int id, int level, int health, int power, int defense, int speed, float damageReduction, int criticalChance, int money, int experiencePoints)
 	: GameEntity(id, level, health, power, defense, speed, damageReduction, criticalChance, money, experiencePoints) // Call the GameEntity constructor
 {
-	_jumpKey = 0;
+	_actionKey = 0;
 	_isgrounded = true;
 	_shouldFall = false;
 	_ascendTimer = new Timer();
 	_attackingTimer = new Timer();
 	_multipleProjectileTimer = new Timer();
-	this->AddChild(_ascendTimer);
+	_waitingTimer = new Timer();
+	this->AddChild(_waitingTimer);
 	this->AddChild(_attackingTimer);
 	this->AddChild(_multipleProjectileTimer);
+	this->AddChild(_ascendTimer);
 	_ascendTimer->StopTimer();
 	_attackingTimer->StopTimer();
 	_multipleProjectileTimer->StopTimer();
+	_waitingTimer->StopTimer();
 	_target = nullptr;
 	_actionBlock = nullptr;
 	_visualSlider = nullptr;
@@ -28,6 +31,7 @@ Player::~Player()
 
 void Player::Update(float deltaTime) 
 {
+	Move(deltaTime);
 	switch (gameEntityState)
 	{
 		case idle:
@@ -35,84 +39,96 @@ void Player::Update(float deltaTime)
 			return;
 		case attacking:
 			//std::cout << _attackingTimer->GetSeconds() << std::endl;
-			switch (_attackType)
-			{
-				case 0:
-					_visualSlider->UpdateSliderSpriteOnTime(_attackingTimer->GetSeconds());
-					HandlePunch();
-					return;
-				case 1:
-					if (!_shotsFired)
-					{
-						HandleProjectileMash(); 
-						return;
-					}
-					if (_projectiles.size() > 0)
-					{
-						for (int i = 0; i < _projectiles.size(); i++)
-						{
-							HandleProjectileCollision(_projectiles[i], _target);
-						}
-						return;
-					}
-					ResetToIdle();
-					return;
-				case 2:
-					return;
-				case 3:
-					return;
-			}
+			SwitchAttackType(deltaTime);
 			return;
 		case choosing:
 			EnableJump(deltaTime);
-			if (choosingAction)
-			{
-				if (_actionBlock == nullptr)
-				{
-					_actionBlock = new ActionBlock();
-					_actionBlock->position = this->_startPos + glm::vec3(0, -200, 0);
-					this->AddChild(_actionBlock);
-				}
-				if (GetInput()->GetKeyDown(KEY_A) && _isgrounded)
-				{
-					_actionBlock->PreviousBlock();
-				}
-				if (GetInput()->GetKeyDown(KEY_D) && _isgrounded)
-				{
-					_actionBlock->NextBlock();
-				}
-				if (this->position.y < _actionBlock->position.y + _actionBlock->sprite->GetHeight())
-				{
-					this->_velocity = glm::vec3(0, 0, 0);
-					ReturnToStartPos();
-					// Select Action
-					_actionBlock->OpenCommandWindow();
-					choosingCommand = true;
-					choosingAction = false;
-				}
-				return;
-			}
-			else if (choosingCommand)
-			{
-				if (GetInput()->GetKeyDown(Tab))
-				{
-					ClearHUD();
-					choosingAction = true;
-					choosingCommand = false;
-					return;
-				}
-				if (this->position.y < _actionBlock->position.y + _actionBlock->sprite->GetHeight())
-				{
-					this->_velocity = glm::vec3(0, 0, 0);
-					HandleAction();
-				}
-			}
+			HandleChoosing();
 			return;
 		case defending:
 			EnableJump(deltaTime);
 			return;
 	}
 	
+}
+
+void Player::HandleChoosing() 
+{
+	if (choosingAction)
+	{
+		if (_actionBlock == nullptr)
+		{
+			_actionBlock = new ActionBlock();
+			_actionBlock->position = this->_startPos + glm::vec3(0, -200, 0);
+			this->AddChild(_actionBlock);
+		}
+		if (GetInput()->GetKeyDown(KEY_A) && _isgrounded)
+		{
+			_actionBlock->PreviousBlock();
+		}
+		if (GetInput()->GetKeyDown(KEY_D) && _isgrounded)
+		{
+			_actionBlock->NextBlock();
+		}
+		if (this->position.y < _actionBlock->position.y + _actionBlock->sprite->GetHeight())
+		{
+			this->_velocity = glm::vec3(0, 0, 0);
+			ReturnToNewPosition(_startPos);
+			// Select Action
+			_actionBlock->OpenCommandWindow();
+			choosingCommand = true;
+			choosingAction = false;
+		}
+		return;
+	}
+	if (choosingCommand)
+	{
+		if (GetInput()->GetKeyDown(Tab))
+		{
+			ClearHUD();
+			choosingAction = true;
+			choosingCommand = false;
+			return;
+		}
+		if (this->position.y < _actionBlock->position.y + _actionBlock->sprite->GetHeight())
+		{
+			this->_velocity = glm::vec3(0, 0, 0);
+			HandleAction();
+		}
+	}
+}
+
+void Player::SwitchAttackType(float deltaTime)
+{
+	switch (_attackType)
+	{
+		case 0:
+			_visualSlider->UpdateSliderSpriteOnTime(_attackingTimer->GetSeconds());
+			HandlePunch();
+			return;
+		case 1:
+			if (!_shotsFired)
+			{
+				HandleProjectileMash();
+				return;
+			}
+			if (_projectiles.size() > 0)
+			{
+				for (int i = 0; i < _projectiles.size(); i++)
+				{
+					HandleProjectileCollision(_projectiles[i], _target);
+				}
+				return;
+			}
+			ResetToIdle();
+			return;
+		case 2:
+			EnableJump(deltaTime);
+			HandleJumpAttack(deltaTime);
+			return;
+		case 3:
+			return;
+	}
 }
 
 void Player::HandleAction()
@@ -144,16 +160,19 @@ void Player::PerformAttack(int attackLevel)
 {
 	_attackType = attackLevel;
 	_target = _turnManager->GetRandomEnemy();
+
 	switch (attackLevel)
 	{
 		case 0:
 			PunchAttack(_target);
 			return;
 		case 1:
-			ReturnToStartPos();
+			ReturnToNewPosition(_startPos);
 			MashProjectileAttack(_target);
 			return;
 		case 2:
+			ReturnToNewPosition(_startPos);
+			JumpAttack(_target);
 			return;
 		case 3:
 			return;
@@ -169,31 +188,37 @@ void Player::EnableJump(float deltaTime)
 		_ascendTimer->StopTimer();
 		_shouldFall = true;
 	}
-	if (GetInput()->GetKeyDown(_jumpKey) && _isgrounded)
+	if (GetInput()->GetKeyDown(_actionKey) && _isgrounded)
 	{
 		_velocity = glm::vec3(0, 0, 0);
-		Jump();
-		_isgrounded = false;
-		_shouldFall = false;
+		Jump(800.0f, 1);
 	}
-	if (!_isgrounded && _shouldFall)
+}
+
+void Player::GroundCheck()
+{
+	if (this->gameEntityState == attacking)
 	{
-		_velocity.y += _gravity * deltaTime;
+		if (this->position.y > _target->position.y && !_isgrounded)
+		{
+			_isgrounded = true;
+			_shouldFall = false;
+			_velocity = glm::vec3(0, 0, 0);
+		}
+		return;
 	}
-	Move(deltaTime);
 	if (this->position.y < 0 && !_isgrounded || this->position.y > _startPos.y && !_isgrounded)
 	{
 		_isgrounded = true;
 		_shouldFall = false;
 		_velocity = glm::vec3(0, 0, 0);
-		ReturnToStartPos();
-		return;
+		ReturnToNewPosition(_startPos);
 	}
 }
 
 void Player::HandlePunch() 
 {
-	if (GetInput()->GetKeyDown(_jumpKey))
+	if (GetInput()->GetKeyDown(_actionKey))
 	{
 		if (_attackingTimer->GetSeconds() < 1.0f)
 		{
@@ -256,7 +281,7 @@ void Player::HandleProjectileMash()
 		_shotsFired = true;
 		return;
 	}
-	if (GetInput()->GetKeyDown(_jumpKey))
+	if (GetInput()->GetKeyDown(_actionKey))
 	{
 		_projectileChargeStored += _projectileChargeGain;
 		_visualSlider->UpdateSliderSpriteOnClicks(_projectileChargeGain, _projectileChargeMax);
@@ -267,6 +292,49 @@ void Player::HandleProjectileMash()
 void Player::HandleProjectileAction()
 {
 	DealDamage(_target, _projectileChargeStored);
+}
+
+void Player::HandleJumpAttack(float deltaTime)
+{
+	//first move towards the enemy
+	if (this->position.x >= _target->position.x - 256.0f && _isgrounded)
+	{
+		//second, simulate a jump.
+		Jump(750.0f, 1.5f);
+		return;
+	}
+	//third, handle the attack. It jumps on the enemy three times if the button presses are timed correctly
+	if (_jumpAttacksHit <= 3 && this->position.x >= _target->position.x) //if the enemy has not been juped on 3 times yet
+	{
+		if (this->position.y + this->sprite->GetHeight() / 2.0f >= _target->position.y - _target->sprite->GetHeight() / 1.5f)//calculate if the player collides with the enemy
+		{
+			if (GetInput()->GetKeyDown(_actionKey))
+			{
+				this->position.y = _target->position.y - _target->sprite->GetHeight() / 2.0f;
+				_velocity = glm::vec3(0, 0, 0);
+				Jump(700.0f, 1);
+				DealDamage(_target, 1 * (_jumpAttacksHit * 0.5f));
+				_jumpAttacksHit++;
+				return;
+			}
+		}
+		if (this->position.y >= _target->position.y - _target->sprite->GetHeight() / 4.0f)//calculate if the player collides with the enemy
+		{
+			ResetToIdle();
+		}
+	}
+	if (_jumpAttacksHit == 3)
+	{
+		//fourth, when failing or succeeding, when done with the attack go back to the starting position
+		_isgrounded = true;
+		_shouldFall = false;
+		_velocity = glm::vec3(0, 0, 0);
+		_jumpAttacksHit = 0;
+		ResetToIdle();
+	}
+	if (this->position.x >= _target->position.x) return; //when you are above the enemy
+
+	MoveTowardsPosition(_initialTargetVector, deltaTime); //moving towards the enemy position
 }
 
 
@@ -291,6 +359,7 @@ void Player::PunchAttack(GameEntity* target)
 	_target = target;
 }
 
+
 void Player::MashProjectileAttack(GameEntity* target)
 {
 	ClearHUD();
@@ -299,6 +368,15 @@ void Player::MashProjectileAttack(GameEntity* target)
 	InitiateVisualSlider();
 	_attackingTimer->StartOverTimer();
 	_target = target;
+}
+
+void Player::JumpAttack(GameEntity* target)
+{
+	ClearHUD();
+	_target = target;
+	_initialTargetVector = ObtainNormalizedVector(_target->position);
+	gameEntityState = attacking;
+	_attackingTimer->StartOverTimer();
 }
 
 void Player::InitiateVisualSlider()
@@ -312,14 +390,15 @@ void Player::InitiateVisualSlider()
 }
 
 
-void Player::AssignJumpKey(int jumpKey)
+void Player::AssignActionKey(int jumpKey)
 {
-	this->_jumpKey = jumpKey;
+	this->_actionKey = jumpKey;
 }
 
 void Player::ResetToIdle()
 {
-	ReturnToStartPos();
+	_velocity = glm::vec3(0, 0, 0);
+	ReturnToNewPosition(_startPos);
 	_isgrounded = true;
 	_shouldFall = false;
 	gameEntityState = idle;
@@ -353,10 +432,17 @@ void Player::ClearHUD()
 void Player::Move(float deltaTime)
 {
 	this->position += _velocity * deltaTime;
+	if (!_isgrounded && _shouldFall)
+	{
+		_velocity.y += _gravity * deltaTime;
+	}
+	GroundCheck();
 }
 
-void Player::Jump()
+void Player::Jump(float jumpForce, float jumpforceMultiplier)
 {
-	_velocity -= glm::vec3(0.0f, 800.0f, 0.0f);
+	_velocity -= glm::vec3(0.0f, jumpForce * jumpforceMultiplier, 0.0f); //substract from velocity because 0,0 is in the top left
 	_ascendTimer->StartOverTimer();
+	_isgrounded = false;
+	_shouldFall = false;
 }
