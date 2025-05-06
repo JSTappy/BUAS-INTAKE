@@ -5,6 +5,8 @@
 #include "game.h"
 #include "entity.h"
 #include "myentity.h"
+#include "text.h"
+
 #include "GameEntity.h"
 #include "Player.h"
 #include "Enemy.h"

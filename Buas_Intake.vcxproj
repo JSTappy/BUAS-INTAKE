@@ -98,7 +98,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)external\glew-2.2.0\lib\Release\Win32;$(ProjectDir)external\glfw-3.4\lib\Win32;$(ProjectDir)\external\freetype\release_static\vs2015-2022\win64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)external\glew-2.2.0\lib\Release\Win32;$(ProjectDir)external\glfw-3.4\lib\Win32;$(ProjectDir)\external\freetype\release_static\vs2015-2022\win32</AdditionalLibraryDirectories>
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);opengl32.lib;glfw3.lib;glew32.lib;freetype.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -124,7 +124,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)external\glew-2.2.0\lib\Release\Win32;$(ProjectDir)external\glfw-3.4\lib\Win32;$(ProjectDir)\external\freetype\release_static\vs2015-2022\win64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)external\glew-2.2.0\lib\Release\Win32;$(ProjectDir)external\glfw-3.4\lib\Win32;$(ProjectDir)\external\freetype\release_static\vs2015-2022\win32</AdditionalLibraryDirectories>
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);opengl32.lib;glfw3.lib;glew32.lib;freetype.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -195,6 +195,7 @@
     <ClCompile Include="collidius\VisualSlider.cpp" />
     <ClCompile Include="common\camera.cpp" />
     <ClCompile Include="common\entity.cpp" />
+    <ClCompile Include="common\fontmanager.cpp" />
     <ClCompile Include="common\game.cpp" />
     <ClCompile Include="common\inputmanager.cpp" />
     <ClCompile Include="common\myentity.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="common\camera.h" />
     <ClInclude Include="common\config.h" />
     <ClInclude Include="common\entity.h" />
+    <ClInclude Include="common\fontmanager.h" />
     <ClInclude Include="common\game.h" />
     <ClInclude Include="common\inputmanager.h" />
     <ClInclude Include="common\keyconfig.h" />
@@ -225,6 +227,7 @@
     <ClInclude Include="common\resourcemanager.h" />
     <ClInclude Include="common\scene.h" />
     <ClInclude Include="common\sprite.h" />
+    <ClInclude Include="common\text.h" />
     <ClInclude Include="common\timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

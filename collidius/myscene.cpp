@@ -49,7 +49,10 @@ MyScene::MyScene() : Scene()
 	_uiDisplay = new MyEntity();
 	_uiDisplay->SetSprite("assets/sprites/uimockup.tga");
 	_uiDisplay->position = glm::vec3(WIDTH / 2, HEIGHT - 64.0f, 0.0f);
+	_uiDisplay->text = new Text();
+	_uiDisplay->text->text = "Template Text wow";
 	_layer1->AddChild(_uiDisplay);
+
 }
 
 MyScene::~MyScene()

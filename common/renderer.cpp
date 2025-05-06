@@ -75,6 +75,7 @@ int Renderer::init()
 
 	// Create and compile our GLSL program from the shaders
 	_programID = this->loadShaders("assets/shaders/sprite.vert" , "assets/shaders/sprite.frag");
+	_textShaderID = this->loadShaders("assets/shaders/text.vert", "assets/shaders/text.frag");
 
 	// Use our shader
 	glUseProgram(_programID);
@@ -143,10 +144,15 @@ void Renderer::RenderEntity(Entity* entity)
 	{
 		this->RenderSprite(entity->sprite, MVP);
 	}
+	if (entity->text != nullptr)
+	{
+		this->RenderText(entity->text);
+	}
 }
 
 void Renderer::RenderSprite(Sprite* sprite, glm::mat4 MVP)
 {
+	this->ChooseShader(_programID);
 	// Send our transformation to the currently bound shader, in the "MVP" uniform
 	GLuint matrixID = glGetUniformLocation(_programID, "MVP");
 	glUniformMatrix4fv(matrixID, 1, GL_FALSE, &MVP[0][0]);
@@ -195,6 +201,88 @@ void Renderer::RenderSprite(Sprite* sprite, glm::mat4 MVP)
 	glDisableVertexAttribArray(vertexPositionID);
 	glDisableVertexAttribArray(vertexUVID);
 }
+
+//this was mostly AI Generated
+void Renderer::RenderText(Text* text)
+{
+	if (text->text == "")return;
+	this->ChooseShader(_textShaderID);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	// Get glyph map from FontManager
+	std::map<char, glyph*> characters = _fontMan.GetFont(text->GetFontName(), text->GetSize());
+
+	GLuint colorID = glGetUniformLocation(_textShaderID, "textColor");
+	GLuint matrixID = glGetUniformLocation(_textShaderID, "projection");
+	GLuint samplerID = glGetUniformLocation(_textShaderID, "text");
+	glUniform1i(samplerID, 0); // Tells the shader to use GL_TEXTURE0
+
+	// Create orthographic projection for 2D text overlay
+	glm::mat4 proj = glm::ortho(0.0f, float(WIDTH), 0.0f, float(HEIGHT));
+	glUniformMatrix4fv(matrixID, 1, GL_FALSE, &proj[0][0]);
+
+	glUniform4f(colorID,
+		text->color.r / 255.0f,
+		text->color.g / 255.0f,
+		text->color.b / 255.0f,
+		text->color.a / 255.0f
+	);
+
+	float x = text->pivot.x;
+	float y = text->pivot.y;
+
+	for (const char& c : text->text)
+	{
+		glyph* ch = characters[c];
+
+		float xpos = x + ch->bearing.x;
+		float ypos = y - (ch->size.y - ch->bearing.y);
+
+		float w = ch->size.x;
+		float h = ch->size.y;
+
+		// Vertices for character quad
+		float vertices[6][4] = {
+			{ xpos,     ypos + h,   0.0f, 0.0f },
+			{ xpos,     ypos,       0.0f, 1.0f },
+			{ xpos + w, ypos,       1.0f, 1.0f },
+
+			{ xpos,     ypos + h,   0.0f, 0.0f },
+			{ xpos + w, ypos,       1.0f, 1.0f },
+			{ xpos + w, ypos + h,   1.0f, 0.0f }
+		};
+
+		// Render glyph texture over quad
+		glBindTexture(GL_TEXTURE_2D, ch->texture);
+
+		// Create temporary VAO/VBO (or better: reuse a global one)
+		GLuint VAO, VBO;
+		glGenVertexArrays(1, &VAO);
+		glGenBuffers(1, &VBO);
+		glBindVertexArray(VAO);
+
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
+
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
+
+		// Draw the quad
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+
+		glDeleteBuffers(1, &VBO);
+		glDeleteVertexArrays(1, &VAO);
+
+		// Advance cursor for next glyph (advance is in 1/64 pixels)
+		x += (ch->advance >> 6); // Bitshift by 6 to get pixels
+	}
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	//glDisable(GL_BLEND);
+}
+
 
 GLuint Renderer::loadShaders(const std::string& vertex_file_path, const std::string& fragment_file_path)
 {
@@ -283,4 +371,15 @@ GLuint Renderer::loadShaders(const std::string& vertex_file_path, const std::str
 	glDeleteShader(fragmentShaderID);
 
 	return programID;
+}
+
+GLuint Renderer::ChooseShader(GLuint shaderID)
+{
+	if (_activeID == shaderID)
+	{
+		return _activeID;
+	}
+	glUseProgram(shaderID);
+	_activeID = shaderID;
+	return _activeID;
 }

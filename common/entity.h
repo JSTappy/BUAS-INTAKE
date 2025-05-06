@@ -6,6 +6,7 @@
 #include "sprite.h"
 #include "inputmanager.h"
 #include "keyconfig.h"
+#include "text.h"
 #include <iostream>
 
 class Entity 
@@ -60,6 +61,8 @@ public:
 
 	/// @brief scale of the entity
 	glm::vec3 scale;
+
+	Text* text;
 
 private: 
 
