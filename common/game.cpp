@@ -12,16 +12,16 @@ Game::~Game()
 void Game::Run(Scene* scene)
 {
 	// get deltaTime and update camera
-	float dt = _renderer.updateDeltaTime();
-	scene->camera()->computeViewMatrixFromInput(_renderer.window(), dt);
-	_inMan->InputUpdate(_renderer.window());
+	float dt = _renderer.UpdateDeltaTime();
+	scene->camera()->computeViewMatrixFromInput(_renderer.GetWindow(), dt);
+	_inMan->InputUpdate(_renderer.GetWindow());
 
 	this->UpdateEntity(scene, dt);
 
 	// Render the scene
 	_renderer.RenderScene(scene);
 
-	if (glfwGetKey(_renderer.window(), GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(_renderer.window()) == 0)
+	if (glfwGetKey(_renderer.GetWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(_renderer.GetWindow()) == 0)
 	{
 		running = true;
 	}
