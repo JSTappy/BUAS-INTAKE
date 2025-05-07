@@ -50,9 +50,10 @@ MyScene::MyScene() : Scene()
 	_uiDisplay->SetSprite("assets/sprites/uimockup.tga");
 	_uiDisplay->position = glm::vec3(WIDTH / 2, HEIGHT - 64.0f, 0.0f);
 	_uiDisplay->text = new Text();
-	_uiDisplay->text->text = "Template Text wow";
+	_uiDisplay->text->moveWithEntity = true;
+	_uiDisplay->text->text = "This is where you will see info such as things but does this scale like screensize?";
+	_uiDisplay->text->color = WHITE;
 	_layer1->AddChild(_uiDisplay);
-
 }
 
 MyScene::~MyScene()

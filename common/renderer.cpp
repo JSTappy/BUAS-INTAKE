@@ -146,7 +146,22 @@ void Renderer::RenderEntity(Entity* entity)
 	}
 	if (entity->text != nullptr)
 	{
-		this->RenderText(entity->text);
+		glm::mat4 textModelMatrix;
+
+		if (entity->text->moveWithEntity)
+		{
+			// Stick to entity transform
+			glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(entity->position.x, entity->position.y, 0.0f));
+			glm::mat4 rotationMatrix = glm::eulerAngleYXZ(0.0f, 0.0f, entity->rotation);
+			glm::mat4 scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(entity->scale.x, entity->scale.y, 1.0f));
+			textModelMatrix = translationMatrix * rotationMatrix * scalingMatrix;
+		}
+		else
+		{
+			textModelMatrix = glm::translate(glm::mat4(1.0f), entity->text->position);
+		}
+
+		this->RenderText(entity->text, textModelMatrix);
 	}
 }
 
@@ -203,7 +218,7 @@ void Renderer::RenderSprite(Sprite* sprite, glm::mat4 MVP)
 }
 
 //this was mostly AI Generated
-void Renderer::RenderText(Text* text)
+void Renderer::RenderText(Text* text, glm::mat4 modelMatrix)
 {
 	if (text->text == "")return;
 	this->ChooseShader(_textShaderID);
@@ -229,9 +244,31 @@ void Renderer::RenderText(Text* text)
 		text->color.b / 255.0f,
 		text->color.a / 255.0f
 	);
+	glm::vec4 worldPos = modelMatrix * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	float x = worldPos.x;
+	float y = HEIGHT - worldPos.y;
 
-	float x = text->pivot.x;
-	float y = text->pivot.y;
+	// Optional pivot offset
+	x += text->pivot.x;
+	y += text->pivot.y;
+
+	// Centering adjustment
+	if (text->centered) {
+		int textWidth = 0;
+		int textHeight = 0;
+		for (const char& c : text->text) {
+			glyph* ch = characters[c];
+			textWidth += (ch->advance >> 6);
+			textHeight = std::max(textHeight, ch->size.y);
+		}
+
+		x -= textWidth / 2.0f;
+		y -= textHeight / 2.0f;
+	}
+
+
+
+
 
 	for (const char& c : text->text)
 	{

@@ -34,6 +34,7 @@ private:
 	Enemy* _enemy;
 
 	MyEntity* _uiDisplay;
+	MyEntity* _battleText;
 	MyEntity* _layer1;
 	MyEntity* _layer2;
 	MyEntity* _layer3;

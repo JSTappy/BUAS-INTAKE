@@ -21,7 +21,7 @@ public:
 	void RenderScene(Scene* scene);
 	void RenderEntity(Entity* entity);
 	void RenderSprite(Sprite* sprite, glm::mat4 modelMatrix);
-	void RenderText(Text* text);
+	void RenderText(Text* text, glm::mat4 modelMatrix);
 	GLFWwindow* GetWindow() { return _window; };
 
 	float UpdateDeltaTime();
