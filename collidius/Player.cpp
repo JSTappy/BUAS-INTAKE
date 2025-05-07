@@ -73,7 +73,7 @@ void Player::HandleChoosing()
 		if (this->position.y < _actionBlock->position.y + _actionBlock->sprite->GetHeight())
 		{
 			this->_velocity = glm::vec3(0, 0, 0);
-			ReturnToNewPosition(_startPos);
+			TeleportToPosition(_startPos);
 			// Select Action
 			_actionBlock->OpenCommandWindow();
 			choosingCommand = true;
@@ -167,11 +167,11 @@ void Player::PerformAttack(int attackLevel)
 			PunchAttack(_target);
 			return;
 		case 1:
-			ReturnToNewPosition(_startPos);
+			TeleportToPosition(_startPos);
 			MashProjectileAttack(_target);
 			return;
 		case 2:
-			ReturnToNewPosition(_startPos);
+			TeleportToPosition(_startPos);
 			JumpAttack(_target);
 			return;
 		case 3:
@@ -212,7 +212,7 @@ void Player::GroundCheck()
 		_isgrounded = true;
 		_shouldFall = false;
 		_velocity = glm::vec3(0, 0, 0);
-		ReturnToNewPosition(_startPos);
+		TeleportToPosition(_startPos);
 	}
 }
 
@@ -357,6 +357,7 @@ void Player::PunchAttack(GameEntity* target)
 	gameEntityState = attacking;
 	_attackingTimer->StartOverTimer();
 	_target = target;
+	_turnManager->battleText->text = "Press the [Action Key] when the bar above your head is full!";
 }
 
 
@@ -368,6 +369,7 @@ void Player::MashProjectileAttack(GameEntity* target)
 	InitiateVisualSlider();
 	_attackingTimer->StartOverTimer();
 	_target = target;
+	_turnManager->battleText->text = "MASH THE [Action Key] TO FIRE A STRONG PROJECTILE!";
 }
 
 void Player::JumpAttack(GameEntity* target)
@@ -377,6 +379,7 @@ void Player::JumpAttack(GameEntity* target)
 	_initialTargetVector = ObtainNormalizedVector(_target->position);
 	gameEntityState = attacking;
 	_attackingTimer->StartOverTimer();
+	_turnManager->battleText->text = "Press the [Action Key] when landing on its head!";
 }
 
 void Player::InitiateVisualSlider()
@@ -398,7 +401,7 @@ void Player::AssignActionKey(int jumpKey)
 void Player::ResetToIdle()
 {
 	_velocity = glm::vec3(0, 0, 0);
-	ReturnToNewPosition(_startPos);
+	TeleportToPosition(_startPos);
 	_isgrounded = true;
 	_shouldFall = false;
 	gameEntityState = idle;

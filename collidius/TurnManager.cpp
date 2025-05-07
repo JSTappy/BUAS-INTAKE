@@ -25,7 +25,6 @@ void TurnManager::Init()
 		{
 			_enemies.push_back(enemy);
 		}
-		//set the turnmanager reference of the gameEntities to this
 	}
 	std::cout << "amount of Players: " << _players.size() << std::endl;
 	std::cout << "amount of Enemies: " << _enemies.size() << std::endl;
@@ -59,6 +58,7 @@ void TurnManager::DecideTurnOrder()
 
 	}
 	_nextInTurn->gameEntityState = _nextInTurn->choosing;
+	battleText->text = "Next in turn ID: " + std::to_string(_nextInTurn->GetID());
 	//std::cout << "First Attacker:" << std::endl;
 	//std::cout << _nextInTurn->GetID() << std::endl;
 }
@@ -85,20 +85,20 @@ void TurnManager::DecideNextInTurn()
 		DecideTurnOrder();
 		return;
 	}
+	battleText->text = "Entity that is choosing action: " + std::to_string(_nextInTurn->GetID());
 	_nextInTurn->gameEntityState = _nextInTurn->choosing;
 	_nextInTurn->choosingCommand = false;
 	_nextInTurn->choosingAction = true;
-	std::cout << "Next in turn is entity with ID: " << _nextInTurn->GetID() << std::endl;
 }
 
 void TurnManager::GiveTurnToNext()
 {
-	if (_waitingTimer->GetSeconds() <= 0.33f) return;
+	if (_waitingTimer->GetSeconds() <= 0.5f) return;
 	for (int i = 0; i < _players.size(); i++) { if (!_players[i]->GetIsGrounded()) return; }
 	_waitingTimer->StopTimer();
 	_nextInTurn->gameEntityState = _nextInTurn->idle;
 	_nextInTurn->completedTurn = true;
-	_nextInTurn->ReturnToNewPosition(_nextInTurn->GetStartPos());
+	_nextInTurn->TeleportToPosition(_nextInTurn->GetStartPos());
 	_nextInTurn = nullptr;
 	_timerStarted = false;
 	DecideNextInTurn();
@@ -111,13 +111,9 @@ void TurnManager::AddGameEntities(GameEntity* ge)
 	_gameEntities.push_back(ge);
 }
 
-void TurnManager::WaitForNextInLine() 
-{
-
-}
-
 void TurnManager::DisplayStats()
 {
+	battleText->text = "Game Entity ID: " + std::to_string(_nextInTurn->GetID());
 	std::cout << "######################################################################### " << std::endl;
 	std::cout << "Game Entity ID: " << _nextInTurn->GetID() << std::endl;
 	std::cout << "Level: " << _nextInTurn->GetLevel() << std::endl;

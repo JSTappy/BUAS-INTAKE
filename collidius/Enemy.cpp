@@ -71,6 +71,7 @@ void Enemy::ProjectileAttack(GameEntity* target)
 	gameEntityState = attacking;
 	_target->gameEntityState = _target->defending;
 	_attackingTimer->StartOverTimer();
+	_turnManager->battleText->text = "WATCH OUT!";
 }
 
 void Enemy::HandleProjectileAction()

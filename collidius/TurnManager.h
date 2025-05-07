@@ -37,6 +37,7 @@ public:
 	Player* GetRandomPlayer();
 	Enemy* GetRandomEnemy();
 
+	Text* battleText;
 private:
 	Timer* _waitingTimer;
 	std::vector<GameEntity*> _gameEntities;
@@ -44,7 +45,6 @@ private:
 	std::vector<Enemy*> _enemies;
 
 	bool _timerStarted;
-	void WaitForNextInLine();
 	GameEntity* _nextInTurn;
 };
 

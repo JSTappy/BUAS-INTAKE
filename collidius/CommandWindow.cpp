@@ -55,8 +55,6 @@ void CommandWindow::DisplayCommands(int action)
 
 		//Might become text later
 		e->SetSprite("assets/sprites/rgba.tga");
-
-
 		e->position.x = this->position.x;
 		e->position.y = ypos;
 		e->scale = glm::vec3(1.0f, 1.0f, 0.0f);

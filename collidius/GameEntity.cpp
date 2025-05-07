@@ -72,6 +72,10 @@ void GameEntity::DealDamage(GameEntity* target, int multiplier)
 	std::cout << "Damage Dealt: " << hpAfterAttack - hpBeforeAttack << std::endl;
 	std::cout << "Target HP After Attack: " << target->health << " / " << target->_maxHealth << std::endl;
 	std::cout << "######################################################################### " << std::endl;
+
+	_turnManager->battleText->text = "Damage Dealt: " + std::to_string(hpAfterAttack - hpBeforeAttack);
+
+
 }
 
 void GameEntity::HandleProjectileCollision(Projectile* p, GameEntity* t)
@@ -127,7 +131,7 @@ void GameEntity::Update(float deltaTime)
 
 }
 
-void GameEntity::ReturnToNewPosition(glm::vec3 position)
+void GameEntity::TeleportToPosition(glm::vec3 position)
 {
 	this->position = position;
 }

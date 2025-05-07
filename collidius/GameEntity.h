@@ -22,7 +22,7 @@ public:
 	/// @return void
 	virtual void Update(float deltaTime); //update
 
-	virtual void ReturnToNewPosition(glm::vec3 position);
+	virtual void TeleportToPosition(glm::vec3 position);
 	virtual void MoveTowardsPosition(glm::vec3 position, float deltaTime);
 	virtual void HandleProjectileAction();
 	void HandleProjectileCollision(Projectile* p, GameEntity* t);

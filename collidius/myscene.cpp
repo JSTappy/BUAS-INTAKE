@@ -36,16 +36,6 @@ MyScene::MyScene() : Scene()
 	_layer2->AddChild(_enemy);
 	gameEntities.push_back(_enemy);
 
-	this->AddChild(turnManager);
-	for (int i = 0; i < gameEntities.size(); i++)
-	{
-		gameEntities[i]->SetTurnManager(turnManager);
-		turnManager->AddGameEntities(gameEntities[i]);
-	}
-	turnManager->Init();
-	turnManager->DecideTurnOrder();
-
-
 	_uiDisplay = new MyEntity();
 	_uiDisplay->SetSprite("assets/sprites/uimockup.tga");
 	_uiDisplay->position = glm::vec3(WIDTH / 2, HEIGHT - 64.0f, 0.0f);
@@ -54,7 +44,19 @@ MyScene::MyScene() : Scene()
 	_uiDisplay->text->text = "This is where you will see info such as things but does this scale like screensize?";
 	_uiDisplay->text->color = WHITE;
 	_layer1->AddChild(_uiDisplay);
+
+	this->AddChild(turnManager);
+	for (int i = 0; i < gameEntities.size(); i++)
+	{
+		gameEntities[i]->SetTurnManager(turnManager);
+		turnManager->AddGameEntities(gameEntities[i]);
+	}
+	turnManager->Init();
+	turnManager->battleText = _uiDisplay->text;
+	turnManager->DecideTurnOrder();
 }
+
+
 
 MyScene::~MyScene()
 {
