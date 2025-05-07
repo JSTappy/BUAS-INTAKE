@@ -6,6 +6,10 @@ Enemy::Enemy(int id, int level, int health, int power, int defense, int speed, f
 {
 	_attackingTimer = new Timer();
 	_attackingTimer->StopTimer();
+	this->text = new Text();
+	this->text->text = "Enemy: " + std::to_string(id) + " HP: " + std::to_string(health) + " / " + std::to_string(_maxHealth);
+	this->text->pivot = glm::vec2(0.0f, -128.0f);
+	this->text->color = BLACK;
 }
 
 Enemy::~Enemy()
@@ -39,15 +43,16 @@ void Enemy::Update(float deltaTime)
 	}
 }
 
-void Enemy::HandleAction()
-{
+void Enemy::HandleAction(){}
 
+void Enemy::UpdateHealthText()
+{
+	this->text->text = "Enemy: " + std::to_string(this->GetID()) + " HP: " + std::to_string(health) + " / " + std::to_string(_maxHealth);
 }
 
 void Enemy::PerformAttack(int attackLevel)
 {
-	//decide random target between players later
-	BasicAttack(power, _turnManager->GetRandomPlayer());
+	BasicAttack(power, _target);
 	completedTurn = true;
 	this->gameEntityState = idle;
 }

@@ -28,6 +28,7 @@ public:
 	void HandleProjectileAction() override;
 	void HandleAction();
 	void PerformAttack(int attackLevel);
+	void UpdateHealthText() override;
 
 private:
 

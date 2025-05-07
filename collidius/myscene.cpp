@@ -17,6 +17,7 @@ MyScene::MyScene() : Scene()
 	_player1->SetSprite("assets/sprites/kchar.tga");
 	_player1->position = glm::vec3(400.0f, 300.0f, 0.0f);
 	_player1->SetStartPos();
+	_player1->SetTextPosition(glm::vec3(16, 720 - 72, 0));
 	_player1->AssignActionKey(KEY_K);
 	_layer2->AddChild(_player1);
 	gameEntities.push_back(_player1);
@@ -24,6 +25,7 @@ MyScene::MyScene() : Scene()
 	_player2 = new Player(2, 1, 70, 35, 16, 36, 0.0f, 2, 200, 0);
 	_player2->SetSprite("assets/sprites/jchar.tga");
 	_player2->position = glm::vec3(250.0f, 500.0f, 0.0f);
+	_player2->SetTextPosition(glm::vec3(16, 720 - 32, 0));
 	_player2->SetStartPos();
 	_player2->AssignActionKey(KEY_J);
 	_layer2->AddChild(_player2);
@@ -41,6 +43,7 @@ MyScene::MyScene() : Scene()
 	_uiDisplay->position = glm::vec3(WIDTH / 2, HEIGHT - 64.0f, 0.0f);
 	_uiDisplay->text = new Text();
 	_uiDisplay->text->moveWithEntity = true;
+	_uiDisplay->text->pivot = glm::vec2(128.0f, 0.0f);
 	_uiDisplay->text->text = "This is where you will see info such as things but does this scale like screensize?";
 	_uiDisplay->text->color = WHITE;
 	_layer1->AddChild(_uiDisplay);

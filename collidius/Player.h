@@ -43,6 +43,7 @@ public:
 
 	void PerformAttack(int attackLevel);
 	void InitiateVisualSlider();
+	void UpdateHealthText() override;
 
 	bool GetIsGrounded() { return _isgrounded; }
 

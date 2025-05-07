@@ -74,6 +74,7 @@ void GameEntity::DealDamage(GameEntity* target, int multiplier)
 	std::cout << "######################################################################### " << std::endl;
 
 	_turnManager->battleText->text = "Damage Dealt: " + std::to_string(hpAfterAttack - hpBeforeAttack);
+	_target->UpdateHealthText();
 
 
 }
@@ -112,9 +113,11 @@ void GameEntity::HandleProjectileCollision(Projectile* p, GameEntity* t)
 	}
 }
 
-
-void GameEntity::HandleProjectileAction() {
-
+void GameEntity::SetTextPosition(glm::vec3 textPosition)
+{
+	this->text->moveWithEntity = false;
+	this->text->centered = false;
+	this->text->position = textPosition;
 }
 
 void GameEntity::DestroyProjectile(Projectile* p)
@@ -123,11 +126,6 @@ void GameEntity::DestroyProjectile(Projectile* p)
 	_projectiles.erase(std::remove(_projectiles.begin(), _projectiles.end(), p),_projectiles.end());
 	delete p;
 	p = nullptr;
-
-}
-
-void GameEntity::Update(float deltaTime)
-{
 
 }
 

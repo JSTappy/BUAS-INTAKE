@@ -22,6 +22,9 @@ Player::Player(int id, int level, int health, int power, int defense, int speed,
 	_target = nullptr;
 	_actionBlock = nullptr;
 	_visualSlider = nullptr;
+	this->text = new Text();
+	UpdateHealthText();
+	this->text->color = WHITE;
 }
 
 Player::~Player()
@@ -346,6 +349,11 @@ void Player::SelectBlock()
 void Player::BasicAttack(int damage, GameEntity* target)
 {
 	target->health -= damage; //basic
+}
+
+void Player::UpdateHealthText()
+{
+	this->text->text = "Player: " + std::to_string(this->GetID()) + " HP: " + std::to_string(health) + " / " + std::to_string(_maxHealth);
 }
 
 void Player::PunchAttack(GameEntity* target)

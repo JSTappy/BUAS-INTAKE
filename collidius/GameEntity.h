@@ -20,11 +20,11 @@ public:
 	/// @brief update method
 	/// @param deltaTime
 	/// @return void
-	virtual void Update(float deltaTime); //update
+	virtual void Update(float deltaTime) {}; //update
 
 	virtual void TeleportToPosition(glm::vec3 position);
 	virtual void MoveTowardsPosition(glm::vec3 position, float deltaTime);
-	virtual void HandleProjectileAction();
+	virtual void HandleProjectileAction() {};
 	void HandleProjectileCollision(Projectile* p, GameEntity* t);
 	void DestroyProjectile(Projectile* p);
 	void SetStartPos();
@@ -65,13 +65,17 @@ public:
 	enum State gameEntityState = idle;
 
 	void SetTurnManager(TurnManager* turnManager) { _turnManager = turnManager; }
-	TurnManager* GetTurnManager() const { return _turnManager; }
+	void SetTextPosition(glm::vec3 position);
 
+	virtual void UpdateHealthText() {};
+
+	TurnManager* GetTurnManager() const { return _turnManager; }
 
 protected:
 
 	Timer* _movingTimer;
 	TurnManager* _turnManager;
+
 
 	GameEntity* _target;
 	glm::vec3 _startPos;
@@ -85,9 +89,9 @@ protected:
 
 	glm::vec3 ObtainNormalizedVector(glm::vec3 targetPosition);
 	glm::vec3 _initialTargetVector;
+	int _maxHealth;
 
 private:
-	int _maxHealth;
 	int _id;
 	int _level;
 	int _money;
