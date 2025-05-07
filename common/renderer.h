@@ -22,7 +22,7 @@ public:
 	void RenderEntity(Entity* entity);
 	void RenderSprite(Sprite* sprite, glm::mat4 modelMatrix);
 	void RenderText(Text* text);
-	GLFWwindow* window() { return _window; };
+	GLFWwindow* GetWindow() { return _window; };
 
 	float UpdateDeltaTime();
 

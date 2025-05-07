@@ -87,8 +87,11 @@
     <ClCompile Include="common\timer.cpp">
       <Filter>Source Files\common</Filter>
     </ClCompile>
+    <ClCompile Include="common\fontmanager.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
     <ClCompile Include="collidius\main.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +157,12 @@
     </ClInclude>
     <ClInclude Include="collidius\VisualSlider.h">
       <Filter>Header Files\collidius</Filter>
+    </ClInclude>
+    <ClInclude Include="common\text.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\fontmanager.h">
+      <Filter>Header Files\common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

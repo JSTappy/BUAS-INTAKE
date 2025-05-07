@@ -74,8 +74,8 @@ int Renderer::init()
 	glEnable(GL_CULL_FACE);
 
 	// Create and compile our GLSL program from the shaders
-	_programID = this->loadShaders("assets/shaders/sprite.vert" , "assets/shaders/sprite.frag");
-	_textShaderID = this->loadShaders("assets/shaders/text.vert", "assets/shaders/text.frag");
+	_programID = this->LoadShaders("assets/shaders/sprite.vert" , "assets/shaders/sprite.frag");
+	_textShaderID = this->LoadShaders("assets/shaders/text.vert", "assets/shaders/text.frag");
 
 	// Use our shader
 	glUseProgram(_programID);
@@ -83,7 +83,7 @@ int Renderer::init()
 	return 0;
 }
 
-float Renderer::updateDeltaTime() {
+float Renderer::UpdateDeltaTime() {
 	// lastTime is initialised only the first time this function is called
 	static double lastTime = glfwGetTime();
 	// get the current time
@@ -118,7 +118,7 @@ void Renderer::RenderScene(Scene* scene)
 	}
 
 	// Swap buffers
-	glfwSwapBuffers(this->window());
+	glfwSwapBuffers(this->GetWindow());
 	glfwPollEvents();
 }
 
@@ -284,7 +284,7 @@ void Renderer::RenderText(Text* text)
 }
 
 
-GLuint Renderer::loadShaders(const std::string& vertex_file_path, const std::string& fragment_file_path)
+GLuint Renderer::LoadShaders(const std::string& vertex_file_path, const std::string& fragment_file_path)
 {
 	// Create the shaders
 	GLuint vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
