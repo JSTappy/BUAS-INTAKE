@@ -3,6 +3,8 @@
 
 MyScene::MyScene() : Scene()
 {
+	this->AddChild(turnManager);
+
 	_layer1 = new MyEntity();
 	_layer1->SetSprite("assets/sprites/bg.tga");
 	_layer1->position = glm::vec3(WIDTH / 2, HEIGHT / 2, 0.0f);
@@ -21,6 +23,7 @@ MyScene::MyScene() : Scene()
 	_player1->AssignActionKey(KEY_K);
 	_layer2->AddChild(_player1);
 	gameEntities.push_back(_player1);
+
 
 	_player2 = new Player(2, 1, 70, 35, 16, 36, 0.0f, 2, 200, 0);
 	_player2->SetSprite("assets/sprites/jchar.tga");
@@ -48,10 +51,8 @@ MyScene::MyScene() : Scene()
 	_uiDisplay->text->color = WHITE;
 	_layer1->AddChild(_uiDisplay);
 
-	this->AddChild(turnManager);
 	for (int i = 0; i < gameEntities.size(); i++)
 	{
-		gameEntities[i]->SetTurnManager(turnManager);
 		turnManager->AddGameEntities(gameEntities[i]);
 	}
 	turnManager->Init();

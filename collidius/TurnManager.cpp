@@ -163,3 +163,14 @@ Enemy* TurnManager::GetRandomEnemy()
 		return _enemies[randomEnemy];
 	}
 }
+
+TurnManager* TurnManager::Instance() //for instansiating the input manager (only happens once)
+{
+	if (TurnManager::_instance == nullptr)
+	{
+		_instance = new TurnManager();
+	}
+	return _instance;
+}
+
+TurnManager* TurnManager::_instance = nullptr;

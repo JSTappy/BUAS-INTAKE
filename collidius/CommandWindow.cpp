@@ -54,7 +54,23 @@ void CommandWindow::DisplayCommands(int action)
 		MyEntity* e = new MyEntity();
 
 		//Might become text later
-		e->SetSprite("assets/sprites/rgba.tga");
+		//e->SetSprite("assets/sprites/rgba.tga");
+		e->text = new Text();
+		switch (action)
+		{
+			case 0: //attack
+				e->text->text = "ATTACK " + std::to_string(i + 1);
+				break;
+			case 1: //defend
+				e->text->text = "DEFEND " + std::to_string(i + 1);
+				break;
+			case 2: //item
+				e->text->text = "ITEM " + std::to_string(i + 1);
+				break;
+			case 3: //special
+				e->text->text = "SPECIAL " + std::to_string(i + 1);
+				break;
+		}
 		e->position.x = this->position.x;
 		e->position.y = ypos;
 		e->scale = glm::vec3(1.0f, 1.0f, 0.0f);

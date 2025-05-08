@@ -18,6 +18,8 @@ public:
 
 	void Init();
 
+	static TurnManager* Instance();
+
 	/// @brief update method
 	/// @param deltaTime
 	/// @return void
@@ -43,6 +45,8 @@ private:
 	std::vector<GameEntity*> _gameEntities;
 	std::vector<Player*> _players;
 	std::vector<Enemy*> _enemies;
+
+	static TurnManager* _instance;
 
 	bool _timerStarted;
 	GameEntity* _nextInTurn;

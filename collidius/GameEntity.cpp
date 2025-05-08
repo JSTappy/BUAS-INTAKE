@@ -27,6 +27,8 @@ GameEntity::GameEntity(int ID, int Level, int Health, int Power, int Defense, in
 	hitBox = new MyEntity();
 	this->AddChild(hitBox);
 
+	_turnManager = TurnManager::Instance();
+
 
 }
 

@@ -22,7 +22,7 @@ public:
 	/// @brief Destructor
 	virtual ~MyScene();
 
-	TurnManager* turnManager = new TurnManager();
+	TurnManager* turnManager = TurnManager::Instance();
 	/// @brief update method
 	/// @param deltaTime
 	/// @return void

@@ -63,8 +63,6 @@ public:
 	};
 
 	enum State gameEntityState = idle;
-
-	void SetTurnManager(TurnManager* turnManager) { _turnManager = turnManager; }
 	void SetTextPosition(glm::vec3 position);
 	void ToggleHitboxDisplay(bool displaying);
 
