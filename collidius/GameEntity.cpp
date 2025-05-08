@@ -27,8 +27,6 @@ GameEntity::GameEntity(int ID, int Level, int Health, int Power, int Defense, in
 	hitBox = new MyEntity();
 	this->AddChild(hitBox);
 
-	_turnManager = TurnManager::Instance();
-
 
 }
 
@@ -77,7 +75,7 @@ void GameEntity::DealDamage(GameEntity* target, int multiplier)
 	std::cout << "Target HP After Attack: " << target->health << " / " << target->_maxHealth << std::endl;
 	std::cout << "######################################################################### " << std::endl;
 
-	_turnManager->battleText->text = "Damage Dealt: " + std::to_string(hpAfterAttack - hpBeforeAttack);
+	TurnManager::Instance()->battleText->text = "Damage Dealt: " + std::to_string(hpAfterAttack - hpBeforeAttack);
 	_target->UpdateHealthText();
 
 

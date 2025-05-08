@@ -164,7 +164,7 @@ void Player::HandleAction()
 void Player::PerformAttack(int attackLevel) 
 {
 	_attackType = attackLevel;
-	_target = _turnManager->GetRandomEnemy();
+	_target = TurnManager::Instance()->GetRandomEnemy();
 
 	switch (attackLevel)
 	{
@@ -367,7 +367,7 @@ void Player::PunchAttack(GameEntity* target)
 	gameEntityState = attacking;
 	_attackingTimer->StartOverTimer();
 	_target = target;
-	_turnManager->battleText->text = "Press the [Action Key] when the bar above your head is full!";
+	TurnManager::Instance()->battleText->text = "Press the [Action Key] when the bar above your head is full!";
 }
 
 
@@ -379,7 +379,7 @@ void Player::MashProjectileAttack(GameEntity* target)
 	InitiateVisualSlider();
 	_attackingTimer->StartOverTimer();
 	_target = target;
-	_turnManager->battleText->text = "MASH THE [Action Key] TO FIRE A STRONG PROJECTILE!";
+	TurnManager::Instance()->battleText->text = "MASH THE [Action Key] TO FIRE A STRONG PROJECTILE!";
 }
 
 void Player::JumpAttack(GameEntity* target)
@@ -389,7 +389,7 @@ void Player::JumpAttack(GameEntity* target)
 	_initialTargetVector = ObtainNormalizedVector(_target->position);
 	gameEntityState = attacking;
 	_attackingTimer->StartOverTimer();
-	_turnManager->battleText->text = "Press the [Action Key] when landing on its head!";
+	TurnManager::Instance()->battleText->text = "Press the [Action Key] when landing on its head!";
 }
 
 void Player::InitiateVisualSlider()

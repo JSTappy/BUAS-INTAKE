@@ -1,10 +1,9 @@
 #include <iostream>
 #include "myscene.h"
+#include "TurnManager.h"
 
 MyScene::MyScene() : Scene()
 {
-	this->AddChild(turnManager);
-
 	_layer1 = new MyEntity();
 	_layer1->SetSprite("assets/sprites/bg.tga");
 	_layer1->position = glm::vec3(WIDTH / 2, HEIGHT / 2, 0.0f);
@@ -53,11 +52,11 @@ MyScene::MyScene() : Scene()
 
 	for (int i = 0; i < gameEntities.size(); i++)
 	{
-		turnManager->AddGameEntities(gameEntities[i]);
+		TurnManager::Instance()->AddGameEntities(gameEntities[i]);
 	}
-	turnManager->Init();
-	turnManager->battleText = _uiDisplay->text;
-	turnManager->DecideTurnOrder();
+	TurnManager::Instance()->Init();
+	TurnManager::Instance()->battleText = _uiDisplay->text;
+	TurnManager::Instance()->DecideTurnOrder();
 }
 
 
@@ -71,7 +70,7 @@ void MyScene::Update(float deltaTime)
 {
 	if (GetInput()->GetKeyDown(KEY_Q))
 	{
-		turnManager->DisplayStats();
+		TurnManager::Instance()->DisplayStats();
 	}
 	if (GetInput()->GetKeyDown(KEY_T))
 	{
@@ -88,7 +87,7 @@ void MyScene::Update(float deltaTime)
 			std::cout << "Game Entity Defeated" << std::endl;
 			gameEntities[i]->alive = false;
 			_layer2->RemoveChild(gameEntities[i]);
-			turnManager->KillEntity(gameEntities[i]);
+			TurnManager::Instance()->KillEntity(gameEntities[i]);
 			delete gameEntities[i];
 			gameEntities[i] = nullptr;
 			gameEntities.erase(gameEntities.begin() + i);

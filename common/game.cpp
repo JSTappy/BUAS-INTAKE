@@ -15,6 +15,7 @@ void Game::Run(Scene* scene)
 	float dt = _renderer.UpdateDeltaTime();
 	scene->camera()->computeViewMatrixFromInput(_renderer.GetWindow(), dt);
 	_inMan->InputUpdate(_renderer.GetWindow());
+	_turnMan->Update(dt);
 
 	this->UpdateEntity(scene, dt);
 

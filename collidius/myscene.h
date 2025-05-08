@@ -10,7 +10,6 @@
 #include "GameEntity.h"
 #include "Player.h"
 #include "Enemy.h"
-#include "TurnManager.h"
 
 /// @brief The MyScene implementation.
 class MyScene : public Scene
@@ -22,7 +21,6 @@ public:
 	/// @brief Destructor
 	virtual ~MyScene();
 
-	TurnManager* turnManager = TurnManager::Instance();
 	/// @brief update method
 	/// @param deltaTime
 	/// @return void

@@ -8,6 +8,7 @@
 #include "renderer.h"
 #include "camera.h"
 #include "inputmanager.h"
+#include "collidius/TurnManager.h"
 
 class Game
 {
@@ -25,6 +26,7 @@ public:
 
 	/// @brief for instantiating the input
 	InputManager* _inMan = InputManager::input();
+	TurnManager* _turnMan = TurnManager::Instance();
 
 	/// @brief Update Entity method
 	/// @param e, deltaTime the entity you want to update, deltaTime

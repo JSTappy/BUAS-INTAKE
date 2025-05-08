@@ -32,7 +32,38 @@ public:
 private:
 	MyEntity* _arrow;
 	std::vector<MyEntity*> _actions;
+
 	int _selectedActionCount;
+	int _actionType;
+
+	std::vector<const char*> _attackStrings
+	{
+		"Press the [Action Key] when the bar above your head is full!",
+		"MASH THE [Action Key] TO FIRE A STRONG PROJECTILE!",
+		"Press the [Action Key] when landing on its head!",
+		"AAAA"
+	};
+	std::vector<const char*> _defendStrings
+	{
+		"DR + 30 %",
+		"BB",
+		"BBB",
+		"BBBB"
+	};
+	std::vector<const char*> _itemStrings
+	{
+		"C",
+		"CC",
+		"CCC",
+		"CCCC"
+	};
+	std::vector<const char*> _specialStrings
+	{
+		"D",
+		"DD",
+		"DDD",
+		"DDDD"
+	};
 
 	void SnapArrowToEntity(MyEntity* entity);
 	void ShowActionProperty();

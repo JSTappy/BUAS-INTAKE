@@ -1,4 +1,5 @@
 #include "CommandWindow.h" 
+#include "TurnManager.h" 
 
 CommandWindow::CommandWindow()
 {
@@ -43,11 +44,13 @@ void CommandWindow::HandleActionChoosing()
 		}
 		_selectedActionCount++;
 		SnapArrowToEntity(_actions[_selectedActionCount]);
+
 	}
 }
 
 void CommandWindow::DisplayCommands(int action)
 {
+	_actionType = action;
 	int ypos = 78;
 	for (int i = 0; i < 4; i++)
 	{
@@ -101,6 +104,21 @@ void CommandWindow::SnapArrowToEntity(MyEntity* entity)
 {
 	_arrow->position = entity->position;
 	_arrow->position.x = entity->position.x + 150;
+	switch (_actionType)
+	{
+		case 0:
+			TurnManager::Instance()->battleText->text = _attackStrings[_selectedActionCount];
+			break;
+		case 1:
+			TurnManager::Instance()->battleText->text = _defendStrings[_selectedActionCount];
+			break;
+		case 2:
+			TurnManager::Instance()->battleText->text = _itemStrings[_selectedActionCount];
+			break;
+		case 3:
+			TurnManager::Instance()->battleText->text = _specialStrings[_selectedActionCount];
+			break;
+	}
 }
 
 void CommandWindow::ShowActionProperty() 

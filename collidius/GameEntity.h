@@ -1,8 +1,6 @@
 #ifndef GAMEENTITY_H
 #define GAMEENTITY_H
 
-
-class TurnManager;
 #include "entity.h"
 #include "Projectile.h"
 #include "timer.h"
@@ -68,14 +66,11 @@ public:
 
 	virtual void UpdateHealthText() {};
 
-	TurnManager* GetTurnManager() const { return _turnManager; }
-
 	MyEntity* hitBox;
 
 protected:
 
 	Timer* _movingTimer;
-	TurnManager* _turnManager;
 	std::vector<Projectile*> _projectiles;
 
 

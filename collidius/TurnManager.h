@@ -4,11 +4,10 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "entity.h"
 #include "Player.h"
 #include "Enemy.h"
 
-class TurnManager : public Entity
+class TurnManager
 {
 public:
 	/// @brief constructor

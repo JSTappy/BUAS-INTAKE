@@ -37,7 +37,7 @@ void Enemy::Update(float deltaTime)
 			return;
 		case choosing:
 			//for now default to attacking, healing might come into play later
-			ProjectileAttack(_turnManager->GetRandomPlayer());
+			ProjectileAttack(TurnManager::Instance()->GetRandomPlayer());
 			return;
 		case defending:
 			//for now do nothing
@@ -79,7 +79,7 @@ void Enemy::ProjectileAttack(GameEntity* target)
 	gameEntityState = attacking;
 	_target->gameEntityState = _target->defending;
 	_attackingTimer->StartOverTimer();
-	_turnManager->battleText->text = "WATCH OUT!";
+	//_turnManager->battleText->text = "WATCH OUT!";
 }
 
 void Enemy::HandleProjectileAction()

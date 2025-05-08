@@ -5,7 +5,6 @@ TurnManager::TurnManager()
 	_nextInTurn = nullptr;
 	_waitingTimer = new Timer();
 	_waitingTimer->StopTimer();
-	this->AddChild(_waitingTimer);
 	_timerStarted = false;
 }
 TurnManager::~TurnManager()
@@ -32,6 +31,7 @@ void TurnManager::Init()
 
 void TurnManager::Update(float deltaTime)
 {
+	_waitingTimer->Update(deltaTime);
 	if (_nextInTurn == nullptr) return;
 	if (!_nextInTurn->completedTurn) return;
 	if (!_timerStarted)
