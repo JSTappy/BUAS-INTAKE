@@ -72,6 +72,14 @@ void MyScene::Update(float deltaTime)
 	{
 		turnManager->DisplayStats();
 	}
+	if (GetInput()->GetKeyDown(KEY_T))
+	{
+		for (int i = 0; i < gameEntities.size(); i++)
+		{
+			gameEntities[i]->ToggleHitboxDisplay(displayHitboxes);
+		}
+		displayHitboxes = !displayHitboxes;
+	}
 	for (int i = 0; i < gameEntities.size(); i++)
 	{
 		if (gameEntities[i]->health <= 0)

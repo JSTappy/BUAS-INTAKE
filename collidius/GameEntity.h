@@ -66,21 +66,24 @@ public:
 
 	void SetTurnManager(TurnManager* turnManager) { _turnManager = turnManager; }
 	void SetTextPosition(glm::vec3 position);
+	void ToggleHitboxDisplay(bool displaying);
 
 	virtual void UpdateHealthText() {};
 
 	TurnManager* GetTurnManager() const { return _turnManager; }
 
+	MyEntity* hitBox;
+
 protected:
 
 	Timer* _movingTimer;
 	TurnManager* _turnManager;
+	std::vector<Projectile*> _projectiles;
 
 
 	GameEntity* _target;
 	glm::vec3 _startPos;
 
-	std::vector<Projectile*> _projectiles;
 	float _damageReduction;
 	int _criticalChance;
 

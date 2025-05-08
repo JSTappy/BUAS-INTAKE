@@ -20,12 +20,14 @@ public:
 	/// @return void
 	virtual void Update(float deltaTime); //update
 
+	MyEntity* hitBox;
 private:
 
 	float _speed;
 	glm::vec3 _endPosition;
 	glm::vec3 _startPosition;
 	glm::vec3 _direction;
+
 };
 
 #endif // PROJECTILE_H 

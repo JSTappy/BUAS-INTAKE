@@ -14,7 +14,6 @@ GameEntity::GameEntity(int ID, int Level, int Health, int Power, int Defense, in
 	_money = Money;
 	_experiencePoints = ExperiencePoints;
 	_maxHealth = health;
-	_startPos = glm::vec3(0, 0, 0);
 	alive = true;
 
 	choosingAction = false;
@@ -24,6 +23,9 @@ GameEntity::GameEntity(int ID, int Level, int Health, int Power, int Defense, in
 	_movingTimer = new Timer();
 	this->AddChild(_movingTimer);
 	_movingTimer->StopTimer();
+
+	hitBox = new MyEntity();
+	this->AddChild(hitBox);
 
 
 }
@@ -118,6 +120,31 @@ void GameEntity::SetTextPosition(glm::vec3 textPosition)
 	this->text->moveWithEntity = false;
 	this->text->centered = false;
 	this->text->position = textPosition;
+}
+
+void GameEntity::ToggleHitboxDisplay(bool displaying) 
+{
+	if (displaying)
+	{
+		this->hitBox->sprite = nullptr; //disable gameEntity hitboxes
+		for (int i = 0; i < this->_projectiles.size(); i++) //disable projectile hitboxes
+		{
+			_projectiles[i]->hitBox->sprite = nullptr;
+		}
+		return;
+	}
+	for (int i = 0; i < this->_projectiles.size(); i++) //set projectile hitboxes active
+	{
+		if (_projectiles[i]->hitBox->sprite == nullptr)
+		{
+			_projectiles[i]->hitBox->SetSprite("assets/sprites/hitbox.tga");
+			continue;
+		}
+	}
+	if (this->hitBox->sprite == nullptr) //set gameEntity hitboxes active
+	{
+		this->hitBox->SetSprite("assets/sprites/hitbox.tga");
+	}
 }
 
 void GameEntity::DestroyProjectile(Projectile* p)

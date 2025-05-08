@@ -10,6 +10,7 @@ Enemy::Enemy(int id, int level, int health, int power, int defense, int speed, f
 	this->text->text = "Enemy: " + std::to_string(id) + " HP: " + std::to_string(health) + " / " + std::to_string(_maxHealth);
 	this->text->pivot = glm::vec2(0.0f, -128.0f);
 	this->text->color = BLACK;
+	hitBox->scale = glm::vec3(2.0f,2.0f,0.0f);
 }
 
 Enemy::~Enemy()
@@ -19,6 +20,7 @@ Enemy::~Enemy()
 
 void Enemy::Update(float deltaTime)
 {
+	hitBox->position = this->position;
 	switch (gameEntityState)
 	{
 		case attacking:
@@ -69,6 +71,7 @@ void Enemy::ProjectileAttack(GameEntity* target)
 	std::cout << "Projectile targetting: " << _target->GetID() << std::endl;
 	std::cout << _target->GetStartPos().x << " " << _target->GetStartPos().y << " " << _target->GetStartPos().z << " " << std::endl;
 	Projectile* projectile = new Projectile(_target->GetStartPos(), this->position, this->power);
+	_projectiles.push_back(projectile);
 	projectile->scale = glm::vec3(2.0f, 2.0f, 0.0f);
 	this->AddChild(projectile);
 	projectile->SetSprite("assets/sprites/bananarang.tga");

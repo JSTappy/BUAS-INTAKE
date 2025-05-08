@@ -8,6 +8,12 @@ Projectile::Projectile(glm::vec3 targetPosition, glm::vec3 startPosition, int po
     _endPosition.y += 32.0f;
 	_speed = 750.0f;
     _direction = glm::normalize(_endPosition - this->position); //get the vector towards the target (player)
+
+    hitBox = new MyEntity();
+    hitBox->sprite = nullptr;
+    hitBox->position = this->position;
+    hitBox->scale = glm::vec3(0.5f, 0.5f, 0.0f);
+    this->AddChild(hitBox);
 }
 
 Projectile::~Projectile()
@@ -17,6 +23,7 @@ Projectile::~Projectile()
 
 void Projectile::Update(float deltaTime)
 {
+    hitBox->position = this->position;
     this->position += _direction * _speed * deltaTime; //move towards the target (player)
     this->rotation -= _speed / 50.0f * deltaTime; //rotate the star as visual
 

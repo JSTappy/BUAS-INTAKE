@@ -27,6 +27,8 @@ public:
 	/// @param deltaTime
 	/// @return void
 	virtual void Update(float deltaTime);
+
+	bool displayHitboxes = false;
 	
 private:
 	Player* _player1;

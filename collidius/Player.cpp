@@ -34,6 +34,8 @@ Player::~Player()
 
 void Player::Update(float deltaTime) 
 {
+	hitBox->position = this->position;
+	hitBox->scale = this->scale;
 	Move(deltaTime);
 	switch (gameEntityState)
 	{
