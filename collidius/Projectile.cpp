@@ -6,7 +6,7 @@ Projectile::Projectile(glm::vec3 targetPosition, glm::vec3 startPosition, bool d
     _startPosition = startPosition;
     _endPosition = targetPosition;
     _endPosition.y += 32.0f;
-	_speed = 750.0f;
+	_speed = 700.0f;
     _direction = glm::normalize(_endPosition - this->position); //get the vector towards the target (player)
 
     hitBox = new MyEntity();

@@ -93,7 +93,7 @@ void TurnManager::DecideNextInTurn()
 
 void TurnManager::GiveTurnToNext()
 {
-	if (_waitingTimer->GetSeconds() <= 0.5f) return;
+	if (_waitingTimer->GetSeconds() <= 0.25f) return;
 	for (int i = 0; i < _players.size(); i++) { if (!_players[i]->GetIsGrounded()) return; }
 	_waitingTimer->StopTimer();
 	_nextInTurn->gameEntityState = _nextInTurn->idle;

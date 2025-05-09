@@ -102,6 +102,12 @@ void Player::HandleChoosing()
 
 void Player::SwitchAttackType(float deltaTime)
 {
+	if (_waitingTimer->GetSeconds() <= 1.0f)return;
+	if (!_attackingTimer->isPlaying)_attackingTimer->StartOverTimer();
+	if (TurnManager::Instance()->battleText->text != "ATTACK THE ENEMY!!")
+	{
+		TurnManager::Instance()->battleText->text = "ATTACK THE ENEMY!!";
+	}
 	switch (_attackType)
 	{
 		case 0:
@@ -109,6 +115,10 @@ void Player::SwitchAttackType(float deltaTime)
 			HandlePunch();
 			return;
 		case 1:
+			EnableJump(deltaTime);
+			HandleJumpAttack(deltaTime);
+			return;
+		case 2:
 			if (!_shotsFired)
 			{
 				HandleProjectileMash();
@@ -123,10 +133,6 @@ void Player::SwitchAttackType(float deltaTime)
 				return;
 			}
 			ResetToIdle();
-			return;
-		case 2:
-			EnableJump(deltaTime);
-			HandleJumpAttack(deltaTime);
 			return;
 		case 3:
 			return;
@@ -162,7 +168,7 @@ void Player::PerformAttack(int attackLevel)
 {
 	_attackType = attackLevel;
 	_target = TurnManager::Instance()->GetRandomEnemy();
-
+	_waitingTimer->StartOverTimer();
 	switch (attackLevel)
 	{
 		case 0:
@@ -170,11 +176,11 @@ void Player::PerformAttack(int attackLevel)
 			return;
 		case 1:
 			TeleportToPosition(_startPos);
-			MashProjectileAttack(_target);
+			JumpAttack(_target);
 			return;
 		case 2:
 			TeleportToPosition(_startPos);
-			JumpAttack(_target);
+			MashProjectileAttack(_target);
 			return;
 		case 3:
 			return;
@@ -242,11 +248,13 @@ void Player::HandlePunch()
 			ResetToIdle();
 			return;
 		}
-		completedTurn = true;
+		ResetToIdle();
+		TurnManager::Instance()->battleText->text = "You were too late";
 		return;
 	}
 	if (_attackingTimer->GetSeconds() >= 2.0f)
 	{
+		TurnManager::Instance()->battleText->text = "You Failed the Attack";
 		std::cout << "Did nothing, return to start" << std::endl;
 		ResetToIdle();
 		return;
@@ -359,7 +367,6 @@ void Player::PunchAttack(GameEntity* target)
 	this->position = target->position - glm::vec3(target->sprite->GetWidth() + 50.0f, 0, 0);
 	InitiateVisualSlider();
 	gameEntityState = attacking;
-	_attackingTimer->StartOverTimer();
 	_target = target;
 	TurnManager::Instance()->battleText->text = "Press the [Action Key] when the bar above your head is full!";
 }
@@ -371,7 +378,6 @@ void Player::MashProjectileAttack(GameEntity* target)
 	this->_velocity = glm::vec3(0, 0, 0);
 	gameEntityState = attacking;
 	InitiateVisualSlider();
-	_attackingTimer->StartOverTimer();
 	_target = target;
 	TurnManager::Instance()->battleText->text = "MASH THE [Action Key] TO FIRE A STRONG PROJECTILE!";
 }
@@ -382,7 +388,6 @@ void Player::JumpAttack(GameEntity* target)
 	_target = target;
 	_initialTargetVector = ObtainNormalizedVector(_target->position);
 	gameEntityState = attacking;
-	_attackingTimer->StartOverTimer();
 	TurnManager::Instance()->battleText->text = "Press the [Action Key] when landing on its head!";
 }
 
@@ -404,6 +409,7 @@ void Player::AssignActionKey(int jumpKey)
 
 void Player::ResetToIdle()
 {
+	_waitingTimer->StopTimer();
 	_velocity = glm::vec3(0, 0, 0);
 	TeleportToPosition(_startPos);
 	_isgrounded = true;

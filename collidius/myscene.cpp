@@ -40,7 +40,7 @@ MyScene::MyScene() : Scene()
 	gameEntities.push_back(_player2);
 
 
-	_enemy = new Enemy(3, 1, 10000, 30, 15, 60, 0.0f, 2, 500, 16);
+	_enemy = new Enemy(3, 1, 1000, 30, 15, 60, 0.0f, 2, 500, 16);
 	_enemy->SetSprite("assets/sprites/gorilla.tga");
 	_enemy->text = _uiDisplay->enemyText;
 	_enemy->UpdateHealthText();

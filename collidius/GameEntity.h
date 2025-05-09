@@ -70,8 +70,9 @@ public:
 protected:
 
 	Timer* _movingTimer;
+	Timer* _waitingTimer;
 	std::vector<Projectile*> _projectiles;
-	void FireProjectile(GameEntity* target, int amount, float interval);
+	virtual void FireProjectile(GameEntity* target, int amount, float interval);
 
 
 	GameEntity* _target;

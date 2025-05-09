@@ -20,7 +20,15 @@ void Enemy::Update(float deltaTime)
 	switch (gameEntityState)
 	{
 		case attacking:
-			if (_projectiles.size() != 0)
+			if (_waitingTimer->GetSeconds() <= 1.0f && _waitingTimer->isPlaying)return;
+			if (!_shotsFired)
+			{
+				ProjectileAttack(TurnManager::Instance()->GetRandomPlayer());
+				_waitingTimer->StopTimer();
+				_shotsFired = true;
+				return;
+			}
+			if (_projectiles.size() > 0)
 			{
 				for (int i = 0; i < _projectiles.size(); i++)
 				{
@@ -28,13 +36,16 @@ void Enemy::Update(float deltaTime)
 				}
 				return;
 			}
-			_attackingTimer->StopTimer();
-			completedTurn = true;
+			_waitingTimer->StopTimer();
 			_target->gameEntityState = _target->idle;
+			completedTurn = true;
+			gameEntityState = idle;
 			return;
 		case choosing:
 			//for now default to attacking, healing might come into play later
-			ProjectileAttack(TurnManager::Instance()->GetRandomPlayer());
+			_waitingTimer->StartOverTimer();
+			gameEntityState = attacking;
+			_shotsFired = false;
 			return;
 		case defending:
 			//for now do nothing
@@ -64,11 +75,35 @@ void Enemy::BasicAttack(int damage, GameEntity* target)
 
 void Enemy::ProjectileAttack(GameEntity* target)
 {
-	FireProjectile(target, 1,_shouldDisplayHitboxes);
-	gameEntityState = attacking;
+	FireProjectile(target, 1,1);
 	_target->gameEntityState = _target->defending;
-	_attackingTimer->StartOverTimer();
 	TurnManager::Instance()->battleText->text = "WATCH OUT!";
+}
+
+void Enemy::FireProjectile(GameEntity* target, int amount, float interval)
+{
+	//make eye shine corresponding to the player position
+	_target = target;
+	bool randomBool = rand() % 2;
+	if (randomBool == 0)
+	{
+		Projectile* projectile = new Projectile(_target->GetStartPos(), this->position, _shouldDisplayHitboxes); //shouldnt jump
+		projectile->scale = glm::vec3(2.0f, 2.0f, 0.0f);
+		this->AddChild(projectile);
+		_projectiles.push_back(projectile);
+		std::cout << "Projectile targetting: " << _target->GetID() << std::endl;
+		projectile->SetSprite("assets/sprites/bananarang.tga");
+	}
+	else
+	{
+		Projectile* projectile = new Projectile(_target->GetStartPos() - glm::vec3(0, 150, 0) , this->position, _shouldDisplayHitboxes); //shouldnt jump
+		projectile->scale = glm::vec3(2.0f, 2.0f, 0.0f);
+		this->AddChild(projectile);
+		_projectiles.push_back(projectile);
+		std::cout << "Projectile targetting: " << _target->GetID() << std::endl;
+		projectile->SetSprite("assets/sprites/bananarang.tga");
+
+	}
 }
 
 void Enemy::HandleProjectileAction()

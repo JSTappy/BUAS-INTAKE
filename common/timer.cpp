@@ -15,7 +15,10 @@ void Timer::Update(float deltaTime)
 {
 	if (!_paused) {
 		_seconds += deltaTime;
+		isPlaying = true;
+		return;
 	}
+	isPlaying = false;
 }
 
 void Timer::StartTimer() {

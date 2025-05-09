@@ -39,6 +39,8 @@ public:
 	/// @return seconds
 	float GetSeconds() { return _seconds; }
 
+	bool isPlaying;
+
 private:
 	/// @brief Seconds in seconds
 	float _seconds;

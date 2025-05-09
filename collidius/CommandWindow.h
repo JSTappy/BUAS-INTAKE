@@ -38,10 +38,10 @@ private:
 
 	std::vector<const char*> _attackStrings
 	{
-		"Press the [Action Key] when the bar above your head is full!",
-		"MASH THE [Action Key] TO FIRE A STRONG PROJECTILE!",
-		"Press the [Action Key] when landing on its head!",
-		"AAAA"
+		"This attack deals decent damage, make sure to time it right!",
+		"Jump on the enemies head 3 times for maximum damage!",
+		"This attack fires a projectile at the cost of your health...",
+		"This attack lowers you and your opponents defense"
 	};
 	std::vector<const char*> _defendStrings
 	{

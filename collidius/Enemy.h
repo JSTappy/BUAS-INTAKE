@@ -26,6 +26,7 @@ public:
 	void BasicAttack(int damage, GameEntity* target);
 	void ProjectileAttack(GameEntity* target);
 	void HandleProjectileAction() override;
+	void FireProjectile(GameEntity* target, int amount, float interval) override;
 	void HandleAction();
 	void PerformAttack(int attackLevel);
 	void UpdateHealthText() override;

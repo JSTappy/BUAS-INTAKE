@@ -24,6 +24,10 @@ GameEntity::GameEntity(int ID, int Level, float Health, int Power, int Defense, 
 	this->AddChild(_movingTimer);
 	_movingTimer->StopTimer();
 
+	_waitingTimer = new Timer();
+	this->AddChild(_waitingTimer);
+	_waitingTimer->StopTimer();
+
 	hitBox = new MyEntity();
 	this->AddChild(hitBox);
 
