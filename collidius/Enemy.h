@@ -34,6 +34,8 @@ public:
 private:
 
 	Timer* _attackingTimer;
+
+	MyEntity* _starIndicator;
 };
 
 #endif // ENEMY_H 

@@ -20,11 +20,16 @@ void Enemy::Update(float deltaTime)
 	switch (gameEntityState)
 	{
 		case attacking:
+			_starIndicator->rotation += 5 * deltaTime;
+			if (_starIndicator->scale.x >= 0)
+			{
+				_starIndicator->scale -= 2 * deltaTime;
+			}
 			if (_waitingTimer->GetSeconds() <= 1.0f && _waitingTimer->isPlaying)return;
 			if (!_shotsFired)
 			{
-				ProjectileAttack(TurnManager::Instance()->GetRandomPlayer());
 				_waitingTimer->StopTimer();
+				ProjectileAttack(_target);
 				_shotsFired = true;
 				return;
 			}
@@ -40,12 +45,25 @@ void Enemy::Update(float deltaTime)
 			_target->gameEntityState = _target->idle;
 			completedTurn = true;
 			gameEntityState = idle;
+			this->RemoveChild(_starIndicator);
+			delete _starIndicator;
+			_starIndicator = nullptr;
 			return;
 		case choosing:
 			//for now default to attacking, healing might come into play later
 			_waitingTimer->StartOverTimer();
 			gameEntityState = attacking;
+			_target = TurnManager::Instance()->GetRandomPlayer();
 			_shotsFired = false;
+			_starIndicator = new MyEntity();
+			_starIndicator->SetSprite("assets/sprites/starindicator.tga");
+			this->AddChild(_starIndicator);
+			if (_target->GetID() == 1)
+			{
+				_starIndicator->position = this->position - glm::vec3(32.0f,32.0f,0);
+				return;
+			}
+			_starIndicator->position = this->position - glm::vec3(-4.0f, 32.0f, 0);
 			return;
 		case defending:
 			//for now do nothing
