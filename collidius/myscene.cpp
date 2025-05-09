@@ -6,6 +6,7 @@ MyScene::MyScene() : Scene()
 {
 	_startTimer = new Timer();
 	_startTimer->StartTimer();
+	_startTimer->isPlaying = true;
 	this->AddChild(_startTimer);
 	_layer1 = new MyEntity();
 	_layer1->SetSprite("assets/sprites/bg.tga");
@@ -70,7 +71,7 @@ MyScene::~MyScene()
 
 void MyScene::Update(float deltaTime)
 {
-	if (_startTimer->GetSeconds() <= 2.0f) { return; }
+	if (_startTimer->GetSeconds() <= 1.0f && _startTimer->isPlaying) { return; }
 	if (!setupComplete) { TurnManager::Instance()->DecideTurnOrder(); _startTimer->StopTimer();  setupComplete = true; }
 
 	if (GetInput()->GetKeyDown(KEY_Q)) { TurnManager::Instance()->DisplayStats(); }

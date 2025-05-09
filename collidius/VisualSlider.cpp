@@ -47,7 +47,9 @@ void VisualSlider::ClearFill()
 
 void VisualSlider::Update(float deltaTime)
 {
-	
+	_fill->position = this->position;
+	_playerKey->position.x = this->position.x;
+	_playerKey->position.y = this->position.y - 100.0f;
 }
 
 void VisualSlider::UpdateSliderSpriteOnTime(float attackCharge)

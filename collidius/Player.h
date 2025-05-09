@@ -37,7 +37,7 @@ public:
 	void HandleAction();
 
 	void HandleProjectileAction() override;
-	void HandlePunch();
+	void HandlePunch(float deltaTime);
 	void HandleProjectileMash();
 	void HandleJumpAttack(float deltaTime);
 

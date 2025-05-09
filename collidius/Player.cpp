@@ -32,6 +32,11 @@ Player::~Player()
 void Player::Update(float deltaTime) 
 {
 	hitBox->position = this->position;
+	if (_visualSlider)
+	{
+		_visualSlider->position.x = this->position.x;
+		_visualSlider->position.y = this->position.y - 100.0f;
+	}
 	hitBox->scale = this->scale;
 	Move(deltaTime);
 	switch (gameEntityState)
@@ -112,7 +117,7 @@ void Player::SwitchAttackType(float deltaTime)
 	{
 		case 0:
 			_visualSlider->UpdateSliderSpriteOnTime(_attackingTimer->GetSeconds());
-			HandlePunch();
+			HandlePunch(deltaTime);
 			return;
 		case 1:
 			EnableJump(deltaTime);
@@ -224,7 +229,7 @@ void Player::GroundCheck()
 	}
 }
 
-void Player::HandlePunch() 
+void Player::HandlePunch(float deltaTime)
 {
 	if (GetInput()->GetKeyDown(_actionKey))
 	{
@@ -259,6 +264,10 @@ void Player::HandlePunch()
 		ResetToIdle();
 		return;
 	}
+
+	if (this->position.x >= _target->position.x - 256.0f) return; //when you are above the enemy
+
+	MoveTowardsPosition(_target->position - glm::vec3(_initialTargetVector.x + 64.0f, _target->position.y, 0), deltaTime);
 }
 
 void Player::HandleProjectileMash()
@@ -364,10 +373,11 @@ void Player::PunchAttack(GameEntity* target)
 {
 	ClearHUD();
 	this->_velocity = glm::vec3(0, 0, 0);
-	this->position = target->position - glm::vec3(target->sprite->GetWidth() + 50.0f, 0, 0);
+	this->TeleportToPosition(_startPos);
 	InitiateVisualSlider();
 	gameEntityState = attacking;
 	_target = target;
+	_initialTargetVector = ObtainNormalizedVector(_target->position);
 	TurnManager::Instance()->battleText->text = "Press the [Action Key] when the bar above your head is full!";
 }
 
