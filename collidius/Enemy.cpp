@@ -6,10 +6,6 @@ Enemy::Enemy(int id, int level, int health, int power, int defense, int speed, f
 {
 	_attackingTimer = new Timer();
 	_attackingTimer->StopTimer();
-	this->text = new Text();
-	this->text->text = "Enemy: " + std::to_string(id) + " HP: " + std::to_string(health) + " / " + std::to_string(_maxHealth);
-	this->text->pivot = glm::vec2(0.0f, -128.0f);
-	this->text->color = BLACK;
 	hitBox->scale = glm::vec3(2.0f,2.0f,0.0f);
 }
 
@@ -34,6 +30,7 @@ void Enemy::Update(float deltaTime)
 			}
 			_attackingTimer->StopTimer();
 			completedTurn = true;
+			_target->gameEntityState = _target->idle;
 			return;
 		case choosing:
 			//for now default to attacking, healing might come into play later
@@ -67,19 +64,11 @@ void Enemy::BasicAttack(int damage, GameEntity* target)
 
 void Enemy::ProjectileAttack(GameEntity* target)
 {
-	_target = target;
-	std::cout << "Projectile targetting: " << _target->GetID() << std::endl;
-	std::cout << _target->GetStartPos().x << " " << _target->GetStartPos().y << " " << _target->GetStartPos().z << " " << std::endl;
-	Projectile* projectile = new Projectile(_target->GetStartPos(), this->position, this->power);
-	_projectiles.push_back(projectile);
-	projectile->scale = glm::vec3(2.0f, 2.0f, 0.0f);
-	this->AddChild(projectile);
-	projectile->SetSprite("assets/sprites/bananarang.tga");
-	_projectiles.push_back(projectile);
+	FireProjectile(target, 1,_shouldDisplayHitboxes);
 	gameEntityState = attacking;
 	_target->gameEntityState = _target->defending;
 	_attackingTimer->StartOverTimer();
-	//_turnManager->battleText->text = "WATCH OUT!";
+	TurnManager::Instance()->battleText->text = "WATCH OUT!";
 }
 
 void Enemy::HandleProjectileAction()

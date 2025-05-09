@@ -144,24 +144,26 @@ void Renderer::RenderEntity(Entity* entity)
 	{
 		this->RenderSprite(entity->sprite, MVP);
 	}
-	if (entity->text != nullptr)
+	for (int i = 0; i < entity->textComponents.size(); i++)
 	{
-		glm::mat4 textModelMatrix;
-
-		if (entity->text->moveWithEntity)
+		if (entity->textComponents[i] != nullptr)
 		{
-			// Stick to entity transform
-			glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(entity->position.x, entity->position.y, 0.0f));
-			glm::mat4 rotationMatrix = glm::eulerAngleYXZ(0.0f, 0.0f, entity->rotation);
-			glm::mat4 scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(entity->scale.x, entity->scale.y, 1.0f));
-			textModelMatrix = translationMatrix * rotationMatrix * scalingMatrix;
-		}
-		else
-		{
-			textModelMatrix = glm::translate(glm::mat4(1.0f), entity->text->position);
-		}
+			glm::mat4 textModelMatrix;
 
-		this->RenderText(entity->text, textModelMatrix);
+			if (entity->textComponents[i]->moveWithEntity)
+			{
+				// Stick to entity transform
+				glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(entity->position.x, entity->position.y, 0.0f));
+				glm::mat4 rotationMatrix = glm::eulerAngleYXZ(0.0f, 0.0f, entity->rotation);
+				glm::mat4 scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(entity->scale.x, entity->scale.y, 1.0f));
+				textModelMatrix = translationMatrix * rotationMatrix * scalingMatrix;
+			}
+			else
+			{
+				textModelMatrix = glm::translate(glm::mat4(1.0f), entity->textComponents[i]->position);
+			}
+			this->RenderText(entity->textComponents[i], textModelMatrix);
+		}
 	}
 }
 

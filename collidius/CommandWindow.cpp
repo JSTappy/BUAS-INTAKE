@@ -79,6 +79,7 @@ void CommandWindow::DisplayCommands(int action)
 		e->scale = glm::vec3(1.0f, 1.0f, 0.0f);
 		this->AddChild(e);
 		_actions.push_back(e);
+		e->textComponents.push_back(e->text);
 		ypos += 144;
 	}
 	_selectedActionCount = 0;

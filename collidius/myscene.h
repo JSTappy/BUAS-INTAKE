@@ -10,6 +10,7 @@
 #include "GameEntity.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "UIWindow.h"
 
 /// @brief The MyScene implementation.
 class MyScene : public Scene
@@ -33,7 +34,7 @@ private:
 	Player* _player2;
 	Enemy* _enemy;
 
-	MyEntity* _uiDisplay;
+	UIWindow* _uiDisplay;
 	MyEntity* _battleText;
 	MyEntity* _layer1;
 	MyEntity* _layer2;

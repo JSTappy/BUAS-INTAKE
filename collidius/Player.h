@@ -15,7 +15,7 @@ class Player : public GameEntity
 {
 public:
 	/// @brief constructor
-	Player(int id, int level, int health, int power, int defense, int speed, float damageReduction, int criticalChance, int money, int experiencePoints);
+	Player(int id, int level, float health, int power, int defense, int speed, float damageReduction, int criticalChance, int money, int experiencePoints);
 
 	/// @brief destructor
 	virtual ~Player();

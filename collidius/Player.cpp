@@ -1,7 +1,7 @@
 #include "Player.h" 
 #include "TurnManager.h" 
 
-Player::Player(int id, int level, int health, int power, int defense, int speed, float damageReduction, int criticalChance, int money, int experiencePoints)
+Player::Player(int id, int level, float health, int power, int defense, int speed, float damageReduction, int criticalChance, int money, int experiencePoints)
 	: GameEntity(id, level, health, power, defense, speed, damageReduction, criticalChance, money, experiencePoints) // Call the GameEntity constructor
 {
 	_actionKey = 0;
@@ -22,9 +22,6 @@ Player::Player(int id, int level, int health, int power, int defense, int speed,
 	_target = nullptr;
 	_actionBlock = nullptr;
 	_visualSlider = nullptr;
-	this->text = new Text();
-	UpdateHealthText();
-	this->text->color = WHITE;
 }
 
 Player::~Player()
@@ -279,10 +276,7 @@ void Player::HandleProjectileMash()
 		std::cout << "FINAL CHARGE AMOUNT:  " << _projectileChargeStored << std::endl;
 
 		//spawn projectile you fire at the opponent
-		Projectile* projectile = new Projectile(_target->GetStartPos(), this->position, this->power);
-		this->AddChild(projectile);
-		_projectiles.push_back(projectile);
-		projectile->SetSprite("assets/sprites/kblast.tga");
+		this->FireProjectile(_target, 1, 1);
 		_shotsFired = true;
 		return;
 	}
@@ -395,11 +389,11 @@ void Player::JumpAttack(GameEntity* target)
 void Player::InitiateVisualSlider()
 {
 	_visualSlider = new VisualSlider(this->GetID());
-	_visualSlider->SetSprite("assets/sprites/slider.tga");
 	_visualSlider->position = this->position - glm::vec3(0.0f, 128.0f, 0.0f);
 	_visualSlider->scale = glm::vec3(1.0f, 0.5f, 1.0f);
 	this->AddChild(_visualSlider);
 	_visualSlider->InitVisuals();
+	_visualSlider->SetSprite("assets/sprites/slider.tga");
 }
 
 

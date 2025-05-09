@@ -10,7 +10,7 @@ class Projectile : public MyEntity
 {
 public:
 	/// @brief constructor
-	Projectile(glm::vec3 targetPosition, glm::vec3 startPosition, int power);
+	Projectile(glm::vec3 targetPosition, glm::vec3 startPosition, bool displayHitbox);
 
 	/// @brief destructor
 	virtual ~Projectile();

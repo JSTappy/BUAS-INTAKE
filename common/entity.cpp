@@ -75,3 +75,10 @@
 		}
 		sprite = new Sprite(imagepath);
 	}
+
+	void Entity::SetTextPosition(Text* t, glm::vec3 textPosition)
+	{
+		t->moveWithEntity = false;
+		t->centered = false;
+		t->position = textPosition;
+	}

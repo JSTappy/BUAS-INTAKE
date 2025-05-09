@@ -192,6 +192,7 @@
     <ClCompile Include="collidius\Player.cpp" />
     <ClCompile Include="collidius\Projectile.cpp" />
     <ClCompile Include="collidius\TurnManager.cpp" />
+    <ClCompile Include="collidius\UIWindow.cpp" />
     <ClCompile Include="collidius\VisualSlider.cpp" />
     <ClCompile Include="common\camera.cpp" />
     <ClCompile Include="common\entity.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="collidius\Player.h" />
     <ClInclude Include="collidius\Projectile.h" />
     <ClInclude Include="collidius\TurnManager.h" />
+    <ClInclude Include="collidius\UIWindow.h" />
     <ClInclude Include="collidius\VisualSlider.h" />
     <ClInclude Include="common\camera.h" />
     <ClInclude Include="common\config.h" />

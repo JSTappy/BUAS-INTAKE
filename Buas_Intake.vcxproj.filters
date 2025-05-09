@@ -93,6 +93,9 @@
     <ClCompile Include="collidius\main.cpp">
       <Filter>Source Files\common</Filter>
     </ClCompile>
+    <ClCompile Include="collidius\UIWindow.cpp">
+      <Filter>Source Files\collidius</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\camera.h">
@@ -163,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="common\fontmanager.h">
       <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="collidius\UIWindow.h">
+      <Filter>Header Files\collidius</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

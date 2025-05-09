@@ -1,6 +1,6 @@
 #include "Projectile.h" 
 
-Projectile::Projectile(glm::vec3 targetPosition, glm::vec3 startPosition, int power)
+Projectile::Projectile(glm::vec3 targetPosition, glm::vec3 startPosition, bool displayHitbox)
 {
     this->position = startPosition;
     _startPosition = startPosition;
@@ -10,10 +10,17 @@ Projectile::Projectile(glm::vec3 targetPosition, glm::vec3 startPosition, int po
     _direction = glm::normalize(_endPosition - this->position); //get the vector towards the target (player)
 
     hitBox = new MyEntity();
-    hitBox->sprite = nullptr;
     hitBox->position = this->position;
     hitBox->scale = glm::vec3(0.5f, 0.5f, 0.0f);
     this->AddChild(hitBox);
+    if (displayHitbox)
+    { 
+        hitBox->SetSprite("assets/sprites/hitbox.tga"); 
+    }
+    else 
+    { 
+        hitBox->sprite = nullptr; 
+    }
 }
 
 Projectile::~Projectile()

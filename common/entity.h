@@ -64,6 +64,10 @@ public:
 
 	Text* text;
 
+	std::vector<Text*> textComponents;
+
+
+	void SetTextPosition(Text* t, glm::vec3 textPosition);
 private: 
 
 	/// @brief parent of the entity

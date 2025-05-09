@@ -1,7 +1,7 @@
 #include "GameEntity.h"
 #include "TurnManager.h"
 
-GameEntity::GameEntity(int ID, int Level, int Health, int Power, int Defense, int Speed, float DamageReduction, int CriticalChance, int Money, int ExperiencePoints)
+GameEntity::GameEntity(int ID, int Level, float Health, int Power, int Defense, int Speed, float DamageReduction, int CriticalChance, int Money, int ExperiencePoints)
 {
 	_id = ID;
 	_level = Level;
@@ -115,35 +115,29 @@ void GameEntity::HandleProjectileCollision(Projectile* p, GameEntity* t)
 	}
 }
 
-void GameEntity::SetTextPosition(glm::vec3 textPosition)
-{
-	this->text->moveWithEntity = false;
-	this->text->centered = false;
-	this->text->position = textPosition;
-}
-
 void GameEntity::ToggleHitboxDisplay(bool displaying) 
 {
-	if (displaying)
+	_shouldDisplayHitboxes = displaying;
+	if (_shouldDisplayHitboxes)
 	{
-		this->hitBox->sprite = nullptr; //disable gameEntity hitboxes
-		for (int i = 0; i < this->_projectiles.size(); i++) //disable projectile hitboxes
+		for (int i = 0; i < this->_projectiles.size(); i++) //set projectile hitboxes active
 		{
-			_projectiles[i]->hitBox->sprite = nullptr;
+			if (_projectiles[i]->hitBox->sprite == nullptr)
+			{
+				_projectiles[i]->hitBox->SetSprite("assets/sprites/hitbox.tga");
+				continue;
+			}
+		}
+		if (this->hitBox->sprite == nullptr) //set gameEntity hitboxes active
+		{
+			this->hitBox->SetSprite("assets/sprites/hitbox.tga");
 		}
 		return;
 	}
-	for (int i = 0; i < this->_projectiles.size(); i++) //set projectile hitboxes active
+	this->hitBox->sprite = nullptr; //disable gameEntity hitboxes
+	for (int i = 0; i < this->_projectiles.size(); i++) //disable projectile hitboxes
 	{
-		if (_projectiles[i]->hitBox->sprite == nullptr)
-		{
-			_projectiles[i]->hitBox->SetSprite("assets/sprites/hitbox.tga");
-			continue;
-		}
-	}
-	if (this->hitBox->sprite == nullptr) //set gameEntity hitboxes active
-	{
-		this->hitBox->SetSprite("assets/sprites/hitbox.tga");
+		_projectiles[i]->hitBox->sprite = nullptr;
 	}
 }
 
@@ -181,6 +175,19 @@ void GameEntity::MoveTowardsPosition(glm::vec3 targetPosition, float deltaTime)
 
 	// Apply movement
 	this->position += _initialTargetVector * distanceThisFrame;
+}
+
+void GameEntity::FireProjectile(GameEntity* target, int amount, float interval)
+{
+	_target = target;
+	std::cout << "Projectile targetting: " << _target->GetID() << std::endl;
+	std::cout << _target->GetStartPos().x << " " << _target->GetStartPos().y << " " << _target->GetStartPos().z << " " << std::endl;
+	Projectile* projectile = new Projectile(_target->GetStartPos(), this->position, _shouldDisplayHitboxes);
+	_projectiles.push_back(projectile);
+	projectile->scale = glm::vec3(2.0f, 2.0f, 0.0f);
+	this->AddChild(projectile);
+	projectile->SetSprite("assets/sprites/bananarang.tga");
+	_projectiles.push_back(projectile);
 }
 
 void GameEntity::SetStartPos()

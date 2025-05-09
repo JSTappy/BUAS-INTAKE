@@ -10,7 +10,7 @@ class GameEntity : public Entity
 {
 public:
 	/// @brief Constructor
-	GameEntity(int ID, int Level, int Health, int Power, int Defense, int Speed, float DamageReduction, int CriticalChance, int Money, int ExperiencePoints);
+	GameEntity(int ID, int Level, float Health, int Power, int Defense, int Speed, float DamageReduction, int CriticalChance, int Money, int ExperiencePoints);
 
 	/// @brief Destructor
 	~GameEntity();
@@ -61,7 +61,6 @@ public:
 	};
 
 	enum State gameEntityState = idle;
-	void SetTextPosition(glm::vec3 position);
 	void ToggleHitboxDisplay(bool displaying);
 
 	virtual void UpdateHealthText() {};
@@ -72,6 +71,7 @@ protected:
 
 	Timer* _movingTimer;
 	std::vector<Projectile*> _projectiles;
+	void FireProjectile(GameEntity* target, int amount, float interval);
 
 
 	GameEntity* _target;
@@ -82,6 +82,7 @@ protected:
 
 	int _selectedEntityCount;
 	bool _shotsFired = false;
+	bool _shouldDisplayHitboxes = false;
 
 	glm::vec3 ObtainNormalizedVector(glm::vec3 targetPosition);
 	glm::vec3 _initialTargetVector;
