@@ -3,6 +3,7 @@
 UIWindow::UIWindow()
 {
 	this->text = new Text();
+	this->text->text = "Are you ready to face off?";
 	this->playerTextA = new Text();
 	this->playerTextB = new Text();
 	this->enemyText = new Text();

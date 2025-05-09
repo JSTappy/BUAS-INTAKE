@@ -40,6 +40,10 @@ private:
 	MyEntity* _layer2;
 	MyEntity* _layer3;
 
+	Timer* _startTimer;
+
+	bool setupComplete;
+
 	std::vector<GameEntity*> gameEntities;
 };
 

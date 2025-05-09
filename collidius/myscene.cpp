@@ -4,6 +4,9 @@
 
 MyScene::MyScene() : Scene()
 {
+	_startTimer = new Timer();
+	_startTimer->StartTimer();
+	this->AddChild(_startTimer);
 	_layer1 = new MyEntity();
 	_layer1->SetSprite("assets/sprites/bg.tga");
 	_layer1->position = glm::vec3(WIDTH / 2, HEIGHT / 2, 0.0f);
@@ -56,7 +59,6 @@ MyScene::MyScene() : Scene()
 	}
 	TurnManager::Instance()->Init();
 	TurnManager::Instance()->battleText = _uiDisplay->text;
-	TurnManager::Instance()->DecideTurnOrder();
 }
 
 
@@ -68,10 +70,10 @@ MyScene::~MyScene()
 
 void MyScene::Update(float deltaTime)
 {
-	if (GetInput()->GetKeyDown(KEY_Q))
-	{
-		TurnManager::Instance()->DisplayStats();
-	}
+	if (_startTimer->GetSeconds() <= 2.0f) { return; }
+	if (!setupComplete) { TurnManager::Instance()->DecideTurnOrder(); _startTimer->StopTimer();  setupComplete = true; }
+
+	if (GetInput()->GetKeyDown(KEY_Q)) { TurnManager::Instance()->DisplayStats(); }
 	if (GetInput()->GetKeyDown(KEY_T))
 	{
 		displayHitboxes = !displayHitboxes;

@@ -38,7 +38,7 @@ public:
 	Player* GetRandomPlayer();
 	Enemy* GetRandomEnemy();
 
-	Text* battleText;
+	Text* battleText = nullptr;
 private:
 	Timer* _waitingTimer;
 	std::vector<GameEntity*> _gameEntities;
