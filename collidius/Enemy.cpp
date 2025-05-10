@@ -103,24 +103,19 @@ void Enemy::FireProjectile(GameEntity* target, int amount, float interval)
 	//make eye shine corresponding to the player position
 	_target = target;
 	bool randomBool = rand() % 2;
+	Projectile* projectile = new Projectile(this->position, 700.0f, _shouldDisplayHitboxes); //should jump
+	projectile->scale = glm::vec3(2.0f, 2.0f, 0.0f);
+	this->AddChild(projectile);
+	_projectiles.push_back(projectile);
+	std::cout << "Projectile targetting: " << _target->GetID() << std::endl;
+	projectile->SetSprite("assets/sprites/bananarang.tga");
 	if (randomBool == 0)
 	{
-		Projectile* projectile = new Projectile(_target->GetStartPos(), this->position, _shouldDisplayHitboxes); //shouldnt jump
-		projectile->scale = glm::vec3(2.0f, 2.0f, 0.0f);
-		this->AddChild(projectile);
-		_projectiles.push_back(projectile);
-		std::cout << "Projectile targetting: " << _target->GetID() << std::endl;
-		projectile->SetSprite("assets/sprites/bananarang.tga");
+		projectile->SetTarget(_target->GetStartPos());
 	}
 	else
 	{
-		Projectile* projectile = new Projectile(_target->GetStartPos() - glm::vec3(0, 150, 0) , this->position, _shouldDisplayHitboxes); //shouldnt jump
-		projectile->scale = glm::vec3(2.0f, 2.0f, 0.0f);
-		this->AddChild(projectile);
-		_projectiles.push_back(projectile);
-		std::cout << "Projectile targetting: " << _target->GetID() << std::endl;
-		projectile->SetSprite("assets/sprites/bananarang.tga");
-
+		projectile->SetTarget(_target->GetStartPos() - glm::vec3(0, 150, 0));
 	}
 }
 

@@ -95,17 +95,22 @@ void GameEntity::DealDamage(GameEntity* target, int multiplier)
 
 void GameEntity::HandleProjectileCollision(Projectile* p, GameEntity* t)
 {
-	//Divide right and bottom by 2 to get close to the mid point
+	//handle AABB collission
+	float projHalfWidth = (p->sprite->GetWidth() * p->scale.x) / 2.0f;
+	float projHalfHeight = (p->sprite->GetHeight() * p->scale.y) / 2.0f;
 
-	float projLeft = p->position.x - p->sprite->GetWidth() / 2;
-	float projRight = p->position.x + p->sprite->GetWidth() / 2; 
-	float projTop = p->position.y - p->sprite->GetHeight() / 2;
-	float projBottom = p->position.y + p->sprite->GetHeight() / 2;
+	float projLeft = p->position.x - projHalfWidth;
+	float projRight = p->position.x + projHalfWidth;
+	float projTop = p->position.y - projHalfHeight;
+	float projBottom = p->position.y + projHalfHeight;
 
-	float targetLeft = t->position.x - t->sprite->GetWidth() / 2;
-	float targetRight = t->position.x + t->sprite->GetWidth() / 2;
-	float targetTop = t->position.y - t->sprite->GetHeight() / 2;
-	float targetBottom = t->position.y + t->sprite->GetHeight() / 2;
+	float targetHalfWidth = (t->sprite->GetWidth() * t->scale.x) / 2.0f;
+	float targetHalfHeight = (t->sprite->GetHeight() * t->scale.y) / 2.0f;
+
+	float targetLeft = t->position.x - targetHalfWidth;
+	float targetRight = t->position.x + targetHalfWidth;
+	float targetTop = t->position.y - targetHalfHeight;
+	float targetBottom = t->position.y + targetHalfHeight;
 
 	if (projRight >= targetLeft &&
 		projLeft <= targetRight &&
@@ -204,11 +209,11 @@ void GameEntity::FireProjectile(GameEntity* target, int amount, float interval)
 	_target = target;
 	std::cout << "Projectile targetting: " << _target->GetID() << std::endl;
 	std::cout << _target->GetStartPos().x << " " << _target->GetStartPos().y << " " << _target->GetStartPos().z << " " << std::endl;
-	Projectile* projectile = new Projectile(_target->GetStartPos(), this->position, _shouldDisplayHitboxes);
+	Projectile* projectile = new Projectile(this->position, 200.0f, _shouldDisplayHitboxes);
 	_projectiles.push_back(projectile);
-	projectile->scale = glm::vec3(2.0f, 2.0f, 0.0f);
+	projectile->SetTarget(_target->GetStartPos());
 	this->AddChild(projectile);
-	projectile->SetSprite("assets/sprites/bananarang.tga");
+	projectile->SetSprite("assets/sprites/kblast.tga");
 	_projectiles.push_back(projectile);
 }
 

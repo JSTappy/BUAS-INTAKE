@@ -10,20 +10,21 @@ class Projectile : public MyEntity
 {
 public:
 	/// @brief constructor
-	Projectile(glm::vec3 targetPosition, glm::vec3 startPosition, bool displayHitbox);
+	Projectile(glm::vec3 startPosition, float speed, bool displayHitbox);
 
 	/// @brief destructor
 	virtual ~Projectile();
 
+	void SetTarget(glm::vec3 targetPosition);
 	/// @brief update method
 	/// @param deltaTime
 	/// @return void
 	virtual void Update(float deltaTime); //update
 
+	float speed;
 	MyEntity* hitBox;
 private:
 
-	float _speed;
 	glm::vec3 _endPosition;
 	glm::vec3 _startPosition;
 	glm::vec3 _direction;
