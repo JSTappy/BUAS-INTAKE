@@ -109,10 +109,6 @@ void Player::SwitchAttackType(float deltaTime)
 {
 	if (_waitingTimer->GetSeconds() <= 1.0f)return;
 	if (!_attackingTimer->isPlaying)_attackingTimer->StartOverTimer();
-	if (TurnManager::Instance()->battleText->text != "ATTACK THE ENEMY!!")
-	{
-		TurnManager::Instance()->battleText->text = "ATTACK THE ENEMY!!";
-	}
 	switch (_attackType)
 	{
 		case 0:
@@ -323,7 +319,7 @@ void Player::HandleJumpAttack(float deltaTime)
 	if (this->position.x >= _target->position.x - 256.0f && _isgrounded)
 	{
 		//second, simulate a jump.
-		Jump(750.0f, 1.5f);
+		Jump(750.0f, 1.25f);
 		return;
 	}
 	//third, handle the attack. It jumps on the enemy three times if the button presses are timed correctly
@@ -467,6 +463,11 @@ void Player::Move(float deltaTime)
 		std::cout << this->position.y << std::endl;
 		_ascendTimer->StopTimer();
 		_shouldFall = true;
+	}
+	if (!_isgrounded && _shouldFall && gameEntityState == attacking)
+	{
+		_velocity.y += (_gravity * 0.8f) * deltaTime;
+		return;
 	}
 	if (!_isgrounded && _shouldFall)
 	{

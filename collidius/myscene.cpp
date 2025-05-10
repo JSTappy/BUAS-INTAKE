@@ -71,7 +71,7 @@ MyScene::~MyScene()
 
 void MyScene::Update(float deltaTime)
 {
-	if (_startTimer->GetSeconds() <= 1.0f && _startTimer->isPlaying) { return; }
+	if (_startTimer->GetSeconds() <= 2.0f && _startTimer->isPlaying) { return; }
 	if (!setupComplete) { TurnManager::Instance()->DecideTurnOrder(); _startTimer->StopTimer();  setupComplete = true; }
 
 	if (GetInput()->GetKeyDown(KEY_Q)) { TurnManager::Instance()->DisplayStats(); }
