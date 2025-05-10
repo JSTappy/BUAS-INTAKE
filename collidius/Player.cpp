@@ -161,7 +161,7 @@ void Player::HandleAction()
 			ResetToIdle();
 			return;
 		case 2: //item
-			//use item
+			UseItem(actionIndex);
 			break;
 		case 3: //special
 			//perform special attack
@@ -169,26 +169,26 @@ void Player::HandleAction()
 	}
 }
 
-void Player::PerformAttack(int attackLevel) 
+void Player::PerformAttack(int attackLevel)
 {
 	_attackType = attackLevel;
 	_target = TurnManager::Instance()->GetRandomEnemy();
 	_waitingTimer->StartOverTimer();
 	switch (attackLevel)
 	{
-		case 0:
-			PunchAttack(_target);
-			return;
-		case 1:
-			TeleportToPosition(_startPos);
-			JumpAttack(_target);
-			return;
-		case 2:
-			TeleportToPosition(_startPos);
-			MashProjectileAttack(_target);
-			return;
-		case 3:
-			return;
+	case 0:
+		PunchAttack(_target);
+		return;
+	case 1:
+		TeleportToPosition(_startPos);
+		JumpAttack(_target);
+		return;
+	case 2:
+		TeleportToPosition(_startPos);
+		MashProjectileAttack(_target);
+		return;
+	case 3:
+		return;
 	}
 }
 
@@ -235,6 +235,7 @@ void Player::HandlePunch(float deltaTime)
 	{
 		if (_attackingTimer->GetSeconds() < 1.0f)
 		{
+			TurnManager::Instance()->battleText->text = "a little too early...";
 			std::cout << "Not Enough but Still Good" << std::endl;
 			DealDamage(_target, 0.3);
 			ResetToIdle();
@@ -242,6 +243,7 @@ void Player::HandlePunch(float deltaTime)
 		}
 		if (_attackingTimer->GetSeconds() > 1.0f && _attackingTimer->GetSeconds() < 1.5f)
 		{
+			TurnManager::Instance()->battleText->text = "PERFECT!!";
 			std::cout << "MAX CHARGE SUCCESS" << std::endl;
 			DealDamage(_target, 1);
 			ResetToIdle();
@@ -250,16 +252,14 @@ void Player::HandlePunch(float deltaTime)
 		if (_attackingTimer->GetSeconds() > 1.5f)
 		{
 			std::cout << "Failed" << std::endl;
+			TurnManager::Instance()->battleText->text = "You were too late...";
 			ResetToIdle();
 			return;
 		}
-		ResetToIdle();
-		TurnManager::Instance()->battleText->text = "You were too late";
-		return;
 	}
 	if (_attackingTimer->GetSeconds() >= 2.0f)
 	{
-		TurnManager::Instance()->battleText->text = "You Failed the Attack";
+		TurnManager::Instance()->battleText->text = "You Failed to attack...";
 		std::cout << "Did nothing, return to start" << std::endl;
 		ResetToIdle();
 		return;
@@ -310,6 +310,20 @@ void Player::HandleProjectileAction()
 	DealDamage(_target, _projectileChargeStored);
 }
 
+void Player::UseItem(int index)
+{
+	if (_items[index]->GetUses() == 0)
+	{
+		TeleportToPosition(_startPos);
+		TurnManager::Instance()->battleText->text = "You do not have this item anymore! Pick something else";
+		return;
+	}
+	_items[index]->ApplyItem(this);
+	TurnManager::Instance()->battleText->text = "You can use this item " + std::to_string(_items[index]->GetUses()) + " more time(s)";
+	ResetToIdle();
+}
+
+
 void Player::HandleJumpAttack(float deltaTime)
 {
 	//first move towards the enemy
@@ -322,19 +336,18 @@ void Player::HandleJumpAttack(float deltaTime)
 	//third, handle the attack. It jumps on the enemy three times if the button presses are timed correctly
 	if (_jumpAttacksHit <= 3 && this->position.x >= _target->position.x) //if the enemy has not been juped on 3 times yet
 	{
-		if (this->position.y + this->sprite->GetHeight() / 2.0f >= _target->position.y - _target->sprite->GetHeight() / 1.5f)//calculate if the player collides with the enemy
+		if (this->position.y + this->sprite->GetHeight() / 2.0f >= _target->position.y - _target->sprite->GetHeight() / 2.0f)//calculate if the player collides with the enemy
 		{
 			if (GetInput()->GetKeyDown(_actionKey))
 			{
-				this->position.y = _target->position.y - _target->sprite->GetHeight() / 2.0f;
 				_velocity = glm::vec3(0, 0, 0);
-				Jump(700.0f, 1);
+				Jump(600.0f, 1);
 				DealDamage(_target, 1 * (_jumpAttacksHit * 0.5f));
 				_jumpAttacksHit++;
 				return;
 			}
 		}
-		if (this->position.y >= _target->position.y - _target->sprite->GetHeight() / 4.0f)//calculate if the player collides with the enemy
+		if (this->position.y >= _target->position.y - _target->sprite->GetHeight() / 2.25f)//calculate if the player collides with the enemy
 		{
 			ResetToIdle();
 		}

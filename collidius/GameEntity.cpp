@@ -31,7 +31,15 @@ GameEntity::GameEntity(int ID, int Level, float Health, int Power, int Defense, 
 	hitBox = new MyEntity();
 	this->AddChild(hitBox);
 
+	Item* itemA = new Item(0, 2);
+	Item* itemB = new Item(1, 2);
+	Item* itemC = new Item(2, 2);
+	Item* itemD = new Item(3, 2);
 
+	_items.push_back(itemA);
+	_items.push_back(itemB);
+	_items.push_back(itemC);
+	_items.push_back(itemD);
 }
 
 
@@ -179,6 +187,16 @@ void GameEntity::MoveTowardsPosition(glm::vec3 targetPosition, float deltaTime)
 
 	// Apply movement
 	this->position += _initialTargetVector * distanceThisFrame;
+}
+
+void GameEntity::UseItem(int index)
+{
+	if (_items[index]->GetUses() == 0)
+	{
+		TurnManager::Instance()->battleText->text = "You do not have this item anymore! Pick something else";
+		return;
+	}
+	_items[index]->ApplyItem(this);
 }
 
 void GameEntity::FireProjectile(GameEntity* target, int amount, float interval)

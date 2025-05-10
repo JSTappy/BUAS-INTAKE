@@ -2,8 +2,10 @@
 #define GAMEENTITY_H
 
 #include "entity.h"
-#include "Projectile.h"
 #include "timer.h"
+
+#include "Projectile.h"
+#include "Item.h"
 
 
 class GameEntity : public Entity
@@ -49,6 +51,7 @@ public:
 	int GetCriticalChance() { return _criticalChance; }
 	int GetMoney() { return _money; }
 	int GetExperiencePoints() { return _experiencePoints; }
+	const int GetMaxHealth() { return _maxHealth; }
 
 	glm::vec3 GetStartPos() { return _startPos; }
 
@@ -74,7 +77,9 @@ protected:
 	std::vector<Projectile*> _projectiles;
 	virtual void FireProjectile(GameEntity* target, int amount, float interval);
 
+	virtual void UseItem(int index);
 
+	std::vector<Item*> _items;
 	GameEntity* _target;
 	glm::vec3 _startPos;
 

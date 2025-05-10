@@ -77,6 +77,8 @@ private:
 	void Jump(float jumpForcefloat, float jumpforceMultiplier);
 	void GroundCheck();
 
+	void UseItem(int index) override;
+
 	void SwitchAttackType(float deltaTime);
 	void HandleChoosing();
 

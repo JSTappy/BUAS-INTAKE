@@ -96,6 +96,9 @@
     <ClCompile Include="collidius\UIWindow.cpp">
       <Filter>Source Files\collidius</Filter>
     </ClCompile>
+    <ClCompile Include="collidius\Item.cpp">
+      <Filter>Source Files\collidius</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\camera.h">
@@ -168,6 +171,9 @@
       <Filter>Header Files\common</Filter>
     </ClInclude>
     <ClInclude Include="collidius\UIWindow.h">
+      <Filter>Header Files\collidius</Filter>
+    </ClInclude>
+    <ClInclude Include="collidius\Item.h">
       <Filter>Header Files\collidius</Filter>
     </ClInclude>
   </ItemGroup>

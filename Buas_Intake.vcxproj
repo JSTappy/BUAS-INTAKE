@@ -187,6 +187,7 @@
     <ClCompile Include="collidius\CommandWindow.cpp" />
     <ClCompile Include="collidius\Enemy.cpp" />
     <ClCompile Include="collidius\GameEntity.cpp" />
+    <ClCompile Include="collidius\Item.cpp" />
     <ClCompile Include="collidius\main.cpp" />
     <ClCompile Include="collidius\myscene.cpp" />
     <ClCompile Include="collidius\Player.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="collidius\CommandWindow.h" />
     <ClInclude Include="collidius\Enemy.h" />
     <ClInclude Include="collidius\GameEntity.h" />
+    <ClInclude Include="collidius\Item.h" />
     <ClInclude Include="collidius\myscene.h" />
     <ClInclude Include="collidius\Player.h" />
     <ClInclude Include="collidius\Projectile.h" />

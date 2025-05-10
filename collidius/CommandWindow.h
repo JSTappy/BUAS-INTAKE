@@ -38,31 +38,31 @@ private:
 
 	std::vector<const char*> _attackStrings
 	{
-		"This attack deals decent damage, make sure to time it right!",
+		"Move towards the enemy and punch him!",
 		"Jump on the enemies head 3 times for maximum damage!",
-		"This attack fires a projectile at the cost of your health...",
-		"This attack lowers you and your opponents defense"
+		"Fire a powerful projectile at the cost of your health!",
+		"Rush to the enemy and lower both entities defenses!"
 	};
 	std::vector<const char*> _defendStrings
 	{
-		"DR + 30 %",
-		"BB",
-		"BBB",
-		"BBBB"
+		"Increase your Defense by 5 points",
+		"Set your damage reduction to 30% and skip a turn",
+		"Increase your Defense by 20 points but sacrifice 10 power",
+		"Become invincible for 3 turns, but you skip those turns"
 	};
 	std::vector<const char*> _itemStrings
 	{
-		"C",
-		"CC",
-		"CCC",
-		"CCCC"
+		"Heal 15% of Max HP, template uses left",
+		"Boost your power at the cost of speed! template uses left",
+		"Boost your speed at the cost of power! template uses left",
+		"Trade off 50% HP for twice the power! template uses left"
 	};
 	std::vector<const char*> _specialStrings
 	{
-		"D",
-		"DD",
-		"DDD",
-		"DDDD"
+		"Perform a combo attack between players that deals excellent damage",
+		"Perform a flashy attack that will deal supreme damage!"
+		"Sacrifice yourself for the cause, but deal colossoal Damage!",
+		"When on 77 HP, perform this to double both players power!",
 	};
 
 	void SnapArrowToEntity(MyEntity* entity);
