@@ -120,7 +120,6 @@ void Player::SwitchAttackType(float deltaTime)
 			HandlePunch(deltaTime);
 			return;
 		case 1:
-			EnableJump(deltaTime);
 			HandleJumpAttack(deltaTime);
 			return;
 		case 2:
@@ -194,13 +193,6 @@ void Player::PerformAttack(int attackLevel)
 
 void Player::EnableJump(float deltaTime) 
 {
-	if (_ascendTimer->GetSeconds() > 0.20f)
-	{
-		std::cout << "PEAK" << std::endl;
-		std::cout << this->position.y << std::endl;
-		_ascendTimer->StopTimer();
-		_shouldFall = true;
-	}
 	if (GetInput()->GetKeyDown(_actionKey) && _isgrounded)
 	{
 		_velocity = glm::vec3(0, 0, 0);
@@ -212,6 +204,7 @@ void Player::GroundCheck()
 {
 	if (this->gameEntityState == attacking)
 	{
+		if (_waitingTimer->GetSeconds() < 1.25f && _waitingTimer->isPlaying) { _isgrounded = true; return; }
 		if (this->position.y > _target->position.y && !_isgrounded)
 		{
 			_isgrounded = true;
@@ -468,6 +461,13 @@ void Player::ClearHUD()
 void Player::Move(float deltaTime)
 {
 	this->position += _velocity * deltaTime;
+	if (_ascendTimer->GetSeconds() > 0.20f)
+	{
+		std::cout << "PEAK" << std::endl;
+		std::cout << this->position.y << std::endl;
+		_ascendTimer->StopTimer();
+		_shouldFall = true;
+	}
 	if (!_isgrounded && _shouldFall)
 	{
 		_velocity.y += _gravity * deltaTime;

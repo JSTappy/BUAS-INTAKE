@@ -96,7 +96,10 @@ void TurnManager::GiveTurnToNext()
 	if (_waitingTimer->GetSeconds() <= 0.75f) return;
 	for (int i = 0; i < _players.size(); i++) { if (!_players[i]->GetIsGrounded()) return; }
 	_waitingTimer->StopTimer();
-	_nextInTurn->gameEntityState = _nextInTurn->idle;
+	for (int i = 0; i < _gameEntities.size(); i++) 
+	{
+		_gameEntities[i]->gameEntityState = _gameEntities[i]->idle;
+	}
 	_nextInTurn->completedTurn = true;
 	_nextInTurn->TeleportToPosition(_nextInTurn->GetStartPos());
 	_nextInTurn = nullptr;
