@@ -28,6 +28,10 @@ GameEntity::GameEntity(int ID, int Level, float Health, int Power, int Defense, 
 	this->AddChild(_waitingTimer);
 	_waitingTimer->StopTimer();
 
+	_damageSpriteTimer = new Timer();
+	this->AddChild(_damageSpriteTimer);
+	_damageSpriteTimer->StopTimer();
+
 	hitBox = new MyEntity();
 	this->AddChild(hitBox);
 
@@ -48,19 +52,32 @@ GameEntity::~GameEntity()
 
 }
 
-int GameEntity::CalculateAttackStat(int Power, int moveMultiplier)
+void GameEntity::Update(float deltaTime)
 {
-	int totalDamageOutput = Power * moveMultiplier;
+	if (!_damageSpriteTimer->isPlaying) return;
+	if (_damageSpriteTimer->GetSeconds() > 1)
+	{
+		_damageSpriteTimer->StopTimer();
+		_damageSpriteTimer->isPlaying = false;
+		this->RemoveChild(_damageSprite);
+		delete _damageSprite;
+		_damageSprite = nullptr;
+	}
+}
+
+double GameEntity::CalculateAttackStat(double Power, double moveMultiplier)
+{
+	double totalDamageOutput = Power * moveMultiplier;
 	return totalDamageOutput;
 }
 
-int GameEntity::CalculateDefenseStat(int Defense, int DamageReduction)
+double GameEntity::CalculateDefenseStat(double Defense, double DamageReduction)
 {
-	int defenseOutput = Defense;
+	double defenseOutput = Defense;
 	return defenseOutput;
 }
 
-void GameEntity::DealDamage(GameEntity* target, int multiplier)
+void GameEntity::DealDamage(GameEntity* target, double multiplier)
 {
 	int attackStat = CalculateAttackStat(this->power, multiplier);
 	int defenseStat = CalculateDefenseStat(target->defense, 0);
@@ -83,9 +100,10 @@ void GameEntity::DealDamage(GameEntity* target, int multiplier)
 	std::cout << "######################################################################### " << std::endl;
 	std::cout << "Target HP Before Attack: " << hpBeforeAttack << " / " << target->_maxHealth << std::endl;
 	std::cout << "Entity with ID: " << this->_id << " Attacked Entity with ID: " << target->GetID() << " !" << std::endl;
-	std::cout << "Damage Dealt: " << hpAfterAttack - hpBeforeAttack << std::endl;
+	std::cout << "Damage Dealt: " <<  hpBeforeAttack - hpAfterAttack << std::endl;
 	std::cout << "Target HP After Attack: " << target->health << " / " << target->_maxHealth << std::endl;
 	std::cout << "######################################################################### " << std::endl;
+	ShowDamage(_target, hpBeforeAttack - hpAfterAttack);
 	_target->UpdateHealthText();
 
 
@@ -190,6 +208,27 @@ void GameEntity::MoveTowardsPosition(glm::vec3 targetPosition, float movingSpeed
 
 	// Apply movement
 	this->position += _initialTargetVector * distanceThisFrame;
+}
+
+void GameEntity::ShowDamage(GameEntity* target, int damageTaken)
+{
+	if (_damageSprite != nullptr) 
+	{ 
+		_damageSpriteTimer->StartOverTimer();
+		_damageSprite->text->text = std::to_string(damageTaken); 
+		return;
+	}
+	_damageSprite = new MyEntity();
+	this->AddChild(_damageSprite);
+	_damageSprite->SetSprite("assets/sprites/impact.tga");
+	_damageSprite->position = target->GetStartPos() - glm::vec3(-128, 128, 0);
+	_damageSprite->text = new Text((char*)"assets/fonts/impact.ttf", 64);
+	_damageSprite->textComponents.push_back(_damageSprite->text);
+	_damageSprite->text->text = std::to_string(damageTaken);
+	_damageSprite->SetTextPosition(_damageSprite->text, _damageSprite->position);
+	_damageSprite->text->centered = true;
+	_damageSpriteTimer->StartTimer();
+	_damageSpriteTimer->isPlaying = true;
 }
 
 void GameEntity::UseItem(int index)

@@ -37,6 +37,7 @@ Player::~Player()
 
 void Player::Update(float deltaTime) 
 {
+	GameEntity::Update(deltaTime);
 	hitBox->position = this->position; //Make sure the hitbox follows the player
 	if (_visualSlider) //Make sure the visual slider follows the player
 	{
@@ -167,7 +168,6 @@ void Player::HandleProjectileAction()
 {
 	DealDamage(_target, _energyStored / 2);
 }
-
 
 void Player::PerformAttack(int attackLevel)
 {
@@ -302,7 +302,7 @@ void Player::HandleJumpAttack(float deltaTime)
 				//Count a jump hit and 
 				_velocity = glm::vec3(0, 0, 0);
 				Jump(600.0f, 1);
-				DealDamage(_target, 1 * _jumpAttacksHit);
+				DealDamage(_target, 0.65);
 				_jumpAttacksHit++;
 				return;
 			}

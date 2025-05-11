@@ -16,6 +16,7 @@ Enemy::~Enemy()
 
 void Enemy::Update(float deltaTime)
 {
+	GameEntity::Update(deltaTime);
 	hitBox->position = this->position;
 	switch (gameEntityState)
 	{
@@ -115,7 +116,7 @@ void Enemy::FireProjectile(GameEntity* target, int amount, float interval)
 	}
 	else
 	{
-		projectile->SetTarget(_target->GetStartPos() - glm::vec3(0, 150, 0));
+		projectile->SetTarget(_target->GetStartPos() - glm::vec3(0, 172, 0));
 	}
 }
 

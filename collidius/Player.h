@@ -25,7 +25,7 @@ public:
 
 	///@brief Update method
 	///@param deltaTime
-	virtual void Update(float deltaTime);
+	virtual void Update(float deltaTime) override;
 
 	///@brief Assigns the actionKey to the player. This will be the button that this specific player will use to perform actions
 	///@param int actionKey

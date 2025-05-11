@@ -20,7 +20,7 @@ public:
 	/// @brief update method
 	/// @param deltaTime
 	/// @return void
-	virtual void Update(float deltaTime) {}; //update
+	virtual void Update(float deltaTime); //update
 
 	virtual void TeleportToPosition(glm::vec3 position);
 	virtual void MoveTowardsPosition(glm::vec3 position, float movingSpeed, float deltaTime);
@@ -29,9 +29,11 @@ public:
 	void DestroyProjectile(Projectile* p);
 	void SetStartPos();
 
-	int CalculateAttackStat(int damage, int moveMultiplier);
-	int CalculateDefenseStat(int defense, int damageReduction);
-	void DealDamage(GameEntity* target, int multiplier);
+	double CalculateAttackStat(double damage, double moveMultiplier);
+	double CalculateDefenseStat(double defense, double damageReduction);
+	void DealDamage(GameEntity* target, double multiplier);
+
+	void ShowDamage(GameEntity* target, int damageTaken);
 
 	bool completedTurn;
 	bool alive;
@@ -74,6 +76,7 @@ protected:
 
 	Timer* _movingTimer;
 	Timer* _waitingTimer;
+	Timer* _damageSpriteTimer;
 	std::vector<Projectile*> _projectiles;
 	virtual void FireProjectile(GameEntity* target, int amount, float interval);
 
@@ -93,6 +96,8 @@ protected:
 	glm::vec3 ObtainNormalizedVector(glm::vec3 targetPosition);
 	glm::vec3 _initialTargetVector;
 	int _maxHealth;
+
+	MyEntity* _damageSprite;
 
 private:
 	int _id;

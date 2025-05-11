@@ -52,10 +52,10 @@ private:
 	};
 	std::vector<const char*> _itemStrings
 	{
-		"Heal 15% of Max HP, template uses left",
-		"Boost your power at the cost of speed! template uses left",
-		"Boost your speed at the cost of power! template uses left",
-		"Trade off 50% HP for twice the power! template uses left"
+		"Heal 15% of Max HP!",
+		"Boost your power at the cost of speed!",
+		"Boost your speed at the cost of power!",
+		"Trade off 50% HP for twice the power!"
 	};
 	std::vector<const char*> _specialStrings
 	{

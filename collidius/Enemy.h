@@ -21,7 +21,7 @@ public:
 	/// @brief update method
 	/// @param deltaTime
 	/// @return void
-	virtual void Update(float deltaTime); //update
+	virtual void Update(float deltaTime) override; //update
 
 	void BasicAttack(int damage, GameEntity* target);
 	void ProjectileAttack(GameEntity* target);
