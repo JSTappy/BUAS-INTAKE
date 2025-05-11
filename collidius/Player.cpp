@@ -397,8 +397,9 @@ void Player::HandleDashAttack(float deltaTime)
 
 	if (GetInput()->GetKey(_actionKey))
 	{
-		_energyStored += 0.0025;
-		_visualSlider->UpdateSliderSpriteOnClicks(0.0025, _energyMax);
+		TurnManager::Instance()->battleText->text = std::to_string(_energyStored);
+		_energyStored += 1.75 * deltaTime;
+		_visualSlider->UpdateSliderSpriteOnClicks(1.75 * deltaTime, 2.25);
 	}
 }
 

@@ -24,7 +24,11 @@ void Enemy::Update(float deltaTime)
 			_starIndicator->rotation += 5 * deltaTime;
 			if (_starIndicator->scale.x >= 0)
 			{
-				_starIndicator->scale -= 2 * deltaTime;
+				_starIndicator->scale -= 1.5 * deltaTime;
+			}
+			if (_target->GetID() == 1) 
+			{
+				_starIndicator->position -= glm::vec3(0, 128.0f, 0) * deltaTime;
 			}
 			if (_waitingTimer->GetSeconds() <= 1.0f && _waitingTimer->isPlaying)return;
 			if (!_shotsFired)
@@ -59,6 +63,7 @@ void Enemy::Update(float deltaTime)
 			_starIndicator = new MyEntity();
 			_starIndicator->SetSprite("assets/sprites/starindicator.tga");
 			this->AddChild(_starIndicator);
+			_starIndicator->scale = glm::vec3(1.5, 1.5, 0);
 			if (_target->GetID() == 1)
 			{
 				_starIndicator->position = this->position - glm::vec3(32.0f,32.0f,0);
@@ -116,7 +121,11 @@ void Enemy::FireProjectile(GameEntity* target, int amount, float interval)
 	}
 	else
 	{
-		projectile->SetTarget(_target->GetStartPos() - glm::vec3(0, 172, 0));
+		if (_target->GetID() == 1)
+		{
+			projectile->SetTarget(_target->GetStartPos() - glm::vec3(0, 172, 0)); return;
+		}
+		projectile->SetTarget(_target->GetStartPos() - glm::vec3(0, 140, 0));
 	}
 }
 
