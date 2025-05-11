@@ -34,11 +34,13 @@ public:
 	///@brief Updating the health text to the player health
 	void UpdateHealthText() override;
 
-	// --- Variables --- //
-
 	///@brief Getter for the _isGrounded bool
 	///@return _isGrounded
 	bool GetIsGrounded() { return _isGrounded; }
+
+	///@brief Getter for the _turnsToSkip bool
+	///@return _turnsToSkip
+	int GetTurnsToSkip() { return _turnsToSkip; }
 
 private:
 
@@ -69,9 +71,13 @@ private:
 	///@brief Handles what the projectile should do when hitting its target
 	void HandleProjectileAction() override;
 
-	///@brief Enabling jump method
+	///@brief Handles the attack to perform
 	///@param int attackLevel, the type of attack that will be performed
 	void PerformAttack(int attackLevel);
+
+	///@brief Handles the defending action to perform
+	///@param int attackLevel, the type of attack that will be performed
+	void PerformDefenseAction(int defenseLevel);
 
 	///@brief Basic function for dealing damage
 	///@param int damage for the amount of damage dealt, 
@@ -147,9 +153,6 @@ private:
 	///@brief Timer to check if the action should already be performed or not
 	Timer* _waitingTimer;
 
-	///@brief Check how many times the player has jumped on the enemy
-	int _jumpAttacksHit = 0;
-
 	///@brief Check if the player should fall
 	bool _shouldFall;
 
@@ -158,6 +161,12 @@ private:
 
 	///@brief Check if the player is performing an attack
 	bool _isCharging;
+
+	///@brief Check how many turns need to be skipped
+	int _turnsToSkip;
+
+	///@brief Check how many times the player has jumped on the enemy
+	int _jumpAttacksHit = 0;
 
 	///@brief See what type of attack the player should perform
 	int _attackType;

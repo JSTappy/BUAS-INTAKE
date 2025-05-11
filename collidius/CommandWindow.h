@@ -45,10 +45,10 @@ private:
 	};
 	std::vector<const char*> _defendStrings
 	{
-		"Increase your Defense by 5 points",
-		"Set your damage reduction to 30% and skip a turn",
+		"Increase your Defense by 1 point",
+		"Set your damage reduction to 15% and skip a turn",
 		"Increase your Defense by 20 points but sacrifice 10 power",
-		"Become invincible for 3 turns, but you skip those turns"
+		"Set your damage reduction to 50% and skip 3 turns"
 	};
 	std::vector<const char*> _itemStrings
 	{

@@ -54,7 +54,6 @@ public:
 	int GetMoney() { return _money; }
 	int GetExperiencePoints() { return _experiencePoints; }
 	const int GetMaxHealth() { return _maxHealth; }
-
 	glm::vec3 GetStartPos() { return _startPos; }
 
 	enum State
@@ -96,7 +95,6 @@ protected:
 	glm::vec3 ObtainNormalizedVector(glm::vec3 targetPosition);
 	glm::vec3 _initialTargetVector;
 	int _maxHealth;
-
 	MyEntity* _damageSprite;
 
 private:

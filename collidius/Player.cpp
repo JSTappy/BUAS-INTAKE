@@ -54,6 +54,12 @@ void Player::Update(float deltaTime)
 			SwitchAttackType(deltaTime);
 			return;
 		case choosing: //Choosing state, make sure the player can jump and choose an action to perform
+			if (_turnsToSkip > 0) //Skip a turn if the player has to
+			{
+				_turnsToSkip--;
+				ResetToIdle();
+				return;
+			}
 			EnableJump(deltaTime);
 			HandleChoosing();
 			return;
@@ -151,9 +157,7 @@ void Player::HandleAction()
 			PerformAttack(actionIndex);
 			break;
 		case 1: //Defending action
-			//TODO
-			this->_damageReduction = 0.3f;
-			ResetToIdle();
+			PerformDefenseAction(actionIndex);
 			return;
 		case 2: //Item action
 			UseItem(actionIndex);
@@ -189,6 +193,32 @@ void Player::PerformAttack(int attackLevel)
 			return;
 		case 3: //Dash Attack
 			DashAttack(_target);
+			return;
+	}
+}
+
+void Player::PerformDefenseAction(int defenseLevel)
+{
+	switch (defenseLevel) //Check to see which defense action should be performed
+	{
+		case 0: //Increase defense by 1
+			this->defense += 1;
+			ResetToIdle();
+			return;
+		case 1: //15% damage reduction, but you skip a turn
+			this->_damageReduction = 0.15f;
+			this->_turnsToSkip = 1;
+			ResetToIdle();
+			return;
+		case 2: //Defense for power trade-off
+			this->defense += 4;
+			this->power -= 4;
+			ResetToIdle();
+			return;
+		case 3: //50% damage reduction, but you skip 3 turns
+			this->_damageReduction = 0.5f;
+			this->_turnsToSkip = 3;
+			ResetToIdle();
 			return;
 	}
 }
