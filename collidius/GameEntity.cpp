@@ -86,8 +86,6 @@ void GameEntity::DealDamage(GameEntity* target, int multiplier)
 	std::cout << "Damage Dealt: " << hpAfterAttack - hpBeforeAttack << std::endl;
 	std::cout << "Target HP After Attack: " << target->health << " / " << target->_maxHealth << std::endl;
 	std::cout << "######################################################################### " << std::endl;
-
-	TurnManager::Instance()->battleText->text = "Damage Dealt: " + std::to_string(hpAfterAttack - hpBeforeAttack);
 	_target->UpdateHealthText();
 
 
@@ -183,12 +181,12 @@ glm::vec3 GameEntity::ObtainNormalizedVector(glm::vec3 targetPosition)
 	return directionNormalized;
 }
 
-void GameEntity::MoveTowardsPosition(glm::vec3 targetPosition, float deltaTime)
+void GameEntity::MoveTowardsPosition(glm::vec3 targetPosition, float movingSpeed, float deltaTime)
 {
 	float distanceToTarget = glm::length(_initialTargetVector);
 
 	// Calculate the movement for this frame
-	float distanceThisFrame = 600.0f * deltaTime;
+	float distanceThisFrame = movingSpeed * deltaTime;
 
 	// Apply movement
 	this->position += _initialTargetVector * distanceThisFrame;
@@ -209,7 +207,7 @@ void GameEntity::FireProjectile(GameEntity* target, int amount, float interval)
 	_target = target;
 	std::cout << "Projectile targetting: " << _target->GetID() << std::endl;
 	std::cout << _target->GetStartPos().x << " " << _target->GetStartPos().y << " " << _target->GetStartPos().z << " " << std::endl;
-	Projectile* projectile = new Projectile(this->position, 200.0f, _shouldDisplayHitboxes);
+	Projectile* projectile = new Projectile(this->position, 800.0f, _shouldDisplayHitboxes);
 	_projectiles.push_back(projectile);
 	projectile->SetTarget(_target->GetStartPos());
 	this->AddChild(projectile);

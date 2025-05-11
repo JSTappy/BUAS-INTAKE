@@ -23,14 +23,14 @@ public:
 	virtual void Update(float deltaTime) {}; //update
 
 	virtual void TeleportToPosition(glm::vec3 position);
-	virtual void MoveTowardsPosition(glm::vec3 position, float deltaTime);
+	virtual void MoveTowardsPosition(glm::vec3 position, float movingSpeed, float deltaTime);
 	virtual void HandleProjectileAction() {};
 	void HandleProjectileCollision(Projectile* p, GameEntity* t);
 	void DestroyProjectile(Projectile* p);
 	void SetStartPos();
 
 	int CalculateAttackStat(int damage, int moveMultiplier);
-	int CalculateDefenseStat(int Defense, int DamageReduction);
+	int CalculateDefenseStat(int defense, int damageReduction);
 	void DealDamage(GameEntity* target, int multiplier);
 
 	bool completedTurn;

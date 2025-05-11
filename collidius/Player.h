@@ -11,82 +11,174 @@
 #include "ActionBlock.h"
 #include "VisualSlider.h"
 
+///@brief Controllable Player GameEntity
 class Player : public GameEntity
 {
 public:
-	/// @brief constructor
+	///@brief Player Constructor
 	Player(int id, int level, float health, int power, int defense, int speed, float damageReduction, int criticalChance, int money, int experiencePoints);
 
-	/// @brief destructor
+	///@brief Player Destructor
 	virtual ~Player();
 
-	/// @brief update method
-	/// @param deltaTime
-	/// @return void
-	virtual void Update(float deltaTime); //update
-	void EnableJump(float deltaTime);
+	// --- Functions --- //
 
-	void AssignActionKey(int jumpKey);
+	///@brief Update method
+	///@param deltaTime
+	virtual void Update(float deltaTime);
 
-	void BasicAttack(int damage, GameEntity* target);
-	void PunchAttack(GameEntity* target);
-	void MashProjectileAttack(GameEntity* target);
-	void JumpAttack(GameEntity* target);
+	///@brief Assigns the actionKey to the player. This will be the button that this specific player will use to perform actions
+	///@param int actionKey
+	void AssignActionKey(int actionKey);
 
-	void SelectBlock();
-	void HandleAction();
-
-	void HandleProjectileAction() override;
-	void HandlePunch(float deltaTime);
-	void HandleProjectileMash();
-	void HandleJumpAttack(float deltaTime);
-
-	void PerformAttack(int attackLevel);
-	void InitiateVisualSlider();
+	///@brief Updating the health text to the player health
 	void UpdateHealthText() override;
 
-	bool GetIsGrounded() { return _isgrounded; }
+	// --- Variables --- //
+
+	///@brief Getter for the _isGrounded bool
+	///@return _isGrounded
+	bool GetIsGrounded() { return _isGrounded; }
 
 private:
-	Timer* _ascendTimer;
 
-	Timer* _attackingTimer;
+	// --- Functions --- //
 
-	Timer* _waitingTimer;
-
-	Timer* _multipleProjectileTimer;
-
-	int _jumpAttacksHit = 0;
-	bool _shouldFall;
-	bool _isgrounded;
-	bool _completedMash = false;
-
-	int _attackType;
-	int _actionKey;
-
-	float _projectileChargeStored = 0.0f; //the amount of 'charge' stored
-	float _projectileChargeGain = 0.25f; //the amount of 'charge' gained
-	float _projectileChargeMax = 3.0f; //the maximum amount of 'charge' 1 projectile will be spawned per full number
-
-
-	float _gravity = 5000.0f;
-
-	glm::vec3 _velocity = glm::vec3(0,0,0);
-
+	///@brief Applies the velocity and gravity to the player
+	///@param float deltaTime
 	void Move(float deltaTime);
-	void Jump(float jumpForcefloat, float jumpforceMultiplier);
+
+	///@brief Launch upwards from your current position
+	///@param float jumpForce, the force that will be applied to the velocity
+	///@param float jumpforceMultiplier, the multiplier of jumpForce
+	void Jump(float jumpForce, float jumpforceMultiplier);
+
+	///@brief Gives the player the ability to jump
+	///@param deltaTime
+	void EnableJump(float deltaTime); 
+
+	///@brief Handles what the player should do if it is touching the ground
 	void GroundCheck();
 
+	///@brief Handles the command window
+	void SelectBlock();
+
+	///@brief Handles the the selected action chosen by the player
+	void HandleAction(); 
+
+	///@brief Handles what the projectile should do when hitting its target
+	void HandleProjectileAction() override;
+
+	///@brief Enabling jump method
+	///@param int attackLevel, the type of attack that will be performed
+	void PerformAttack(int attackLevel);
+
+	///@brief Basic function for dealing damage
+	///@param int damage for the amount of damage dealt, 
+	///@param GameEntity* target for who recieves the damage
+	void BasicAttack(int damage, GameEntity* target);
+
+	///@brief Sets up the punch attack for this player towards the target
+	///@param GameEntity* target for who recieves the damage
+	void PunchAttack(GameEntity* target);
+
+	///@brief Sets up the jump attack for this player towards the target
+	///@param GameEntity* target for who recieves the damage
+	void JumpAttack(GameEntity* target);
+
+	///@brief Sets up the projectile attack for this player towards the target
+	///@param GameEntity* target for who recieves the damage
+	void MashProjectileAttack(GameEntity* target);
+
+	///@brief Sets up the dash attack for this player towards the target
+	///@param GameEntity* target for who recieves the damage
+	void DashAttack(GameEntity* target);
+
+	///@brief Handles how the punch will be performed
+	///@param float deltaTime
+	void HandlePunch(float deltaTime);
+
+	///@brief Handles how the jump will be performed
+	///@param float deltaTime
+	void HandleJumpAttack(float deltaTime);
+
+	///@brief Handles the properties of the projectile before creating it
+	void HandleProjectileMash();
+
+	///@brief Handles how the dash attack will be performed
+	///@param float deltaTime
+	void HandleDashAttack(float deltaTime);
+
+	///@brief Use the item based on the index in the _items vector
+	///@param int index, the index in the _items vector
 	void UseItem(int index) override;
 
+	///@brief Check which attack was chosen in the command window
+	///@param float deltaTime, to wait and update the _waitingTimer
 	void SwitchAttackType(float deltaTime);
+
+	///@brief Handles how the player acts when it is the players' turn choosing
 	void HandleChoosing();
 
+	///@brief Initiating the visual slider. This slider will follow you and show you how strong your attack is
+	void InitiateVisualSlider();
+
+
+	///@brief Clears the HUD like the actionblock, visual slider and command window
 	void ClearHUD();
+
+	///@brief Reset the player state to idle for the next turn or attack
 	void ResetToIdle();
 
+	// --- Variables --- //
+
+	///@brief Visual Slider to display the attacks strength
 	VisualSlider* _visualSlider;
+
+	///@brief Action block for the player to choose actions
 	ActionBlock* _actionBlock;
+
+	///@brief Timer to check if you should ascend after jumping
+	Timer* _ascendTimer;
+
+	///@brief Timer to check how far along specific attacks you are
+	Timer* _attackingTimer;
+
+	///@brief Timer to check if the action should already be performed or not
+	Timer* _waitingTimer;
+
+	///@brief Check how many times the player has jumped on the enemy
+	int _jumpAttacksHit = 0;
+
+	///@brief Check if the player should fall
+	bool _shouldFall;
+
+	///@brief Check if the player is grounded
+	bool _isGrounded;
+
+	///@brief Check if the player is performing an attack
+	bool _isCharging;
+
+	///@brief See what type of attack the player should perform
+	int _attackType;
+
+	///@brief The ASCII KeyCode for the player to perform actions
+	int _actionKey;
+
+	///@brief The amount of energy you gained
+	double _energyStored = 0.0;
+
+	///@brief The amount of energy you gain from a single charge
+	double _energyGain = 0.25;
+
+	///@brief The for the maximum amount of energy
+	double _energyMax = 3.0;
+
+	///@brief Gravity, the downwards force
+	float _gravity = 5000.0f;
+
+	/// @brief The velocity of the player
+	glm::vec3 _velocity = glm::vec3(0,0,0);
 };
 
 #endif // PLAYER_H 
