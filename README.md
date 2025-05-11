@@ -11,7 +11,9 @@ Controls:
 
 - W,A,S,D to navigate through your action blocks and command window. (A and D for Left and Right with the action blocks, W and S for Up and Down in the command window and enemy choosing)
 
-- K,J To control the players action. (K for the actions of the top player, player 1. J for the actions of the bottom player, player 2)
+- Q,E To control the players action. (Q for the actions of the top player, player 1. E for the actions of the bottom player, player 2)
+
+- [TAB] to go back out of command window choosing
 
 Compiling
 ---------

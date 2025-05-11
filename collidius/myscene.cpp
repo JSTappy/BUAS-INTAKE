@@ -29,7 +29,7 @@ MyScene::MyScene() : Scene()
 	_player1->UpdateHealthText();
 	_player1->position = glm::vec3(400.0f, 300.0f, 0.0f);
 	_player1->SetStartPos();
-	_player1->AssignActionKey(KEY_K);
+	_player1->AssignActionKey(KEY_Q);
 	_layer2->AddChild(_player1);
 	gameEntities.push_back(_player1);
 
@@ -39,7 +39,7 @@ MyScene::MyScene() : Scene()
 	_player2->UpdateHealthText();
 	_player2->position = glm::vec3(250.0f, 500.0f, 0.0f);
 	_player2->SetStartPos();
-	_player2->AssignActionKey(KEY_J);
+	_player2->AssignActionKey(KEY_E);
 	_layer2->AddChild(_player2);
 	gameEntities.push_back(_player2);
 
