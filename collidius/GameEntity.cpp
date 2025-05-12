@@ -97,7 +97,7 @@ void GameEntity::DealDamage(GameEntity* target, double multiplier)
 	}
 	else if (IsCriticalHit(this->_criticalChance))
 	{
-		target->health -= attackStat * 2 - target->defense - ((attackStat - target->defense) * target->GetDamageReduction());
+		target->health -= attackStat * 1.5 - target->defense - ((attackStat - target->defense) * target->GetDamageReduction());
 		isCriticalHit = true;
 	}
 	else
