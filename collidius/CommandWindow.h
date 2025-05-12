@@ -57,13 +57,6 @@ private:
 		"Boost your speed at the cost of power!",
 		"Trade off 50% HP for twice the power!"
 	};
-	std::vector<const char*> _specialStrings
-	{
-		"Perform a combo attack between players!",
-		"Increase crit chance by 10% for 20% power!",
-		"When having more than 50% HP, Sacrifice yourself for tons of damage!",
-		"At the cost of 80% HP, multiply your critical chance by 4!",
-	};
 
 	void SnapArrowToEntity(MyEntity* entity);
 	void ShowActionProperty();

@@ -32,7 +32,6 @@ private:
 	std::string _attackSprite = ("assets/sprites/attacksprite.tga");
 	std::string _defendSprite = ("assets/sprites/defendsprite.tga");
 	std::string _itemSprite = ("assets/sprites/itemsprite.tga");
-	std::string _specialSprite = ("assets/sprites/specialsprite.tga");
 
 	std::vector<std::string> _actionBlocks;
 

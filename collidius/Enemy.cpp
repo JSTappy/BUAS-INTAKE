@@ -31,11 +31,11 @@ void Enemy::Update(float deltaTime)
 				_starIndicator->position -= glm::vec3(0, 128.0f, 0) * deltaTime;
 			}
 			if (_waitingTimer->GetSeconds() <= 1.0f && _waitingTimer->isPlaying)return;
-			if (!_shotsFired)
+			if (!_attackPerformed)
 			{
 				_waitingTimer->StopTimer();
 				ProjectileAttack(_target);
-				_shotsFired = true;
+				_attackPerformed = true;
 				return;
 			}
 			if (_projectiles.size() > 0)
@@ -59,7 +59,7 @@ void Enemy::Update(float deltaTime)
 			_waitingTimer->StartOverTimer();
 			gameEntityState = attacking;
 			_target = TurnManager::Instance()->GetRandomPlayer();
-			_shotsFired = false;
+			_attackPerformed = false;
 			_starIndicator = new MyEntity();
 			_starIndicator->SetSprite("assets/sprites/starindicator.tga");
 			this->AddChild(_starIndicator);

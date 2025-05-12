@@ -4,8 +4,7 @@ ActionBlock::ActionBlock()
 {
 	_actionBlocks.push_back(_attackSprite);
 	_actionBlocks.push_back(_defendSprite);
-	_actionBlocks.push_back(_itemSprite);
-	_actionBlocks.push_back(_specialSprite);
+	_actionBlocks.push_back(_itemSprite);;
 	this->SetSprite(_attackSprite);
 	_spriteCounter = 0;
 	_commandWindowIsActive = false;
@@ -23,7 +22,7 @@ void ActionBlock::Update(float deltaTime)
 
 void ActionBlock::NextBlock()
 {
-	if (_spriteCounter >= 3)
+	if (_spriteCounter >= 2)
 	{
 		_spriteCounter = 0;
 		this->SetSprite(_actionBlocks[_spriteCounter]);
@@ -40,7 +39,7 @@ void ActionBlock::PreviousBlock()
 {
 	if (_spriteCounter <= 0)
 	{
-		_spriteCounter = 3;
+		_spriteCounter = 2;
 		this->SetSprite(_actionBlocks[_spriteCounter]);
 		std::cout << _spriteCounter << std::endl;
 		return;
@@ -77,8 +76,5 @@ void ActionBlock::CleanUp()
 
 glm::vec2 ActionBlock::ConfirmAction()
 {
-	//here will be the logic for multiple commands, but for now its a little simpler
-	//we need to know the selected action block, attack defend etc
-	//we also need to know the selected option if any
 	return glm::vec2(_spriteCounter, _commandWindow->GetSelectedAction());
 }

@@ -70,9 +70,6 @@ void CommandWindow::DisplayCommands(int action)
 			case 2: //item
 				e->text->text = "ITEM " + std::to_string(i + 1);
 				break;
-			case 3: //special
-				e->text->text = "SPECIAL " + std::to_string(i + 1);
-				break;
 		}
 		e->position.x = this->position.x;
 		e->position.y = ypos;
@@ -115,9 +112,6 @@ void CommandWindow::SnapArrowToEntity(MyEntity* entity)
 			break;
 		case 2:
 			TurnManager::Instance()->battleText->text = _itemStrings[_selectedActionCount];
-			break;
-		case 3:
-			TurnManager::Instance()->battleText->text = _specialStrings[_selectedActionCount];
 			break;
 	}
 }

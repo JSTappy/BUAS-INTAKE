@@ -93,7 +93,7 @@ protected:
 	int _criticalChance;
 
 	int _selectedEntityCount;
-	bool _shotsFired = false;
+	bool _attackPerformed = false;
 	bool _shouldDisplayHitboxes = false;
 
 	glm::vec3 ObtainNormalizedVector(glm::vec3 targetPosition);

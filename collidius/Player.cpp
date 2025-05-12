@@ -223,11 +223,6 @@ void Player::PerformDefenseAction(int defenseLevel)
 	}
 }
 
-void Player::BasicAttack(int damage, GameEntity* target)
-{
-	target->health -= damage; //basic
-}
-
 void Player::PunchAttack(GameEntity* target)
 {
 	//Set up the player for the attack
@@ -360,7 +355,7 @@ void Player::HandleProjectileMash()
 
 		//spawn projectile you fire at the opponent
 		this->FireProjectile(_target, 1, 1);
-		_shotsFired = true;
+		_attackPerformed = true;
 		if (this->health > this->GetMaxHealth() / 10) //take 10% damage standard
 		{
 			this->health -= this->GetMaxHealth() / 10;
@@ -374,28 +369,28 @@ void Player::HandleProjectileMash()
 	if (GetInput()->GetKeyDown(_actionKey)) //mash the action key to gain charge
 	{
 		_energyStored += 0.25;
-		_visualSlider->UpdateSliderSpriteOnClicks(0.25, _energyMax);
+		_visualSlider->UpdateSliderSpriteOnClicks(0.25, 3);
 	}
 }
 
 void Player::HandleDashAttack(float deltaTime)
 {
-	if (_attackingTimer->GetSeconds() > 2.0f) 
+	if (_attackingTimer->GetSeconds() > 2.0f)  //If you did nothing within 2 seconds
 	{
 		if (TurnManager::Instance()->battleText->text != "You Charged for too long...") { TurnManager::Instance()->battleText->text = "You Charged for too long..."; }
 		MoveTowardsPosition(_initialTargetVector, 600.0f, deltaTime); //Moving towards the enemy position
-		if (this->position.x + this->sprite->GetWidth() / 2.0f >= _target->position.x - _target->sprite->GetWidth() / 2.0f)
+		if (this->position.x + this->sprite->GetWidth() / 2.0f >= _target->position.x - _target->sprite->GetWidth() / 2.0f) //if the player hits the enemy
 		{
-			this->defense -= this->defense / 10;
+			this->defense -= this->defense / 10; //only substract defense from the player
 			TurnManager::Instance()->battleText->text = "Player defense - 10%";
-			DealDamage(_target, 0.01);
+			DealDamage(_target, 0.01); //deal little damage
 			ResetToIdle();
 		}
 		return;
 	}
-	if (_shotsFired)
+	if (_attackPerformed) //if the attack has been performed
 	{
-		if (_energyStored > 1)
+		if (_energyStored > 1) //Move faster towards the enemy with more charge
 		{
 			MoveTowardsPosition(_initialTargetVector, 400.0f * _energyStored, deltaTime); //Moving towards the enemy position
 		}
@@ -403,12 +398,13 @@ void Player::HandleDashAttack(float deltaTime)
 		{
 			MoveTowardsPosition(_initialTargetVector, 400.0f, deltaTime); //Moving towards the enemy position
 		}
-		if (this->position.x + this->sprite->GetWidth() / 2.0f >= _target->position.x - _target->sprite->GetWidth() / 2.0f)
+		if (this->position.x + this->sprite->GetWidth() / 2.0f >= _target->position.x - _target->sprite->GetWidth() / 2.0f) //If the player hits the enemy
 		{
+			//Substract both player and Enemy defenses
 			this->defense -= this->defense / 10;
 			_target->defense -= _target->defense / 10;
 			TurnManager::Instance()->battleText->text = "Player & enemy defense - 10%";
-			if (_energyStored > 2.25)
+			if (_energyStored > 2.25) //Cap out damage at 2.25 for balancing
 			{
 				DealDamage(_target, 2.25);
 				ResetToIdle();
@@ -419,12 +415,12 @@ void Player::HandleDashAttack(float deltaTime)
 		}
 		return;
 	}
-	if (GetInput()->GetKeyUp(_actionKey))
+	if (GetInput()->GetKeyUp(_actionKey)) //When the key is released after its been pressed / held down
 	{
-		_shotsFired = true;
+		_attackPerformed = true;
 		_attackingTimer->StopTimer();
 	}
-	if (GetInput()->GetKey(_actionKey))
+	if (GetInput()->GetKey(_actionKey)) //When holding the Key
 	{
 		_energyStored += 1.75 * deltaTime;
 		_visualSlider->UpdateSliderSpriteOnClicks(1.75 * deltaTime, 2.5);
@@ -440,7 +436,7 @@ void Player::UseItem(int index)
 		TurnManager::Instance()->battleText->text = "You do not have this item anymore! Pick something else";
 		return;
 	}
-	_items[index]->ApplyItem(this);
+	_items[index]->ApplyItem(this); //Use the item
 	TurnManager::Instance()->battleText->text = "You can use this item " + std::to_string(_items[index]->GetUses()) + " more time(s)";
 	ResetToIdle();
 }
@@ -460,7 +456,7 @@ void Player::SwitchAttackType(float deltaTime)
 			HandleJumpAttack(deltaTime); //Handle the jump attack
 			return;
 		case 2:
-			if (!_shotsFired) //If the player has not shot his shot yet
+			if (!_attackPerformed) //If the player has not shot his shot yet
 			{
 				HandleProjectileMash(); //Handle the projectile attack set up
 				return;
@@ -570,7 +566,7 @@ void Player::ResetToIdle()
 	TeleportToPosition(_startPos);
 
 	//Reset the projectile attack properties
-	_shotsFired = false;
+	_attackPerformed = false;
 	_energyStored = 0.0f;
 	_jumpAttacksHit = 0;
 

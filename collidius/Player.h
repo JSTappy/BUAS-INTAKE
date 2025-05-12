@@ -15,7 +15,7 @@
 class Player : public GameEntity
 {
 public:
-	///@brief Player Constructor
+	///@brief Player Constructor, the same as the GameEntity constructor
 	Player(int id, int level, float health, int power, int defense, int speed, float damageReduction, int criticalChance, int money, int experiencePoints);
 
 	///@brief Player Destructor
@@ -65,24 +65,19 @@ private:
 	///@brief Handles the command window
 	void SelectBlock();
 
-	///@brief Handles the the selected action chosen by the player
+	///@brief Handles the selected action chosen by the player
 	void HandleAction(); 
 
 	///@brief Handles what the projectile should do when hitting its target
 	void HandleProjectileAction() override;
 
-	///@brief Handles the attack to perform
+	///@brief Chooses the attack to perform
 	///@param int attackLevel, the type of attack that will be performed
 	void PerformAttack(int attackLevel);
 
-	///@brief Handles the defending action to perform
+	///@brief Chooses the defending action to perform
 	///@param int attackLevel, the type of attack that will be performed
 	void PerformDefenseAction(int defenseLevel);
-
-	///@brief Basic function for dealing damage
-	///@param int damage for the amount of damage dealt, 
-	///@param GameEntity* target for who recieves the damage
-	void BasicAttack(int damage, GameEntity* target);
 
 	///@brief Sets up the punch attack for this player towards the target
 	///@param GameEntity* target for who recieves the damage
@@ -128,7 +123,6 @@ private:
 
 	///@brief Initiating the visual slider. This slider will follow you and show you how strong your attack is
 	void InitiateVisualSlider();
-
 
 	///@brief Clears the HUD like the actionblock, visual slider and command window
 	void ClearHUD();
@@ -176,12 +170,6 @@ private:
 
 	///@brief The amount of energy you gained
 	double _energyStored = 0.0;
-
-	///@brief The amount of energy you gain from a single charge
-	double _energyGain = 0.25;
-
-	///@brief The for the maximum amount of energy
-	double _energyMax = 3.0;
 
 	///@brief Gravity, the downwards force
 	float _gravity = 5000.0f;
