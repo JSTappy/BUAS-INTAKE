@@ -23,7 +23,7 @@ MyScene::MyScene() : Scene()
 	_uiDisplay->position = glm::vec3(WIDTH / 2, HEIGHT - 64.0f, 0.0f);
 	_layer3->AddChild(_uiDisplay);
 	
-	_player1 = new Player(1, 1, 55, 40, 9, 44, 0.0f, 2, 200, 0);
+	_player1 = new Player(1, 1, 55, 40, 9, 44, 0.0f, 10, 200, 0);
 	_player1->SetSprite("assets/sprites/kchar.tga");
 	_player1->text = _uiDisplay->playerTextA;
 	_player1->UpdateHealthText();
@@ -33,7 +33,7 @@ MyScene::MyScene() : Scene()
 	_layer2->AddChild(_player1);
 	gameEntities.push_back(_player1);
 
-	_player2 = new Player(2, 1, 97, 35, 16, 36, 0.0f, 2, 200, 0);
+	_player2 = new Player(2, 1, 97, 35, 16, 36, 0.0f, 10, 200, 0);
 	_player2->SetSprite("assets/sprites/jchar.tga");
 	_player2->text = _uiDisplay->playerTextB;
 	_player2->UpdateHealthText();
@@ -43,8 +43,7 @@ MyScene::MyScene() : Scene()
 	_layer2->AddChild(_player2);
 	gameEntities.push_back(_player2);
 
-
-	_enemy = new Enemy(3, 1, 1000, 30, 15, 60, 0.0f, 2, 500, 16);
+	_enemy = new Enemy(3, 1, 1000, 30, 15, 60, 0.0f, 10, 500, 16);
 	_enemy->SetSprite("assets/sprites/gorilla.tga");
 	_enemy->text = _uiDisplay->enemyText;
 	_enemy->UpdateHealthText();
@@ -52,7 +51,6 @@ MyScene::MyScene() : Scene()
 	_enemy->SetStartPos();
 	_layer2->AddChild(_enemy);
 	gameEntities.push_back(_enemy);
-
 
 	for (int i = 0; i < gameEntities.size(); i++)
 	{
@@ -74,7 +72,7 @@ void MyScene::Update(float deltaTime)
 	if (_startTimer->GetSeconds() <= 2.0f && _startTimer->isPlaying) { return; }
 	if (!setupComplete) { TurnManager::Instance()->DecideTurnOrder(); _startTimer->StopTimer();  setupComplete = true; }
 
-	if (GetInput()->GetKeyDown(KEY_Q)) { TurnManager::Instance()->DisplayStats(); }
+	if (GetInput()->GetKeyDown(KEY_Z)) { TurnManager::Instance()->DisplayStats(); }
 	if (GetInput()->GetKeyDown(KEY_T))
 	{
 		displayHitboxes = !displayHitboxes;

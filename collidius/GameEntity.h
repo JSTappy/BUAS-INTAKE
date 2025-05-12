@@ -41,12 +41,14 @@ public:
 	bool choosingAction;
 	bool choosingCommand;
 	bool choosingTarget;
+	bool isCriticalHit;
 
 	int health;
 	int power;
 	int defense;
 	int speed;
 
+	bool IsCriticalHit(double critChancePercent);
 	int GetID() { return _id; }
 	int GetLevel(){ return _level; }
 	float GetDamageReduction() { return _damageReduction; }
@@ -80,6 +82,8 @@ protected:
 	virtual void FireProjectile(GameEntity* target, int amount, float interval);
 
 	virtual void UseItem(int index);
+
+
 
 	std::vector<Item*> _items;
 	GameEntity* _target;

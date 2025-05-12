@@ -77,23 +77,34 @@ double GameEntity::CalculateDefenseStat(double Defense, double DamageReduction)
 	return defenseOutput;
 }
 
+bool GameEntity::IsCriticalHit(double critChancePercent)
+{
+	double critChance = critChancePercent / 100.0;
+	double roll = static_cast<double>(rand()) / RAND_MAX;
+	return roll < critChance;
+}
+
 void GameEntity::DealDamage(GameEntity* target, double multiplier)
 {
 	int attackStat = CalculateAttackStat(this->power, multiplier);
-	int defenseStat = CalculateDefenseStat(target->defense, 0);
 	int hpBeforeAttack = 0;
 	int hpAfterAttack = 0;
 
 	hpBeforeAttack = target->health;
-	if (defenseStat >= attackStat)
+	if (target->defense >= attackStat)
 	{
 		target->health -= 1;
+	}
+	else if (IsCriticalHit(this->_criticalChance))
+	{
+		target->health -= attackStat * 2 - target->defense - ((attackStat - target->defense) * target->GetDamageReduction());
+		isCriticalHit = true;
 	}
 	else
 	{
 		//main calculation
 		//target->health -= ((attackStat /* * CritIfHit */)-(attackStat * target->GetDamageReduction()) - defenseStat);
-		target->health -= attackStat - defenseStat - ((attackStat - defenseStat) * target->GetDamageReduction());
+		target->health -= attackStat - target->defense - ((attackStat - target->defense) * target->GetDamageReduction());
 	}
 
 	hpAfterAttack = target->health;
@@ -216,11 +227,16 @@ void GameEntity::ShowDamage(GameEntity* target, int damageTaken)
 	{ 
 		_damageSpriteTimer->StartOverTimer();
 		_damageSprite->text->text = std::to_string(damageTaken); 
+		if (isCriticalHit)
+		{
+			_damageSprite->SetSprite("assets/sprites/critimpact.tga");
+			return;
+		}
+		_damageSprite->SetSprite("assets/sprites/impact.tga");
 		return;
 	}
 	_damageSprite = new MyEntity();
 	this->AddChild(_damageSprite);
-	_damageSprite->SetSprite("assets/sprites/impact.tga");
 	_damageSprite->position = target->GetStartPos() - glm::vec3(-128, 128, 0);
 	_damageSprite->text = new Text((char*)"assets/fonts/impact.ttf", 64);
 	_damageSprite->textComponents.push_back(_damageSprite->text);
@@ -229,6 +245,12 @@ void GameEntity::ShowDamage(GameEntity* target, int damageTaken)
 	_damageSprite->text->centered = true;
 	_damageSpriteTimer->StartTimer();
 	_damageSpriteTimer->isPlaying = true;
+	if (isCriticalHit)
+	{
+		_damageSprite->SetSprite("assets/sprites/critimpact.tga");
+		return;
+	}
+	_damageSprite->SetSprite("assets/sprites/impact.tga");
 }
 
 void GameEntity::UseItem(int index)

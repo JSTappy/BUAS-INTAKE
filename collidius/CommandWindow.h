@@ -59,10 +59,10 @@ private:
 	};
 	std::vector<const char*> _specialStrings
 	{
-		"Perform a combo attack between players that deals excellent damage",
-		"Perform a flashy attack that will deal supreme damage!"
-		"Sacrifice yourself for the cause, but deal colossoal Damage!",
-		"When on 77 HP, perform this to double both players power!",
+		"Perform a combo attack between players!",
+		"Perform a flashy attack with both players!"
+		"When having more than 50% HP, Sacrifice yourself for tons of damage!",
+		"At the cost of 80% HP, multiply your critical chance by 4!",
 	};
 
 	void SnapArrowToEntity(MyEntity* entity);
