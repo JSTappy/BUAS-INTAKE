@@ -35,8 +35,8 @@ private:
 
 	std::vector<std::string> _actionBlocks;
 
-	int _spriteCounter;
-	int _commandWindowIsActive;
+	char _spriteCounter;
+	bool _commandWindowIsActive;
 };
 
 #endif // ACTIONBLOCK_H 
