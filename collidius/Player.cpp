@@ -388,8 +388,7 @@ void Player::HandleDashAttack(float deltaTime)
 		{
 			this->defense -= this->defense / 10;
 			TurnManager::Instance()->battleText->text = "Player defense - 10%";
-			_target->health -= 1;
-			_target->UpdateHealthText();
+			DealDamage(_target, 0.01);
 			ResetToIdle();
 		}
 		return;
@@ -423,13 +422,12 @@ void Player::HandleDashAttack(float deltaTime)
 	if (GetInput()->GetKeyUp(_actionKey))
 	{
 		_shotsFired = true;
+		_attackingTimer->StopTimer();
 	}
-
 	if (GetInput()->GetKey(_actionKey))
 	{
-		TurnManager::Instance()->battleText->text = std::to_string(_energyStored);
 		_energyStored += 1.75 * deltaTime;
-		_visualSlider->UpdateSliderSpriteOnClicks(1.75 * deltaTime, 2.25);
+		_visualSlider->UpdateSliderSpriteOnClicks(1.75 * deltaTime, 2.5);
 	}
 }
 

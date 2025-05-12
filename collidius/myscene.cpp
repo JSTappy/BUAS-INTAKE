@@ -23,7 +23,7 @@ MyScene::MyScene() : Scene()
 	_uiDisplay->position = glm::vec3(WIDTH / 2, HEIGHT - 64.0f, 0.0f);
 	_layer3->AddChild(_uiDisplay);
 	
-	_player1 = new Player(1, 1, 55, 40, 9, 44, 0.0f, 10, 200, 0);
+	_player1 = new Player(1, 1, 74, 40, 9, 44, 0.0f, 10, 200, 0);
 	_player1->SetSprite("assets/sprites/kchar.tga");
 	_player1->text = _uiDisplay->playerTextA;
 	_player1->UpdateHealthText();
@@ -43,7 +43,7 @@ MyScene::MyScene() : Scene()
 	_layer2->AddChild(_player2);
 	gameEntities.push_back(_player2);
 
-	_enemy = new Enemy(3, 1, 1000, 30, 15, 60, 0.0f, 10, 500, 16);
+	_enemy = new Enemy(3, 1, 1063, 30, 15, 60, 0.0f, 10, 500, 16);
 	_enemy->SetSprite("assets/sprites/gorilla.tga");
 	_enemy->text = _uiDisplay->enemyText;
 	_enemy->UpdateHealthText();

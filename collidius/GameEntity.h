@@ -48,7 +48,7 @@ public:
 	int defense;
 	int speed;
 
-	bool IsCriticalHit(double critChancePercent);
+	bool IsCriticalHit();
 	int GetID() { return _id; }
 	int GetLevel(){ return _level; }
 	float GetDamageReduction() { return _damageReduction; }

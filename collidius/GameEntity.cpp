@@ -77,9 +77,9 @@ double GameEntity::CalculateDefenseStat(double Defense, double DamageReduction)
 	return defenseOutput;
 }
 
-bool GameEntity::IsCriticalHit(double critChancePercent)
+bool GameEntity::IsCriticalHit()
 {
-	double critChance = critChancePercent / 100.0;
+	double critChance = _criticalChance / 100.0;
 	double roll = static_cast<double>(rand()) / RAND_MAX;
 	return roll < critChance;
 }
@@ -94,8 +94,10 @@ void GameEntity::DealDamage(GameEntity* target, double multiplier)
 	if (target->defense >= attackStat)
 	{
 		target->health -= 1;
+		isCriticalHit = false;
+
 	}
-	else if (IsCriticalHit(this->_criticalChance))
+	else if(IsCriticalHit())
 	{
 		target->health -= attackStat * 1.5 - target->defense - ((attackStat - target->defense) * target->GetDamageReduction());
 		isCriticalHit = true;
@@ -105,6 +107,7 @@ void GameEntity::DealDamage(GameEntity* target, double multiplier)
 		//main calculation
 		//target->health -= ((attackStat /* * CritIfHit */)-(attackStat * target->GetDamageReduction()) - defenseStat);
 		target->health -= attackStat - target->defense - ((attackStat - target->defense) * target->GetDamageReduction());
+		isCriticalHit = false;
 	}
 
 	hpAfterAttack = target->health;
