@@ -48,10 +48,10 @@ void CommandWindow::HandleActionChoosing()
 	}
 }
 
-void CommandWindow::DisplayCommands(int action)
+void CommandWindow::DisplayCommands(unsigned char action)
 {
 	_actionType = action;
-	int ypos = 78;
+	unsigned short ypos = 78;
 	for (int i = 0; i < 4; i++)
 	{
 		MyEntity* e = new MyEntity();
@@ -73,7 +73,7 @@ void CommandWindow::DisplayCommands(int action)
 		}
 		e->position.x = this->position.x;
 		e->position.y = ypos;
-		e->scale = glm::vec3(1.0f, 1.0f, 0.0f);
+		e->scale = glm::vec3(1, 1, 0);
 		this->AddChild(e);
 		_actions.push_back(e);
 		e->textComponents.push_back(e->text);
@@ -116,14 +116,9 @@ void CommandWindow::SnapArrowToEntity(MyEntity* entity)
 	}
 }
 
-void CommandWindow::ShowActionProperty() 
-{
-	//TODO show text in the panel on the bottom screen
-}
-
 void CommandWindow::CleanUp()
 {
-	for (int i = 0; i < _actions.size(); i++)
+	for (size_t i = 0; i < _actions.size(); i++)
 	{
 		this->RemoveChild(_actions[i]);
 		_actions.erase(_actions.begin() + i);

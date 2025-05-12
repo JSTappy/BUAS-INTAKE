@@ -1,12 +1,12 @@
 #include "Enemy.h" 
 #include "TurnManager.h" 
 
-Enemy::Enemy(int id, int level, int health, int power, int defense, int speed, float damageReduction, int criticalChance, int money, int experiencePoints)
-	: GameEntity(id, level, health, power, defense, speed, damageReduction, criticalChance, money, experiencePoints) // Call the GameEntity constructor
+Enemy::Enemy(unsigned char id, short health, unsigned char power, unsigned char defense, unsigned char speed, float damageReduction, unsigned char criticalChance)
+	: GameEntity(id,health,power,defense,speed,damageReduction,criticalChance) // Call the GameEntity constructor
 {
 	_attackingTimer = new Timer();
 	_attackingTimer->StopTimer();
-	hitBox->scale = glm::vec3(2.0f,2.0f,0.0f);
+	hitBox->scale = glm::vec3(2,2,0);
 }
 
 Enemy::~Enemy()
@@ -24,13 +24,13 @@ void Enemy::Update(float deltaTime)
 			_starIndicator->rotation += 5 * deltaTime;
 			if (_starIndicator->scale.x >= 0)
 			{
-				_starIndicator->scale -= 1.5 * deltaTime;
+				_starIndicator->scale -= 1.5f * deltaTime;
 			}
 			if (_target->GetID() == 1) 
 			{
-				_starIndicator->position -= glm::vec3(0, 128.0f, 0) * deltaTime;
+				_starIndicator->position -= glm::vec3(0, 128, 0) * deltaTime;
 			}
-			if (_waitingTimer->GetSeconds() <= 1.0f && _waitingTimer->isPlaying)return;
+			if (_waitingTimer->GetSeconds() <= 1 && _waitingTimer->isPlaying)return;
 			if (!_attackPerformed)
 			{
 				_waitingTimer->StopTimer();
@@ -40,7 +40,7 @@ void Enemy::Update(float deltaTime)
 			}
 			if (_projectiles.size() > 0)
 			{
-				for (int i = 0; i < _projectiles.size(); i++)
+				for (size_t i = 0; i < _projectiles.size(); i++)
 				{
 					HandleProjectileCollision(_projectiles[i], _target);
 				}
@@ -63,13 +63,13 @@ void Enemy::Update(float deltaTime)
 			_starIndicator = new MyEntity();
 			_starIndicator->SetSprite("assets/sprites/starindicator.tga");
 			this->AddChild(_starIndicator);
-			_starIndicator->scale = glm::vec3(1.5, 1.5, 0);
+			_starIndicator->scale = glm::vec3(1.5f, 1.5f, 0);
 			if (_target->GetID() == 1)
 			{
-				_starIndicator->position = this->position - glm::vec3(32.0f,32.0f,0);
+				_starIndicator->position = this->position - glm::vec3(32,32,0);
 				return;
 			}
-			_starIndicator->position = this->position - glm::vec3(-4.0f, 32.0f, 0);
+			_starIndicator->position = this->position - glm::vec3(-4, 32, 0);
 			return;
 		case defending:
 			//for now do nothing
@@ -84,14 +84,14 @@ void Enemy::UpdateHealthText()
 	this->text->text = "Enemy: " + std::to_string(this->GetID()) + " HP: " + std::to_string(health) + " / " + std::to_string(_maxHealth);
 }
 
-void Enemy::PerformAttack(int attackLevel)
+void Enemy::PerformAttack(unsigned char attackLevel)
 {
 	BasicAttack(power, _target);
 	completedTurn = true;
 	this->gameEntityState = idle;
 }
 
-void Enemy::BasicAttack(int damage, GameEntity* target)
+void Enemy::BasicAttack(char damage, GameEntity* target)
 {
 	_target = target;
 	DealDamage(_target, 1);
@@ -104,13 +104,13 @@ void Enemy::ProjectileAttack(GameEntity* target)
 	TurnManager::Instance()->battleText->text = "WATCH OUT!";
 }
 
-void Enemy::FireProjectile(GameEntity* target, int amount, float interval)
+void Enemy::FireProjectile(GameEntity* target, unsigned char amount, float interval)
 {
 	//make eye shine corresponding to the player position
 	_target = target;
 	bool randomBool = rand() % 2;
-	Projectile* projectile = new Projectile(this->position, 700.0f, _shouldDisplayHitboxes); //should jump
-	projectile->scale = glm::vec3(2.0f, 2.0f, 0.0f);
+	Projectile* projectile = new Projectile(this->position, 700, _shouldDisplayHitboxes); //should jump
+	projectile->scale = glm::vec3(2, 2, 0);
 	this->AddChild(projectile);
 	_projectiles.push_back(projectile);
 	std::cout << "Projectile targetting: " << _target->GetID() << std::endl;

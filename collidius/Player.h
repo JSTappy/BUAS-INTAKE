@@ -16,7 +16,7 @@ class Player : public GameEntity
 {
 public:
 	///@brief Player Constructor, the same as the GameEntity constructor
-	Player(int id, int level, float health, int power, int defense, int speed, float damageReduction, int criticalChance, int money, int experiencePoints);
+	Player(unsigned char id, short health, unsigned char power, unsigned char defense, unsigned char speed, float damageReduction, unsigned char criticalChance);
 
 	///@brief Player Destructor
 	virtual ~Player();
@@ -28,8 +28,8 @@ public:
 	virtual void Update(float deltaTime) override;
 
 	///@brief Assigns the actionKey to the player. This will be the button that this specific player will use to perform actions
-	///@param int actionKey
-	void AssignActionKey(int actionKey);
+	///@param unsigned char actionKey
+	void AssignActionKey(unsigned char actionKey);
 
 	///@brief Updating the health text to the player health
 	void UpdateHealthText() override;
@@ -40,7 +40,7 @@ public:
 
 	///@brief Getter for the _turnsToSkip bool
 	///@return _turnsToSkip
-	int GetTurnsToSkip() { return _turnsToSkip; }
+	unsigned char GetTurnsToSkip() { return _turnsToSkip; }
 
 private:
 
@@ -73,11 +73,11 @@ private:
 
 	///@brief Chooses the attack to perform
 	///@param int attackLevel, the type of attack that will be performed
-	void PerformAttack(int attackLevel);
+	void PerformAttack(unsigned char attackLevel);
 
 	///@brief Chooses the defending action to perform
 	///@param int attackLevel, the type of attack that will be performed
-	void PerformDefenseAction(int defenseLevel);
+	void PerformDefenseAction(unsigned char defenseLevel);
 
 	///@brief Sets up the punch attack for this player towards the target
 	///@param GameEntity* target for who recieves the damage
@@ -111,8 +111,8 @@ private:
 	void HandleDashAttack(float deltaTime);
 
 	///@brief Use the item based on the index in the _items vector
-	///@param int index, the index in the _items vector
-	void UseItem(int index) override;
+	///@param char index, the index in the _items vector
+	void UseItem(unsigned char index) override;
 
 	///@brief Check which attack was chosen in the command window
 	///@param float deltaTime, to wait and update the _waitingTimer
@@ -157,22 +157,22 @@ private:
 	bool _isCharging;
 
 	///@brief Check how many turns need to be skipped
-	int _turnsToSkip;
+	unsigned char _turnsToSkip;
 
 	///@brief Check how many times the player has jumped on the enemy
-	int _jumpAttacksHit = 0;
+	unsigned char _jumpAttacksHit = 0;
 
 	///@brief See what type of attack the player should perform
-	int _attackType;
+	unsigned char _attackType;
 
 	///@brief The ASCII KeyCode for the player to perform actions
-	int _actionKey;
+	unsigned char _actionKey;
 
 	///@brief The amount of energy you gained
-	double _energyStored = 0.0;
+	float _energyStored = 0;
 
 	///@brief Gravity, the downwards force
-	float _gravity = 5000.0f;
+	float _gravity = 5000;
 
 	/// @brief The velocity of the player
 	glm::vec3 _velocity = glm::vec3(0,0,0);

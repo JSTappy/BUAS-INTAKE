@@ -10,7 +10,7 @@ class VisualSlider : public MyEntity
 {
 public:
 	/// @brief constructor
-	VisualSlider(int playerID);
+	VisualSlider(unsigned char playerID);
 
 	/// @brief destructor
 	virtual ~VisualSlider();
@@ -23,16 +23,15 @@ public:
 	void InitVisuals();
 	void UpdateSliderSpriteOnTime(float attackCharge);
 	void UpdateSliderSpriteOnClicks(float attackCharge, float attackMax);
-	void SetAttacker(int playerIndex);
 
 	void ClearFill();
 private:
-	int _playerId;
-	bool _perfectTiming;
-	MyEntity* _fill;
-	MyEntity* _playerKey;
+	unsigned char _playerId;
+	bool _perfectTiming = false;
+	MyEntity* _fill = nullptr;
+	MyEntity* _playerKey = nullptr;
 
-	float _fillScaleAmount = 0.0f;
+	float _fillScaleAmount = 0;
 	std::string _player1Sprite = ("assets/sprites/k.tga");
 	std::string _player2Sprite = ("assets/sprites/j.tga");
 };

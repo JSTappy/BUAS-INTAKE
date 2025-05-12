@@ -10,20 +10,20 @@ class Item
 {
 public:
 	/// @brief constructor
-	Item(int itemType, int uses);//item type, amount of items
+	Item(char itemType, char uses);//item type, amount of items
 
 	/// @brief destructor
 	virtual ~Item();
 
 	void ApplyItem(GameEntity* target);
 
-	int GetUses() { return _uses; }
+	char GetUses() { return _uses; }
 
 
 
 private:
-	int _itemType;
-	int _uses;
+	char _itemType;
+	char _uses;
 };
 
 #endif // VISUALSLIDER_H 

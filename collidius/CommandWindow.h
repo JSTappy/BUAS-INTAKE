@@ -23,9 +23,9 @@ public:
 	virtual void Update(float deltaTime); //update
 
 	void HandleActionChoosing();
-	void DisplayCommands(int action);
+	void DisplayCommands(unsigned char action);
 
-	int GetSelectedAction() { return _selectedActionCount; }
+	unsigned char GetSelectedAction() { return _selectedActionCount; }
 
 	void CleanUp();
 
@@ -33,8 +33,8 @@ private:
 	MyEntity* _arrow;
 	std::vector<MyEntity*> _actions;
 
-	int _selectedActionCount;
-	int _actionType;
+	unsigned char _selectedActionCount;
+	unsigned char _actionType;
 
 	std::vector<const char*> _attackStrings
 	{
@@ -59,7 +59,6 @@ private:
 	};
 
 	void SnapArrowToEntity(MyEntity* entity);
-	void ShowActionProperty();
 };
 
 #endif // COMMANDWINDOW_H 

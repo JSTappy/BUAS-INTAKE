@@ -10,7 +10,7 @@ MyScene::MyScene() : Scene()
 	this->AddChild(_startTimer);
 	_layer1 = new MyEntity();
 	_layer1->SetSprite("assets/sprites/bg.tga");
-	_layer1->position = glm::vec3(WIDTH / 2, HEIGHT / 2, 0.0f);
+	_layer1->position = glm::vec3(WIDTH / 2, HEIGHT / 2, 0);
 	_layer2 = new MyEntity();
 	_layer3 = new MyEntity();
 
@@ -20,39 +20,39 @@ MyScene::MyScene() : Scene()
 
 	_uiDisplay = new UIWindow();
 	_uiDisplay->SetSprite("assets/sprites/uimockup.tga");
-	_uiDisplay->position = glm::vec3(WIDTH / 2, HEIGHT - 64.0f, 0.0f);
+	_uiDisplay->position = glm::vec3(WIDTH / 2, HEIGHT - 64, 0.0f);
 	_layer3->AddChild(_uiDisplay);
 	
-	_player1 = new Player(1, 1, 74, 40, 9, 44, 0.0f, 10, 200, 0);
+	_player1 = new Player(1, 74, 40, 9, 44, 0, 10);
 	_player1->SetSprite("assets/sprites/kchar.tga");
 	_player1->text = _uiDisplay->playerTextA;
 	_player1->UpdateHealthText();
-	_player1->position = glm::vec3(400.0f, 300.0f, 0.0f);
+	_player1->position = glm::vec3(400, 300, 0);
 	_player1->SetStartPos();
 	_player1->AssignActionKey(KEY_Q);
 	_layer2->AddChild(_player1);
 	gameEntities.push_back(_player1);
 
-	_player2 = new Player(2, 1, 97, 35, 16, 36, 0.0f, 10, 200, 0);
+	_player2 = new Player(2, 97, 35, 16, 36, 0, 10);
 	_player2->SetSprite("assets/sprites/jchar.tga");
 	_player2->text = _uiDisplay->playerTextB;
 	_player2->UpdateHealthText();
-	_player2->position = glm::vec3(250.0f, 500.0f, 0.0f);
+	_player2->position = glm::vec3(250, 500, 0);
 	_player2->SetStartPos();
 	_player2->AssignActionKey(KEY_E);
 	_layer2->AddChild(_player2);
 	gameEntities.push_back(_player2);
 
-	_enemy = new Enemy(3, 1, 1063, 30, 15, 60, 0.0f, 10, 500, 16);
+	_enemy = new Enemy(3, 1063, 30, 15, 60, 0, 10);
 	_enemy->SetSprite("assets/sprites/gorilla.tga");
 	_enemy->text = _uiDisplay->enemyText;
 	_enemy->UpdateHealthText();
-	_enemy->position = glm::vec3(950.0f, 360.0f, 0.0f);
+	_enemy->position = glm::vec3(950, 360, 0);
 	_enemy->SetStartPos();
 	_layer2->AddChild(_enemy);
 	gameEntities.push_back(_enemy);
 
-	for (int i = 0; i < gameEntities.size(); i++)
+	for (size_t i = 0; i < gameEntities.size(); i++)
 	{
 		TurnManager::Instance()->AddGameEntities(gameEntities[i]);
 	}
@@ -69,19 +69,19 @@ MyScene::~MyScene()
 
 void MyScene::Update(float deltaTime)
 {
-	if (_startTimer->GetSeconds() <= 2.0f && _startTimer->isPlaying) { return; }
+	if (_startTimer->GetSeconds() <= 2 && _startTimer->isPlaying) { return; }
 	if (!setupComplete) { TurnManager::Instance()->DecideTurnOrder(); _startTimer->StopTimer();  setupComplete = true; }
 
 	if (GetInput()->GetKeyDown(KEY_Z)) { TurnManager::Instance()->DisplayStats(); }
 	if (GetInput()->GetKeyDown(KEY_T))
 	{
 		displayHitboxes = !displayHitboxes;
-		for (int i = 0; i < gameEntities.size(); i++)
+		for (size_t i = 0; i < gameEntities.size(); i++)
 		{
 			gameEntities[i]->ToggleHitboxDisplay(displayHitboxes);
 		}
 	}
-	for (int i = 0; i < gameEntities.size(); i++)
+	for (size_t i = 0; i < gameEntities.size(); i++)
 	{
 		if (gameEntities[i]->health <= 0)
 		{

@@ -14,7 +14,7 @@ TurnManager::~TurnManager()
 
 void TurnManager::Init()
 {
-	for (int i = 0; i < _gameEntities.size(); i++)
+	for (size_t i = 0; i < _gameEntities.size(); i++)
 	{
 		if (Player* player = dynamic_cast<Player*>(_gameEntities[i]))
 		{
@@ -44,8 +44,8 @@ void TurnManager::Update(float deltaTime)
 
 void TurnManager::DecideTurnOrder()
 {
-	int lastSpeed = 0;
-	for (int i = 0; i < _gameEntities.size(); i++)
+	unsigned char lastSpeed = 0;
+	for (size_t i = 0; i < _gameEntities.size(); i++)
 	{
 		if (_gameEntities[i]->speed > lastSpeed)
 		{
@@ -65,9 +65,9 @@ void TurnManager::DecideTurnOrder()
 
 void TurnManager::DecideNextInTurn()
 {
-	int completedTurnEntities = 0;
-	int lastSpeed = 0;
-	for (int i = 0; i < _gameEntities.size(); i++)
+	unsigned char completedTurnEntities = 0;
+	unsigned char lastSpeed = 0;
+	for (size_t i = 0; i < _gameEntities.size(); i++)
 	{
 		if (_gameEntities[i]->completedTurn)
 		{
@@ -94,9 +94,9 @@ void TurnManager::DecideNextInTurn()
 void TurnManager::GiveTurnToNext()
 {
 	if (_waitingTimer->GetSeconds() <= 0.75f) return;
-	for (int i = 0; i < _players.size(); i++) { if (!_players[i]->GetIsGrounded()) return; }
+	for (size_t i = 0; i < _players.size(); i++) { if (!_players[i]->GetIsGrounded()) return; }
 	_waitingTimer->StopTimer();
-	for (int i = 0; i < _gameEntities.size(); i++) 
+	for (size_t i = 0; i < _gameEntities.size(); i++)
 	{
 		_gameEntities[i]->gameEntityState = _gameEntities[i]->idle;
 	}
@@ -116,16 +116,15 @@ void TurnManager::AddGameEntities(GameEntity* ge)
 
 void TurnManager::DisplayStats()
 {
-	battleText->text = "Game Entity ID: " + std::to_string(_nextInTurn->GetID());
+	battleText->text = "Game Entity ID: " + std::to_string(static_cast<unsigned int>(_nextInTurn->GetID()));
 	std::cout << "######################################################################### " << std::endl;
-	std::cout << "Game Entity ID: " << _nextInTurn->GetID() << std::endl;
-	std::cout << "Level: " << _nextInTurn->GetLevel() << std::endl;
+	std::cout << "Game Entity ID: " << std::to_string(static_cast<unsigned int>(_nextInTurn->GetID())) << std::endl;
 	std::cout << "Health: " << _nextInTurn->health << std::endl;
-	std::cout << "Power: " << _nextInTurn->power << std::endl;
-	std::cout << "Defense: " << _nextInTurn->defense << std::endl;
-	std::cout << "Speed: " << _nextInTurn->speed << std::endl;
+	std::cout << "Power: " << std::to_string(static_cast<unsigned int>(_nextInTurn->power)) << std::endl;
+	std::cout << "Defense: " << std::to_string(static_cast<unsigned int>(_nextInTurn->defense)) << std::endl;
+	std::cout << "Speed: " << std::to_string(static_cast<unsigned int>(_nextInTurn->speed)) << std::endl;
 	std::cout << "Damage reduction: " << _nextInTurn->GetDamageReduction() * 100 << "%" << std::endl;
-	std::cout << "Critical chance: " << _nextInTurn->GetCriticalChance() << "%" << std::endl;
+	std::cout << "Critical chance: " << std::to_string(static_cast<unsigned int>(_nextInTurn->GetCriticalChance())) << "%" << std::endl;
 	std::cout << "######################################################################### " << std::endl;
 }
 
@@ -151,20 +150,22 @@ Player* TurnManager::GetRandomPlayer()
 {
 	if (_players.size() != 0)
 	{
-		int randomPlayer = rand() % _players.size();
+		unsigned char randomPlayer = rand() % _players.size();
 		std::cout << randomPlayer << std::endl;
 		return _players[randomPlayer];
 	}
+	return nullptr;
 }
 
 Enemy* TurnManager::GetRandomEnemy()
 {
 	if (_enemies.size() != 0)
 	{
-		int randomEnemy = rand() % _enemies.size();
+		unsigned char randomEnemy = rand() % _enemies.size();
 		std::cout << randomEnemy << std::endl;
 		return _enemies[randomEnemy];
 	}
+	return nullptr;
 }
 
 TurnManager* TurnManager::Instance() //for instansiating the input manager (only happens once)

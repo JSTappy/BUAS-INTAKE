@@ -1,7 +1,7 @@
 #include "Item.h" 
 #include "GameEntity.h" 
 
-Item::Item(int itemType, int uses)
+Item::Item(char itemType, char uses)
 {
 	_uses = uses;
 	_itemType = itemType;
@@ -41,7 +41,7 @@ void Item::ApplyItem(GameEntity* target)
 			return;
 		case 3: //more power at the cost of HP 50%
 			target->power += target->power / 2;
-			if ((target->health) >= target->GetMaxHealth() / 2)
+			if ((target->health) > target->GetMaxHealth() / 2)
 			{
 				target->health -= (target->GetMaxHealth() / 2);
 				std::cout << "Helth higher lowl"  << std::endl;

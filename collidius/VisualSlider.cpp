@@ -1,10 +1,9 @@
 #include "VisualSlider.h" 
 
-VisualSlider::VisualSlider(int playerID)
+VisualSlider::VisualSlider(unsigned char playerID)
 {
-	_fill = nullptr;
-	_perfectTiming = false;
 	_playerId = playerID;
+	InitVisuals();
 }
 
 VisualSlider::~VisualSlider()
@@ -18,7 +17,7 @@ void VisualSlider::InitVisuals()
 	_fill->SetSprite("assets/sprites/sliderfill.tga");
 	_fill->position = this->position;
 	_fill->scale = this->scale;
-	_fill->scale.x = 0.0f;
+	_fill->scale.x = 0;
 	this->AddChild(_fill);
 	_playerKey = new MyEntity();
 	if (_playerId == 1)
@@ -30,8 +29,8 @@ void VisualSlider::InitVisuals()
 		_playerKey->SetSprite(_player2Sprite);
 	}
 	_playerKey->position = this->position;
-	_playerKey->position.y -= 100.0f;
-	_playerKey->scale = glm::vec3(2.0f, 2.0f, 0.0f);
+	_playerKey->position.y -= 100;
+	_playerKey->scale = glm::vec3(2, 2, 0);
 	this->AddChild(_playerKey);
 }
 
@@ -49,13 +48,13 @@ void VisualSlider::Update(float deltaTime)
 {
 	_fill->position = this->position;
 	_playerKey->position.x = this->position.x;
-	_playerKey->position.y = this->position.y - 100.0f;
+	_playerKey->position.y = this->position.y - 100;
 }
 
 void VisualSlider::UpdateSliderSpriteOnTime(float attackCharge)
 {
 	if (_perfectTiming) return;
-	if (_fill->scale.x >= 1.0f)
+	if (_fill->scale.x >= 1)
 	{
 		//make sprite white
 		_fill->SetSprite("assets/sprites/purewhite.tga");
@@ -72,7 +71,7 @@ void VisualSlider::UpdateSliderSpriteOnTime(float attackCharge)
 void VisualSlider::UpdateSliderSpriteOnClicks(float attackCharge, float attackMax)
 {
 	if (_perfectTiming) return;
-	if (_fillScaleAmount == 0.0f) 
+	if (_fillScaleAmount == 0) 
 	{
 		//with the player attack it will be 3
 		_fillScaleAmount = attackMax;
@@ -82,7 +81,7 @@ void VisualSlider::UpdateSliderSpriteOnClicks(float attackCharge, float attackMa
 	
 	//add the attackcharge to the scale
 	_fill->scale.x += attackCharge / _fillScaleAmount;
-	if (_fill->scale.x >= 1.0f)
+	if (_fill->scale.x >= 1)
 	{
 		//make sprite white
 		_fill->SetSprite("assets/sprites/purewhite.tga");
@@ -90,9 +89,4 @@ void VisualSlider::UpdateSliderSpriteOnClicks(float attackCharge, float attackMa
 		_fillScaleAmount = 0;
 		return;
 	}
-}
-
-void VisualSlider::SetAttacker(int playerIndex) 
-{
-
 }

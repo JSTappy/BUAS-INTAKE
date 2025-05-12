@@ -12,7 +12,7 @@ class GameEntity : public Entity
 {
 public:
 	/// @brief Constructor
-	GameEntity(int ID, int Level, float Health, int Power, int Defense, int Speed, float DamageReduction, int CriticalChance, int Money, int ExperiencePoints);
+	GameEntity(unsigned char ID, short Health, unsigned char Power, unsigned char Defense, unsigned char Speed, float DamageReduction, unsigned char CriticalChance);
 
 	/// @brief Destructor
 	~GameEntity();
@@ -23,17 +23,17 @@ public:
 	virtual void Update(float deltaTime); //update
 
 	virtual void TeleportToPosition(glm::vec3 position);
-	virtual void MoveTowardsPosition(glm::vec3 position, float movingSpeed, float deltaTime);
+	virtual void MoveTowardsPosition(glm::vec3 position, unsigned short movingSpeed, float deltaTime);
 	virtual void HandleProjectileAction() {};
 	void HandleProjectileCollision(Projectile* p, GameEntity* t);
 	void DestroyProjectile(Projectile* p);
 	void SetStartPos();
 
-	double CalculateAttackStat(double damage, double moveMultiplier);
-	double CalculateDefenseStat(double defense, double damageReduction);
-	void DealDamage(GameEntity* target, double multiplier);
+	unsigned short CalculateAttackStat(unsigned char damage, float moveMultiplier);
+	unsigned short CalculateDefenseStat(unsigned char defense, float damageReduction);
+	void DealDamage(GameEntity* target, float multiplier);
 
-	void ShowDamage(GameEntity* target, int damageTaken);
+	void ShowDamage(GameEntity* target, unsigned char damageTaken);
 
 	bool completedTurn;
 	bool alive;
@@ -43,19 +43,16 @@ public:
 	bool choosingTarget;
 	bool isCriticalHit;
 
-	int health;
-	int power;
-	int defense;
-	int speed;
+	short health;
+	unsigned char power;
+	unsigned char defense;
+	unsigned char speed;
 
 	bool IsCriticalHit();
-	int GetID() { return _id; }
-	int GetLevel(){ return _level; }
+	unsigned char GetID() { return _id; }
 	float GetDamageReduction() { return _damageReduction; }
-	int GetCriticalChance() { return _criticalChance; }
-	int GetMoney() { return _money; }
-	int GetExperiencePoints() { return _experiencePoints; }
-	const int GetMaxHealth() { return _maxHealth; }
+	unsigned char GetCriticalChance() { return _criticalChance; }
+	const short GetMaxHealth() { return _maxHealth; }
 	glm::vec3 GetStartPos() { return _startPos; }
 
 	enum State
@@ -79,32 +76,27 @@ protected:
 	Timer* _waitingTimer;
 	Timer* _damageSpriteTimer;
 	std::vector<Projectile*> _projectiles;
-	virtual void FireProjectile(GameEntity* target, int amount, float interval);
+	virtual void FireProjectile(GameEntity* target, unsigned char amount, float interval);
 
-	virtual void UseItem(int index);
-
-
+	virtual void UseItem(unsigned char index);
 
 	std::vector<Item*> _items;
 	GameEntity* _target;
 	glm::vec3 _startPos;
 
 	float _damageReduction;
-	int _criticalChance;
+	unsigned char _criticalChance;
 
-	int _selectedEntityCount;
+	unsigned char _selectedEntityCount;
 	bool _attackPerformed = false;
 	bool _shouldDisplayHitboxes = false;
 
 	glm::vec3 ObtainNormalizedVector(glm::vec3 targetPosition);
 	glm::vec3 _initialTargetVector;
-	int _maxHealth;
+	short _maxHealth;
 	MyEntity* _damageSprite;
 
 private:
-	int _id;
-	int _level;
-	int _money;
-	int _experiencePoints;
+	unsigned char _id;
 };
 #endif // !GAMEENTITY_H

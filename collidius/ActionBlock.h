@@ -35,7 +35,7 @@ private:
 
 	std::vector<std::string> _actionBlocks;
 
-	char _spriteCounter;
+	unsigned char _spriteCounter;
 	bool _commandWindowIsActive;
 };
 

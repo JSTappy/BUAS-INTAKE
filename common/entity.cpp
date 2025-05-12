@@ -7,9 +7,9 @@
 		sprite = nullptr;
 
 		//position rotation scale
-		position = glm::vec3(0.0f, 0.0f, 0.0f);
-		rotation = 0.0f;
-		scale = glm::vec3(1.0f, 1.0f, 1.0f);
+		position = glm::vec3(0, 0, 0);
+		rotation = 0;
+		scale = glm::vec3(1, 1, 1);
 	}
 
 	Entity::~Entity()
@@ -57,7 +57,7 @@
 
 	void Entity::RemoveChild(Entity* c)  //removing a child from your entity
 	{
-		for (int i = 0; i < _children.size(); i++)
+		for (size_t i = 0; i < _children.size(); i++)
 		{
 			if (_children[i] == c)
 			{

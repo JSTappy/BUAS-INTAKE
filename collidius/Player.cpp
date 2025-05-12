@@ -1,8 +1,8 @@
 #include "Player.h" 
 #include "TurnManager.h" 
 
-Player::Player(int id, int level, float health, int power, int defense, int speed, float damageReduction, int criticalChance, int money, int experiencePoints)
-	: GameEntity(id, level, health, power, defense, speed, damageReduction, criticalChance, money, experiencePoints) //Call the GameEntity constructor
+Player::Player(unsigned char id, short health, unsigned char power, unsigned char defense, unsigned char speed, float damageReduction, unsigned char criticalChance)
+	: GameEntity(id, health, power, defense, speed, damageReduction, criticalChance) //Call the GameEntity constructor
 {
 	_actionKey = 0; //Set this later via public method
 
@@ -42,7 +42,7 @@ void Player::Update(float deltaTime)
 	if (_visualSlider) //Make sure the visual slider follows the player
 	{
 		_visualSlider->position.x = this->position.x;
-		_visualSlider->position.y = this->position.y - 100.0f;
+		_visualSlider->position.y = this->position.y - 100;
 	}
 	hitBox->scale = this->scale;
 	Move(deltaTime); //Apply velocity and gravity
@@ -70,7 +70,7 @@ void Player::Update(float deltaTime)
 	
 }
 
-void Player::AssignActionKey(int jumpKey)
+void Player::AssignActionKey(unsigned char jumpKey)
 {
 	this->_actionKey = jumpKey;
 }
@@ -103,7 +103,7 @@ void Player::Move(float deltaTime)
 
 void Player::Jump(float jumpForce, float jumpforceMultiplier)
 {
-	_velocity -= glm::vec3(0.0f, jumpForce * jumpforceMultiplier, 0.0f); //Substract from velocity because 0,0 is in the top left
+	_velocity -= glm::vec3(0, jumpForce * jumpforceMultiplier, 0); //Substract from velocity because 0,0 is in the top left
 	_ascendTimer->StartOverTimer();
 	_isGrounded = false;
 	_shouldFall = false;
@@ -114,7 +114,7 @@ void Player::EnableJump(float deltaTime)
 	if (GetInput()->GetKeyDown(_actionKey) && _isGrounded) //If the action key is pressed and you are on the ground
 	{
 		_velocity = glm::vec3(0, 0, 0); //Reset velocity
-		Jump(800.0f, 1);
+		Jump(800, 1);
 	}
 }
 
@@ -148,8 +148,8 @@ void Player::SelectBlock()
 
 void Player::HandleAction()
 {
-	int actionType = _actionBlock->ConfirmAction().x; //The type of action chosen, Attack (0), Defense (1), Item (2), Special (3)
-	int actionIndex = _actionBlock->ConfirmAction().y; //The index of the chosen action type, 0, 1, 2, 3
+	unsigned char actionType = _actionBlock->ConfirmAction().x; //The type of action chosen, Attack (0), Defense (1), Item (2), Special (3)
+	unsigned char actionIndex = _actionBlock->ConfirmAction().y; //The index of the chosen action type, 0, 1, 2, 3
 
 	switch (actionType)
 	{
@@ -173,7 +173,7 @@ void Player::HandleProjectileAction()
 	DealDamage(_target, _energyStored / 2);
 }
 
-void Player::PerformAttack(int attackLevel)
+void Player::PerformAttack(unsigned char attackLevel)
 {
 	_attackType = attackLevel;
 	_target = TurnManager::Instance()->GetRandomEnemy();
@@ -197,7 +197,7 @@ void Player::PerformAttack(int attackLevel)
 	}
 }
 
-void Player::PerformDefenseAction(int defenseLevel)
+void Player::PerformDefenseAction(unsigned char defenseLevel)
 {
 	switch (defenseLevel) //Check to see which defense action should be performed
 	{
@@ -277,14 +277,14 @@ void Player::HandlePunch(float deltaTime)
 {
 	if (GetInput()->GetKeyDown(_actionKey)) //Check if the action key has been pressed
 	{
-		if (_attackingTimer->GetSeconds() < 1.0f) //If the timing was too early
+		if (_attackingTimer->GetSeconds() < 1) //If the timing was too early
 		{
 			TurnManager::Instance()->battleText->text = "A little too early...";
-			DealDamage(_target, 0.3);
+			DealDamage(_target, 0.3f);
 			ResetToIdle();
 			return;
 		}
-		if (_attackingTimer->GetSeconds() > 1.0f && _attackingTimer->GetSeconds() < 1.5f) //If the timing was spot on
+		if (_attackingTimer->GetSeconds() > 1 && _attackingTimer->GetSeconds() < 1.5f) //If the timing was spot on
 		{
 			TurnManager::Instance()->battleText->text = "PERFECT!!";
 			DealDamage(_target, 1);
@@ -298,36 +298,36 @@ void Player::HandlePunch(float deltaTime)
 			return;
 		}
 	}
-	if (_attackingTimer->GetSeconds() >= 2.0f) //If you did not press the button in time
+	if (_attackingTimer->GetSeconds() >= 2) //If you did not press the button in time
 	{
 		TurnManager::Instance()->battleText->text = "You Failed to attack...";
 		ResetToIdle();
 		return;
 	}
 
-	if (this->position.x >= _target->position.x - 256.0f) return; //When you are close to the enemy, don't move towards it
+	if (this->position.x >= _target->position.x - 256) return; //When you are close to the enemy, don't move towards it
 
-	MoveTowardsPosition(_target->position - glm::vec3(_initialTargetVector.x + 64.0f, _target->position.y, 0), 800.0f, deltaTime); //Move towards the enemy
+	MoveTowardsPosition(_target->position - glm::vec3(_initialTargetVector.x + 64, _target->position.y, 0), 800, deltaTime); //Move towards the enemy
 }
 
 void Player::HandleJumpAttack(float deltaTime)
 {
-	if (this->position.x >= _target->position.x - 256.0f && _isGrounded) //check if the player should jump towards the enemy already
+	if (this->position.x >= _target->position.x - 256 && _isGrounded) //check if the player should jump towards the enemy already
 	{
-		Jump(750.0f, 1.25f);
+		Jump(750, 1.25f);
 		return;
 	}
 	//third, handle the attack. It jumps on the enemy three times if the button presses are timed correctly
 	if (_jumpAttacksHit <= 3 && this->position.x >= _target->position.x) //If the enemy has not been juped on 3 times yet
 	{
-		if (this->position.y + this->sprite->GetHeight() / 2.0f >= _target->position.y - _target->sprite->GetHeight() / 2.0f)//calculate if the player collides with the enemy
+		if (this->position.y + this->sprite->GetHeight() / 2 >= _target->position.y - _target->sprite->GetHeight() / 2)//calculate if the player collides with the enemy
 		{
 			if (GetInput()->GetKeyDown(_actionKey)) //When getting the action key while being in range to jump on the enemy
 			{
 				//Count a jump hit and 
 				_velocity = glm::vec3(0, 0, 0);
-				Jump(600.0f, 1);
-				DealDamage(_target, 0.65);
+				Jump(600, 1);
+				DealDamage(_target, 0.65f);
 				_jumpAttacksHit++;
 				return;
 			}
@@ -340,7 +340,7 @@ void Player::HandleJumpAttack(float deltaTime)
 	if (_jumpAttacksHit == 3) { ResetToIdle(); } //When hitting 3 jump attacks, go back to Idle state
 	if (this->position.x >= _target->position.x) return; //When you are above the enemy
 
-	MoveTowardsPosition(_initialTargetVector, 600.0f, deltaTime); //Moving towards the enemy position
+	MoveTowardsPosition(_initialTargetVector, 600, deltaTime); //Moving towards the enemy position
 }
 
 void Player::HandleProjectileMash()
@@ -348,10 +348,10 @@ void Player::HandleProjectileMash()
 	if (_attackingTimer->GetSeconds() >= 1.5f) //after 1.5 seconds, do the calculations
 	{
 		//Check how much charge is stored
-		if (_energyStored <= 1.0f) { _energyStored = 0.0f; } //Lower than or 1
-		if (_energyStored >= 1.0f && _energyStored < 2.0f) { _energyStored = 1.0f; } //Higher than 1, lower than 2
-		if (_energyStored >= 2.0f && _energyStored < 3.0f) { _energyStored = 2.0f; } //Higher than 2, lower than 3
-		if (_energyStored >= 3.0f) { _energyStored = 3.0f; } //Higher than or 3
+		if (_energyStored <= 1) { _energyStored = 0; } //Lower than or 1
+		if (_energyStored >= 1 && _energyStored < 2) { _energyStored = 1; } //Higher than 1, lower than 2
+		if (_energyStored >= 2 && _energyStored < 3) { _energyStored = 2; } //Higher than 2, lower than 3
+		if (_energyStored >= 3) { _energyStored = 3; } //Higher than or 3
 
 		//spawn projectile you fire at the opponent
 		this->FireProjectile(_target, 1, 1);
@@ -368,22 +368,22 @@ void Player::HandleProjectileMash()
 	}
 	if (GetInput()->GetKeyDown(_actionKey)) //mash the action key to gain charge
 	{
-		_energyStored += 0.25;
-		_visualSlider->UpdateSliderSpriteOnClicks(0.25, 3);
+		_energyStored += 0.25f;
+		_visualSlider->UpdateSliderSpriteOnClicks(0.25f, 3);
 	}
 }
 
 void Player::HandleDashAttack(float deltaTime)
 {
-	if (_attackingTimer->GetSeconds() > 2.0f)  //If you did nothing within 2 seconds
+	if (_attackingTimer->GetSeconds() > 2)  //If you did nothing within 2 seconds
 	{
 		if (TurnManager::Instance()->battleText->text != "You Charged for too long...") { TurnManager::Instance()->battleText->text = "You Charged for too long..."; }
-		MoveTowardsPosition(_initialTargetVector, 600.0f, deltaTime); //Moving towards the enemy position
-		if (this->position.x + this->sprite->GetWidth() / 2.0f >= _target->position.x - _target->sprite->GetWidth() / 2.0f) //if the player hits the enemy
+		MoveTowardsPosition(_initialTargetVector, 600, deltaTime); //Moving towards the enemy position
+		if (this->position.x + this->sprite->GetWidth() / 2 >= _target->position.x - _target->sprite->GetWidth() / 2) //if the player hits the enemy
 		{
 			this->defense -= this->defense / 10; //only substract defense from the player
 			TurnManager::Instance()->battleText->text = "Player defense - 10%";
-			DealDamage(_target, 0.01); //deal little damage
+			DealDamage(_target, 0.01f); //deal little damage
 			ResetToIdle();
 		}
 		return;
@@ -392,21 +392,21 @@ void Player::HandleDashAttack(float deltaTime)
 	{
 		if (_energyStored > 1) //Move faster towards the enemy with more charge
 		{
-			MoveTowardsPosition(_initialTargetVector, 400.0f * _energyStored, deltaTime); //Moving towards the enemy position
+			MoveTowardsPosition(_initialTargetVector, 400 * _energyStored, deltaTime); //Moving towards the enemy position
 		}
 		else
 		{
-			MoveTowardsPosition(_initialTargetVector, 400.0f, deltaTime); //Moving towards the enemy position
+			MoveTowardsPosition(_initialTargetVector, 400, deltaTime); //Moving towards the enemy position
 		}
-		if (this->position.x + this->sprite->GetWidth() / 2.0f >= _target->position.x - _target->sprite->GetWidth() / 2.0f) //If the player hits the enemy
+		if (this->position.x + this->sprite->GetWidth() / 2 >= _target->position.x - _target->sprite->GetWidth() / 2) //If the player hits the enemy
 		{
 			//Substract both player and Enemy defenses
 			this->defense -= this->defense / 10;
 			_target->defense -= _target->defense / 10;
 			TurnManager::Instance()->battleText->text = "Player & enemy defense - 10%";
-			if (_energyStored > 2.25) //Cap out damage at 2.25 for balancing
+			if (_energyStored > 2.25f) //Cap out damage at 2.25 for balancing
 			{
-				DealDamage(_target, 2.25);
+				DealDamage(_target, 2.25f);
 				ResetToIdle();
 				return;
 			}
@@ -422,12 +422,12 @@ void Player::HandleDashAttack(float deltaTime)
 	}
 	if (GetInput()->GetKey(_actionKey)) //When holding the Key
 	{
-		_energyStored += 1.75 * deltaTime;
-		_visualSlider->UpdateSliderSpriteOnClicks(1.75 * deltaTime, 2.5);
+		_energyStored += 1.75f * deltaTime;
+		_visualSlider->UpdateSliderSpriteOnClicks(1.75f * deltaTime, 2.5f);
 	}
 }
 
-void Player::UseItem(int index)
+void Player::UseItem(unsigned char index)
 {
 	//Check if the indexed item can still be used
 	if (_items[index]->GetUses() == 0)
@@ -444,7 +444,7 @@ void Player::UseItem(int index)
 
 void Player::SwitchAttackType(float deltaTime)
 {
-	if (_waitingTimer->GetSeconds() <= 1.0f)return; //Wait for a second
+	if (_waitingTimer->GetSeconds() <= 1)return; //Wait for a second
 	if (!_attackingTimer->isPlaying)_attackingTimer->StartOverTimer(); //Make sure the attack timer is playing
 	switch (_attackType)
 	{
@@ -463,7 +463,7 @@ void Player::SwitchAttackType(float deltaTime)
 			}
 			if (_projectiles.size() > 0) //If there are projectiles
 			{
-				for (int i = 0; i < _projectiles.size(); i++)
+				for (size_t i = 0; i < _projectiles.size(); i++)
 				{
 					HandleProjectileCollision(_projectiles[i], _target); //Handle the AABB collision between the target and the player
 				}
@@ -484,7 +484,7 @@ void Player::HandleChoosing()
 		if (_actionBlock == nullptr) //Create an actionblock if it does not exist yet
 		{
 			_actionBlock = new ActionBlock();
-			_actionBlock->position = this->_startPos + glm::vec3(0, -200, 0);
+			_actionBlock->position = this->_startPos - glm::vec3(0, 200, 0);
 			this->AddChild(_actionBlock);
 		}
 		if (GetInput()->GetKeyDown(KEY_A) && _isGrounded) //Switch between actionblocks
@@ -528,8 +528,8 @@ void Player::InitiateVisualSlider()
 {
 	//create the visual slider
 	_visualSlider = new VisualSlider(this->GetID());
-	_visualSlider->position = this->position - glm::vec3(0.0f, 128.0f, 0.0f);
-	_visualSlider->scale = glm::vec3(1.0f, 0.5f, 1.0f);
+	_visualSlider->position = this->position - glm::vec3(0, 128, 0);
+	_visualSlider->scale = glm::vec3(1, 0.5f, 1);
 	this->AddChild(_visualSlider);
 	_visualSlider->InitVisuals();
 	_visualSlider->SetSprite("assets/sprites/slider.tga");
@@ -567,7 +567,7 @@ void Player::ResetToIdle()
 
 	//Reset the projectile attack properties
 	_attackPerformed = false;
-	_energyStored = 0.0f;
+	_energyStored = 0;
 	_jumpAttacksHit = 0;
 
 	//Complete the turn

@@ -13,7 +13,7 @@ class Enemy : public GameEntity
 {
 public:
 	/// @brief constructor
-	Enemy(int id, int level, int health, int power, int defense, int speed, float damageReduction, int criticalChance, int money, int experiencePoints);
+	Enemy(unsigned char id, short health, unsigned char power, unsigned char defense, unsigned char speed, float damageReduction, unsigned char criticalChance);
 
 	/// @brief destructor
 	virtual ~Enemy();
@@ -23,12 +23,12 @@ public:
 	/// @return void
 	virtual void Update(float deltaTime) override; //update
 
-	void BasicAttack(int damage, GameEntity* target);
+	void BasicAttack(char damage, GameEntity* target);
 	void ProjectileAttack(GameEntity* target);
 	void HandleProjectileAction() override;
-	void FireProjectile(GameEntity* target, int amount, float interval) override;
+	void FireProjectile(GameEntity* target, unsigned char amount, float interval) override;
 	void HandleAction();
-	void PerformAttack(int attackLevel);
+	void PerformAttack(unsigned char attackLevel);
 	void UpdateHealthText() override;
 
 private:
