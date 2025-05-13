@@ -7,6 +7,7 @@
 #include "Projectile.h"
 #include "Item.h"
 
+#include <Audio/Sound.hpp>
 
 class GameEntity : public Entity
 {
@@ -96,6 +97,9 @@ protected:
 	short _maxHealth;
 	MyEntity* _damageSprite;
 
+	Audio::Sound* _hitSound = new Audio::Sound("assets/audio/hitone.ogg", Audio::Sound::Type::Sound);
+	Audio::Sound* _critHitSound = new Audio::Sound("assets/audio/crithit.ogg", Audio::Sound::Type::Sound);
+	Audio::Sound* _projectileSound = new Audio::Sound("assets/audio/projectileone.ogg", Audio::Sound::Type::Sound);
 private:
 	unsigned char _id;
 };

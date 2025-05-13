@@ -4,6 +4,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include <Audio/Sound.hpp>
+
 class GameEntity; //forward declaration to prevent dependency loops
 
 class Item
@@ -24,6 +26,8 @@ public:
 private:
 	char _itemType;
 	char _uses;
+
+	Audio::Sound* _itemSound = new Audio::Sound("assets/audio/useitem.ogg", Audio::Sound::Type::Sound);
 };
 
 #endif // VISUALSLIDER_H 

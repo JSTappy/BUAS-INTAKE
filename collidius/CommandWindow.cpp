@@ -22,8 +22,11 @@ void CommandWindow::Update(float deltaTime)
 
 void CommandWindow::HandleActionChoosing() 
 {
+	float randomPitch = 0.75f + static_cast<float>(rand()) / RAND_MAX * 0.5f;
 	if (GetInput()->GetKeyDown(KEY_W))
 	{
+		_switchOptionSound->setPitch(randomPitch);
+		_switchOptionSound->replay();
 		if (_selectedActionCount <= 0)
 		{
 			_selectedActionCount = 3;
@@ -36,6 +39,8 @@ void CommandWindow::HandleActionChoosing()
 	}
 	if (GetInput()->GetKeyDown(KEY_S))
 	{
+		_switchOptionSound->setPitch(randomPitch);
+		_switchOptionSound->replay();
 		if (_selectedActionCount >= 3)
 		{
 			_selectedActionCount = 0;

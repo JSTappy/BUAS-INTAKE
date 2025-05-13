@@ -103,6 +103,9 @@ void Player::Move(float deltaTime)
 
 void Player::Jump(float jumpForce, float jumpforceMultiplier)
 {
+	float randomPitch = 0.75f + static_cast<float>(rand()) / RAND_MAX * 0.5f;
+	_jumpSound->setPitch(randomPitch);
+	_jumpSound->replay();
 	_velocity -= glm::vec3(0, jumpForce * jumpforceMultiplier, 0); //Substract from velocity because 0,0 is in the top left
 	_ascendTimer->StartOverTimer();
 	_isGrounded = false;

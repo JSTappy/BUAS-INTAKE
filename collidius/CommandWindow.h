@@ -59,6 +59,8 @@ private:
 	};
 
 	void SnapArrowToEntity(MyEntity* entity);
+
+	Audio::Sound* _switchOptionSound = new Audio::Sound("assets/audio/commandwindowselect.ogg", Audio::Sound::Type::Sound);
 };
 
 #endif // COMMANDWINDOW_H 

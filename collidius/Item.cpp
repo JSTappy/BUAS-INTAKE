@@ -14,9 +14,9 @@ Item::~Item()
 
 void Item::ApplyItem(GameEntity* target) 
 {
-
-	if (_uses <= 0)return; //destory later
+	if (_uses <= 0)return; //destroy later
 	_uses--;
+	_itemSound->play();
 	switch (_itemType)
 	{
 		case 0: //heal 20 % HP if you can

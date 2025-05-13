@@ -233,9 +233,11 @@ void GameEntity::ShowDamage(GameEntity* target, unsigned char damageTaken)
 		if (isCriticalHit)
 		{
 			_damageSprite->SetSprite("assets/sprites/critimpact.tga");
+			_critHitSound->replay();
 			return;
 		}
 		_damageSprite->SetSprite("assets/sprites/impact.tga");
+		_hitSound->replay();
 		return;
 	}
 	_damageSprite = new MyEntity();
@@ -251,9 +253,11 @@ void GameEntity::ShowDamage(GameEntity* target, unsigned char damageTaken)
 	if (isCriticalHit)
 	{
 		_damageSprite->SetSprite("assets/sprites/critimpact.tga");
+		_critHitSound->play();
 		return;
 	}
 	_damageSprite->SetSprite("assets/sprites/impact.tga");
+	_hitSound->play();
 }
 
 void GameEntity::UseItem(unsigned char index)
@@ -268,6 +272,7 @@ void GameEntity::UseItem(unsigned char index)
 
 void GameEntity::FireProjectile(GameEntity* target, unsigned char amount, float interval)
 {
+	_projectileSound->play();
 	_target = target;
 	std::cout << "Projectile targetting: " << _target->GetID() << std::endl;
 	std::cout << _target->GetStartPos().x << " " << _target->GetStartPos().y << " " << _target->GetStartPos().z << " " << std::endl;

@@ -176,6 +176,8 @@ private:
 
 	/// @brief The velocity of the player
 	glm::vec3 _velocity = glm::vec3(0,0,0);
+
+	Audio::Sound* _jumpSound = new Audio::Sound("assets/audio/jump.ogg", Audio::Sound::Type::Sound);
 };
 
 #endif // PLAYER_H 
