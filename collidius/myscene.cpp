@@ -4,6 +4,8 @@
 
 MyScene::MyScene() : Scene()
 {
+
+
 	_startTimer = new Timer();
 	_startTimer->StartTimer();
 	_startTimer->isPlaying = true;
@@ -69,9 +71,14 @@ MyScene::~MyScene()
 
 void MyScene::Update(float deltaTime)
 {
-	if (_startTimer->GetSeconds() <= 2 && _startTimer->isPlaying) { return; }
+	if (_startTimer->GetSeconds() <= 2.71f && _startTimer->isPlaying) 
+	{ 
+		if (_intro->isPlaying())return;
+		_intro->play();
+		_intro->setVolume(0.8f);
+		return; 
+	}
 	if (!setupComplete) { TurnManager::Instance()->DecideTurnOrder(); _startTimer->StopTimer();  setupComplete = true; }
-
 	if (GetInput()->GetKeyDown(KEY_Z)) { TurnManager::Instance()->DisplayStats(); }
 	if (GetInput()->GetKeyDown(KEY_T))
 	{
@@ -95,4 +102,8 @@ void MyScene::Update(float deltaTime)
 
 		}
 	}
+	if (_bgm->isPlaying())return;
+	_bgm->setLooping(true);
+	_bgm->setVolume(0.5f);
+	_bgm->play();
 }

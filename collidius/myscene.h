@@ -12,6 +12,8 @@
 #include "Enemy.h"
 #include "UIWindow.h"
 
+#include <Audio/Sound.hpp>
+
 /// @brief The MyScene implementation.
 class MyScene : public Scene
 {
@@ -43,6 +45,9 @@ private:
 	Timer* _startTimer;
 
 	bool setupComplete;
+
+	Audio::Sound* _bgm = new Audio::Sound("assets/audio/bgm.ogg", Audio::Sound::Type::Music);
+	Audio::Sound* _intro = new Audio::Sound("assets/audio/intro.ogg", Audio::Sound::Type::Sound);
 
 	std::vector<GameEntity*> gameEntities;
 };
