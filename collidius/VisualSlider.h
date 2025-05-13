@@ -1,9 +1,6 @@
 #ifndef VISUALSLIDER_H 
 #define VISUALSLIDER_H
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
 #include "MyEntity.h"
 
 class VisualSlider : public MyEntity
@@ -17,22 +14,42 @@ public:
 
 	/// @brief update method
 	/// @param deltaTime
-	/// @return void
 	virtual void Update(float deltaTime); //update
 
+	///@brief Initiate the visual slider properties
 	void InitVisuals();
-	void UpdateSliderSpriteOnTime(float attackCharge);
-	void UpdateSliderSpriteOnClicks(float attackCharge, float attackMax);
 
-	void ClearFill();
+	///@brief Update the slider filling based on time
+	///@param float attackCharge, the amount that will be added to the scale
+	void UpdateSliderSpriteOnTime(float attackCharge);
+
+	///@brief Update the slider filling based on the amount of key presses or deltatime when holding the key
+	///@param float attackCharge, the amount that will be added to the scale
+	///@param float attackMax, the amount that will define the slider as filled
+	void UpdateSliderSpriteOnKeys(float attackCharge, float attackMax);
+
+
 private:
+
+	///@brief The players ID, to seperate player 1 from player 2
 	unsigned char _playerId;
+
+	///@brief Check when to change the fill sprite to the pure white sprite
 	bool _perfectTiming = false;
+
+	///@brief The filling of the visual slider
 	MyEntity* _fill = nullptr;
+
+	///@brief The player key sprite
 	MyEntity* _playerKey = nullptr;
 
+	///@brief The amount of the scale that is filled
 	float _fillScaleAmount = 0;
+
+	///@brief The action key sprite for player 1
 	std::string _player1Sprite = ("assets/sprites/k.tga");
+
+	///@brief The action key sprite for player 2
 	std::string _player2Sprite = ("assets/sprites/j.tga");
 };
 

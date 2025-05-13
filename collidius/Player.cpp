@@ -372,7 +372,7 @@ void Player::HandleProjectileMash()
 	if (GetInput()->GetKeyDown(_actionKey)) //mash the action key to gain charge
 	{
 		_energyStored += 0.25f;
-		_visualSlider->UpdateSliderSpriteOnClicks(0.25f, 3);
+		_visualSlider->UpdateSliderSpriteOnKeys(0.25f, 3);
 	}
 }
 
@@ -426,7 +426,7 @@ void Player::HandleDashAttack(float deltaTime)
 	if (GetInput()->GetKey(_actionKey)) //When holding the Key
 	{
 		_energyStored += 1.75f * deltaTime;
-		_visualSlider->UpdateSliderSpriteOnClicks(1.75f * deltaTime, 2.5f);
+		_visualSlider->UpdateSliderSpriteOnKeys(1.75f * deltaTime, 2.5f);
 	}
 }
 
@@ -550,7 +550,6 @@ void Player::ClearHUD()
 	if (_visualSlider != nullptr) //Delete the visual slider if it exists
 	{
 		this->RemoveChild(_visualSlider);
-		_visualSlider->ClearFill();
 		delete _visualSlider;
 		_visualSlider = nullptr;
 	}
