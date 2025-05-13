@@ -509,7 +509,7 @@ void Player::HandleChoosing()
 	}
 	if (choosingCommand) //When choosing a command option in the command window
 	{
-		if (GetInput()->GetKeyDown(Tab)) //Go back to the action block choosing
+		if (GetInput()->GetKeyDown(TAB)) //Go back to the action block choosing
 		{
 			ClearHUD();
 			choosingAction = true;
