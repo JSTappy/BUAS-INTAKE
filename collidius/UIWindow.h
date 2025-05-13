@@ -1,11 +1,7 @@
 #ifndef UIWINDOW_H 
 #define UIWINDOW_H
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
 #include "entity.h"
-#include "myentity.h"
 
 class UIWindow : public Entity
 {
@@ -21,8 +17,13 @@ public:
 	/// @return void
 	virtual void Update(float deltaTime); //update
 
-	Text* playerTextA;
-	Text* playerTextB;
+	///@brief The health display text of player 1
+	Text* playerOneText;
+
+	///@brief The health display text of player 2
+	Text* playerTwoText;
+
+	///@brief The health display text of the enemy
 	Text* enemyText;
 
 private:

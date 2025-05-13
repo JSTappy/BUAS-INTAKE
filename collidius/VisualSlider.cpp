@@ -8,12 +8,7 @@ VisualSlider::VisualSlider(unsigned char playerID)
 
 VisualSlider::~VisualSlider()
 {
-	this->RemoveChild(_fill);
-	delete _fill;
-	_fill = nullptr;
-	this->RemoveChild(_playerKey);
-	delete _playerKey;
-	_playerKey = nullptr;
+
 }
 
 void VisualSlider::InitVisuals()

@@ -25,7 +25,7 @@ MyScene::MyScene() : Scene()
 	
 	_player1 = new Player(1, 74, 40, 9, 44, 0, 10);
 	_player1->SetSprite("assets/sprites/kchar.tga");
-	_player1->text = _uiDisplay->playerTextA;
+	_player1->text = _uiDisplay->playerOneText;
 	_player1->UpdateHealthText();
 	_player1->position = glm::vec3(400, 300, 0);
 	_player1->SetStartPos();
@@ -35,7 +35,7 @@ MyScene::MyScene() : Scene()
 
 	_player2 = new Player(2, 97, 35, 16, 36, 0, 10);
 	_player2->SetSprite("assets/sprites/jchar.tga");
-	_player2->text = _uiDisplay->playerTextB;
+	_player2->text = _uiDisplay->playerTwoText;
 	_player2->UpdateHealthText();
 	_player2->position = glm::vec3(250, 500, 0);
 	_player2->SetStartPos();
