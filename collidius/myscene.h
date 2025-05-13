@@ -49,7 +49,26 @@ private:
 	Audio::Sound* _bgm = new Audio::Sound("assets/audio/bgm.ogg", Audio::Sound::Type::Music);
 	Audio::Sound* _intro = new Audio::Sound("assets/audio/intro.ogg", Audio::Sound::Type::Sound);
 
-	std::vector<GameEntity*> gameEntities;
+	bool _skippedTutorial;
+
+	void CompleteTutorial();
+	void HandleTutorial();
+	float _textinterval = 0;
+	int _textcount = 0;
+	std::vector<GameEntity*> _gameEntities;
+	std::vector<const char*> _textStrings
+	{
+		"...",
+		"'Its just us two left, huh Cole?'",
+		"'I guess you're right... Lee.'",
+		"'This gorilla... Sean is something else'",
+		"'Alright, we can choose to attack, defend or use an item'",
+		"'We jump to hit the action block and choose what we do right?'",
+		"'Exactly! when we do, we can choose from 4 actions.'",
+		"'We deal massive damage if we use our actions'",
+		"'Let's get him Cole! We humans have no limits!'",
+		"'Damn right Lee! Let's charge together at full power!'",
+	};
 };
 
 #endif /* MYSCENE_H */

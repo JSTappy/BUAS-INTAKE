@@ -105,7 +105,8 @@
       <Command>xcopy /E /Y /I "$(ProjectDir)assets" "$(OutDir)assets"</Command>
     </PostBuildEvent>
     <CustomBuildStep>
-      <Command>xcopy /E /Y /I "$(ProjectDir)assets" "$(OutDir)assets"</Command>
+      <Command>
+      </Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -131,7 +132,8 @@
       <Command>xcopy /E /Y /I "$(ProjectDir)assets" "$(OutDir)assets"</Command>
     </PostBuildEvent>
     <CustomBuildStep>
-      <Command>xcopy /E /Y /I "$(ProjectDir)assets" "$(OutDir)assets"</Command>
+      <Command>
+      </Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -153,7 +155,8 @@
       <Command>xcopy /E /Y /I "$(ProjectDir)assets" "$(OutDir)assets"</Command>
     </PostBuildEvent>
     <CustomBuildStep>
-      <Command>xcopy /E /Y /I "$(ProjectDir)assets" "$(OutDir)assets"</Command>
+      <Command>
+      </Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -179,7 +182,8 @@
       <Command>xcopy /E /Y /I "$(ProjectDir)assets" "$(OutDir)assets"</Command>
     </PostBuildEvent>
     <CustomBuildStep>
-      <Command>xcopy /E /Y /I "$(ProjectDir)assets" "$(OutDir)assets"</Command>
+      <Command>
+      </Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>

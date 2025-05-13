@@ -7,8 +7,6 @@ MyScene::MyScene() : Scene()
 
 
 	_startTimer = new Timer();
-	_startTimer->StartTimer();
-	_startTimer->isPlaying = true;
 	this->AddChild(_startTimer);
 	_layer1 = new MyEntity();
 	_layer1->SetSprite("assets/sprites/bg.tga");
@@ -33,7 +31,7 @@ MyScene::MyScene() : Scene()
 	_player1->SetStartPos();
 	_player1->AssignActionKey(KEY_Q);
 	_layer2->AddChild(_player1);
-	gameEntities.push_back(_player1);
+	_gameEntities.push_back(_player1);
 
 	_player2 = new Player(2, 97, 35, 16, 36, 0, 10);
 	_player2->SetSprite("assets/sprites/jchar.tga");
@@ -43,7 +41,7 @@ MyScene::MyScene() : Scene()
 	_player2->SetStartPos();
 	_player2->AssignActionKey(KEY_E);
 	_layer2->AddChild(_player2);
-	gameEntities.push_back(_player2);
+	_gameEntities.push_back(_player2);
 
 	_enemy = new Enemy(3, 1063, 30, 15, 60, 0, 10);
 	_enemy->SetSprite("assets/sprites/gorilla.tga");
@@ -52,14 +50,17 @@ MyScene::MyScene() : Scene()
 	_enemy->position = glm::vec3(950, 360, 0);
 	_enemy->SetStartPos();
 	_layer2->AddChild(_enemy);
-	gameEntities.push_back(_enemy);
+	_gameEntities.push_back(_enemy);
 
-	for (size_t i = 0; i < gameEntities.size(); i++)
+	for (size_t i = 0; i < _gameEntities.size(); i++)
 	{
-		TurnManager::Instance()->AddGameEntities(gameEntities[i]);
+		TurnManager::Instance()->AddGameEntities(_gameEntities[i]);
 	}
 	TurnManager::Instance()->Init();
 	TurnManager::Instance()->battleText = _uiDisplay->text;
+	TurnManager::Instance()->battleText->text = _textStrings[0];
+	_startTimer->StartTimer();
+	_startTimer->isPlaying = true;
 }
 
 
@@ -71,34 +72,31 @@ MyScene::~MyScene()
 
 void MyScene::Update(float deltaTime)
 {
-	if (_startTimer->GetSeconds() <= 2.71f && _startTimer->isPlaying) 
-	{ 
-		if (_intro->isPlaying())return;
-		_intro->play();
-		_intro->setVolume(0.8f);
-		return; 
+	if (!setupComplete)
+	{
+		HandleTutorial();
+		return;
 	}
-	if (!setupComplete) { TurnManager::Instance()->DecideTurnOrder(); _startTimer->StopTimer();  setupComplete = true; }
 	if (GetInput()->GetKeyDown(KEY_Z)) { TurnManager::Instance()->DisplayStats(); }
 	if (GetInput()->GetKeyDown(KEY_T))
 	{
 		displayHitboxes = !displayHitboxes;
-		for (size_t i = 0; i < gameEntities.size(); i++)
+		for (size_t i = 0; i < _gameEntities.size(); i++)
 		{
-			gameEntities[i]->ToggleHitboxDisplay(displayHitboxes);
+			_gameEntities[i]->ToggleHitboxDisplay(displayHitboxes);
 		}
 	}
-	for (size_t i = 0; i < gameEntities.size(); i++)
+	for (size_t i = 0; i < _gameEntities.size(); i++)
 	{
-		if (gameEntities[i]->health <= 0)
+		if (_gameEntities[i]->health <= 0)
 		{
 			std::cout << "Game Entity Defeated" << std::endl;
-			gameEntities[i]->alive = false;
-			_layer2->RemoveChild(gameEntities[i]);
-			TurnManager::Instance()->KillEntity(gameEntities[i]);
-			delete gameEntities[i];
-			gameEntities[i] = nullptr;
-			gameEntities.erase(gameEntities.begin() + i);
+			_gameEntities[i]->alive = false;
+			_layer2->RemoveChild(_gameEntities[i]);
+			TurnManager::Instance()->KillEntity(_gameEntities[i]);
+			delete _gameEntities[i];
+			_gameEntities[i] = nullptr;
+			_gameEntities.erase(_gameEntities.begin() + i);
 
 		}
 	}
@@ -106,4 +104,36 @@ void MyScene::Update(float deltaTime)
 	_bgm->setLooping(true);
 	_bgm->setVolume(0.5f);
 	_bgm->play();
+}
+void MyScene::HandleTutorial()
+{
+	if (GetInput()->GetKeyDown(SPACE))
+	{
+		CompleteTutorial();
+		return;
+	}
+	if (_textinterval <= _startTimer->GetSeconds() && _textcount < _textStrings.size() && _textinterval < 24.39f)
+	{
+		_textcount++;
+		TurnManager::Instance()->battleText->text = _textStrings[_textcount];
+		_textinterval += 2.71f;
+		return;
+	}
+	if (_textinterval < 24.39f)return;
+	if (_startTimer->GetSeconds() <= 24.4f && _startTimer->isPlaying)
+	{
+		if (_intro->isPlaying())return;
+		_intro->play();
+		_intro->setVolume(0.8f);
+		return;
+	}
+	if (!setupComplete) { CompleteTutorial(); }
+}
+void MyScene::CompleteTutorial() 
+{
+	TurnManager::Instance()->DecideTurnOrder(); 
+	_startTimer->StopTimer();  
+	_startTimer->isPlaying = false;
+	if (_intro->isPlaying()) { _intro->stop(); }
+	setupComplete = true;
 }
