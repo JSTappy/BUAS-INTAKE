@@ -32,7 +32,9 @@ Player::Player(unsigned char id, short health, unsigned char power, unsigned cha
 
 Player::~Player()
 {
-
+	this->RemoveChild(_waitingTimer);
+	this->RemoveChild(_attackingTimer);
+	this->RemoveChild(_ascendTimer);
 }
 
 void Player::Update(float deltaTime) 
@@ -179,7 +181,7 @@ void Player::HandleProjectileAction()
 void Player::PerformAttack(unsigned char attackLevel)
 {
 	_attackType = attackLevel;
-	_target = TurnManager::Instance()->GetRandomEnemy();
+	_target = TurnManager::Instance()->GetEnemy();
 	_waitingTimer->StartOverTimer();
 	switch (_attackType) //Check to see which attack should be performed
 	{

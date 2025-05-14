@@ -4,8 +4,6 @@
 
 MyScene::MyScene() : Scene()
 {
-
-
 	_startTimer = new Timer();
 	this->AddChild(_startTimer);
 	_layer1 = new MyEntity();
@@ -43,7 +41,7 @@ MyScene::MyScene() : Scene()
 	_layer2->AddChild(_player2);
 	_gameEntities.push_back(_player2);
 
-	_enemy = new Enemy(3, 1063, 30, 15, 60, 0, 10);
+	_enemy = new Enemy(3, 1, 30, 15, 60, 0, 10);
 	_enemy->SetSprite("assets/sprites/gorilla.tga");
 	_enemy->text = _uiDisplay->enemyText;
 	_enemy->UpdateHealthText();
@@ -56,7 +54,6 @@ MyScene::MyScene() : Scene()
 	{
 		TurnManager::Instance()->AddGameEntities(_gameEntities[i]);
 	}
-	TurnManager::Instance()->Init();
 	TurnManager::Instance()->battleText = _uiDisplay->text;
 	TurnManager::Instance()->battleText->text = _textStrings[0];
 	_startTimer->StartTimer();
@@ -131,7 +128,7 @@ void MyScene::HandleTutorial()
 }
 void MyScene::CompleteTutorial() 
 {
-	TurnManager::Instance()->DecideTurnOrder(); 
+	TurnManager::Instance()->StartGame(); 
 	_startTimer->StopTimer();  
 	_startTimer->isPlaying = false;
 	if (_intro->isPlaying()) { _intro->stop(); }
