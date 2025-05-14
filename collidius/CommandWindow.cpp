@@ -3,12 +3,15 @@
 
 CommandWindow::CommandWindow()
 {
-	_arrow = new MyEntity();
+	//Create the arrow
+	_arrow = new Entity();
 	_arrow->SetSprite("assets/sprites/arrow.tga");
 	_arrow->position = this->position;
 	this->AddChild(_arrow);
+
+
 	_selectedActionCount = 0;
-	_switchOptionSound->setVolume(0.7f);
+	_switchOptionSound->setVolume(0.7f); //Set volume lower
 }
 
 CommandWindow::~CommandWindow()
@@ -23,30 +26,33 @@ void CommandWindow::Update(float deltaTime)
 
 void CommandWindow::HandleActionChoosing() 
 {
+	//When pressing W, Go up one entity in the actions list
 	if (GetInput()->GetKeyDown(KEY_W))
 	{
-		_switchOptionSound->replay();
-		if (_selectedActionCount <= 0)
+		_switchOptionSound->replay(); //Replay sound
+		if (_selectedActionCount <= 0) //If at the minimum of the actions list
 		{
-			_selectedActionCount = 3;
-			SnapArrowToEntity(_actions[_selectedActionCount]);
+			_selectedActionCount = 3; //Set it to the max of the actions list
+			SnapArrowToEntity(_actions[_selectedActionCount]); //Snap the arrow to the entity
 			return;
 		}
 		_selectedActionCount--;
-		SnapArrowToEntity(_actions[_selectedActionCount]);
+		SnapArrowToEntity(_actions[_selectedActionCount]); //Snap the arrow to the entity
 
 	}
+
+	//When pressing S, Go down one entity in the actions list
 	if (GetInput()->GetKeyDown(KEY_S))
 	{
-		_switchOptionSound->replay();
-		if (_selectedActionCount >= 3)
+		_switchOptionSound->replay(); //Replay sound
+		if (_selectedActionCount >= 3) //If at the maximum of the actions list
 		{
-			_selectedActionCount = 0;
-			SnapArrowToEntity(_actions[_selectedActionCount]);
+			_selectedActionCount = 0; //Set it to the minimum of the actions list
+			SnapArrowToEntity(_actions[_selectedActionCount]); //Snap the arrow to the entity
 			return;
 		}
 		_selectedActionCount++;
-		SnapArrowToEntity(_actions[_selectedActionCount]);
+		SnapArrowToEntity(_actions[_selectedActionCount]); //Snap the arrow to the entity
 
 	}
 }
@@ -54,57 +60,47 @@ void CommandWindow::HandleActionChoosing()
 void CommandWindow::DisplayCommands(unsigned char action)
 {
 	_actionType = action;
-	unsigned short ypos = 78;
+	unsigned short ypos = 78; //Y-position displacement
+
+	//Create 4 'commands' (entities) for the action chosen
 	for (int i = 0; i < 4; i++)
 	{
-		MyEntity* e = new MyEntity();
-
-		//Might become text later
-		//e->SetSprite("assets/sprites/rgba.tga");
-		e->text = new Text();
+		//Create Entities
+		Entity* e = new Entity();
+		e->text = new Text(); //Set up text
 		switch (action)
 		{
-			case 0: //attack
+			case 0: //Action is Attacking
 				e->text->text = "ATTACK " + std::to_string(i + 1);
 				break;
-			case 1: //defend
+			case 1: //Action is Defending
 				e->text->text = "DEFEND " + std::to_string(i + 1);
 				break;
-			case 2: //item
+			case 2: //Action is using Items
 				e->text->text = "ITEM " + std::to_string(i + 1);
 				break;
 		}
+
+		//Complete the entity set up
 		e->position.x = this->position.x;
-		e->position.y = ypos;
+		e->position.y = ypos; //The displacement
 		e->scale = glm::vec3(1, 1, 0);
 		this->AddChild(e);
 		_actions.push_back(e);
-		e->textComponents.push_back(e->text);
-		ypos += 144;
+		e->textComponents.push_back(e->text); //Make sure the text gets rendered
+		ypos += 144; //Displace the ypos even further
 	}
 	_selectedActionCount = 0;
-	SnapArrowToEntity(_actions[0]);
-	/*switch (_actions.size())
-	{
-		case 0:
-			std::cout << "Atleast something 1" << std::endl;
-			break;
-		case 1:
-			std::cout << "Atleast something 2" << std::endl;
-			break;
-		case 2:
-			std::cout << "Atleast something 3" << std::endl;
-			break;
-		case 3:
-			std::cout << "Atleast something 4" << std::endl;
-			break;
-	}*/
+	SnapArrowToEntity(_actions[0]); //Snap the arrow to the top of the list
 }
 
-void CommandWindow::SnapArrowToEntity(MyEntity* entity) 
+void CommandWindow::SnapArrowToEntity(Entity* entity) 
 {
+	//Set the arrow to the entities position, with an offset
 	_arrow->position = entity->position;
 	_arrow->position.x = entity->position.x + 150;
+
+	//Accordingly change the battle text based on what action and command is selected
 	switch (_actionType)
 	{
 		case 0:
@@ -121,17 +117,17 @@ void CommandWindow::SnapArrowToEntity(MyEntity* entity)
 
 void CommandWindow::CleanUp()
 {
+	//Remove the actions
 	for (size_t i = 0; i < _actions.size(); i++)
 	{
 		this->RemoveChild(_actions[i]);
 		_actions.erase(_actions.begin() + i);
 		delete _actions[i];
 		_actions[i] = nullptr;
-		//std::cout << "Deleting Action" << std::endl;
 	}
-	//std::cout << "Actions before clearing: " << _actions.size() << std::endl;
 	_actions.clear();
-	//std::cout << "Actions after clearing: " << _actions.size() << std::endl;
+
+	//Destroy the arrow
 	this->RemoveChild(_arrow);
 	delete _arrow;
 	_arrow = nullptr;

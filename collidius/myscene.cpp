@@ -9,14 +9,14 @@ MyScene::MyScene() : Scene()
 	this->AddChild(_startTimer);
 
 	//Add the layers
-	_layer1 = new MyEntity();
+	_layer1 = new Entity();
 
 	//Set the background sprite
 	_layer1->SetSprite("assets/sprites/bg.tga");
 	_layer1->position = glm::vec3(WIDTH / 2, HEIGHT / 2, 0);
 
-	_layer2 = new MyEntity();
-	_layer3 = new MyEntity();
+	_layer2 = new Entity();
+	_layer3 = new Entity();
 
 	this->AddChild(_layer1);
 	this->AddChild(_layer2);

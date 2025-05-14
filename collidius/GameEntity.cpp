@@ -33,7 +33,7 @@ GameEntity::GameEntity(unsigned char ID, short Health, unsigned char Power, unsi
 	_damageSpriteTimer->StopTimer();
 
 	//Make the hitbox
-	hitBox = new MyEntity();
+	hitBox = new Entity();
 	this->AddChild(hitBox);
 
 	//Assign make new items,each with 2 uses

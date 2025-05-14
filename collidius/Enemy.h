@@ -20,26 +20,28 @@ public:
 	/// @return void
 	virtual void Update(float deltaTime) override; //update
 
+	///@brief Update the health text on the UI window
+	void UpdateHealthText() override;
+
+private:
+
 	///@brief Reset the player state to idle for the next turn or attack
 	void ProjectileAttack(GameEntity* target);
 
 	////@brief This function handles how a projectile will act upon colission
 	void HandleProjectileAction() override;
 
-	///@brief Fires a projectile, can be overridden
+	///@brief Fires a projectile, is overridden from GameEntity
 	///@param GameEntity* target, the entity that is being targeted
 	void FireProjectile(GameEntity* target) override;
 
-	///@brief Fires a projectile, can be overridden
-	///@param GameEntity* target, the entity that is being targeted
+	///@brief Handles the attack
+	///@param float deltaTime
 	void HandleAttacking(float deltaTime);
 
+	///@brief Handles choosing
+	///@param float deltaTime
 	void HandleChoosing(float deltaTime);
-
-	///@brief Update the health text on the UI window
-	void UpdateHealthText() override;
-
-private:
 
 	//Star indicator sprite
 	Entity* _starIndicator;
