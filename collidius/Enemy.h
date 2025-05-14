@@ -1,14 +1,11 @@
 #ifndef ENEMY_H 
 #define ENEMY_H
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
 #include "config.h"
-#include "MyEntity.h"
 #include "GameEntity.h"
 #include "Projectile.h"
 
+///@brief The enemy class, the opponent of the players
 class Enemy : public GameEntity
 {
 public:
@@ -23,19 +20,29 @@ public:
 	/// @return void
 	virtual void Update(float deltaTime) override; //update
 
-	void BasicAttack(char damage, GameEntity* target);
+	///@brief Reset the player state to idle for the next turn or attack
 	void ProjectileAttack(GameEntity* target);
+
+	////@brief This function handles how a projectile will act upon colission
 	void HandleProjectileAction() override;
+
+	///@brief Fires a projectile, can be overridden
+	///@param GameEntity* target, the entity that is being targeted
 	void FireProjectile(GameEntity* target) override;
-	void HandleAction();
-	void PerformAttack(unsigned char attackLevel);
+
+	///@brief Fires a projectile, can be overridden
+	///@param GameEntity* target, the entity that is being targeted
+	void HandleAttacking(float deltaTime);
+
+	void HandleChoosing(float deltaTime);
+
+	///@brief Update the health text on the UI window
 	void UpdateHealthText() override;
 
 private:
 
-	Timer* _attackingTimer;
-
-	MyEntity* _starIndicator;
+	//Star indicator sprite
+	Entity* _starIndicator;
 };
 
 #endif // ENEMY_H 
