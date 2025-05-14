@@ -1,12 +1,9 @@
 #ifndef PROJECTILE_H 
 #define PROJECTILE_H
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include "Entity.h"
 
-#include "MyEntity.h"
-
-class Projectile : public MyEntity
+class Projectile : public Entity
 {
 public:
 	/// @brief constructor
@@ -15,18 +12,29 @@ public:
 	/// @brief destructor
 	virtual ~Projectile();
 
-	void SetTarget(glm::vec3 targetPosition);
 	/// @brief update method
 	/// @param deltaTime
 	/// @return void
 	virtual void Update(float deltaTime); //update
 
+	///@brief Set the target position this projectile needs to go towards
+	///@param glm::vec3 targetPosition, the position of the target
+	void SetTarget(glm::vec3 targetPosition);
+
+	///@brief Set the target position this projectile needs to go towards
 	float speed;
-	MyEntity* hitBox;
+
+	///@brief Hitbox Sprite
+	Entity* hitBox;
 private:
 
+	///@brief The position this entity has to reach
 	glm::vec3 _endPosition;
+
+	///@brief The position this entity starts from
 	glm::vec3 _startPosition;
+
+	///@brief The direction this entity should go
 	glm::vec3 _direction;
 
 };
