@@ -9,8 +9,9 @@ VisualSlider::VisualSlider(unsigned char playerID)
 VisualSlider::~VisualSlider()
 {
 	delete _fill;
-	_fill = nullptr;
 	delete _playerKey;
+
+	_fill = nullptr;
 	_playerKey = nullptr;
 }
 

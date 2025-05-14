@@ -10,12 +10,7 @@ public:
 	UIWindow();
 
 	/// @brief destructor
-	virtual ~UIWindow();
-
-	/// @brief update method
-	/// @param deltaTime
-	/// @return void
-	virtual void Update(float deltaTime); //update
+	virtual ~UIWindow() {}; //The text pointers already get deleted in entity
 
 	///@brief The health display text of player 1
 	Text* playerOneText;
@@ -25,9 +20,6 @@ public:
 
 	///@brief The health display text of the enemy
 	Text* enemyText;
-
-private:
-	
 };
 
 #endif // UIWINDOW_H 

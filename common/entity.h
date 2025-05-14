@@ -21,7 +21,7 @@ public:
 	/// @brief update function
 	/// @param deltaTime
 	/// @return void
-	virtual void Update(float deltaTime) = 0;
+	virtual void Update(float deltaTime) {};
 
 	/// @brief _input getter
 	/// @return _input
