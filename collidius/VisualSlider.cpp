@@ -18,7 +18,7 @@ VisualSlider::~VisualSlider()
 void VisualSlider::InitVisuals()
 {
 	//Create the fill sprite
-	_fill = new MyEntity(); 
+	_fill = new Entity();
 	_fill->SetSprite("assets/sprites/sliderfill.tga");
 	_fill->position = this->position;
 	_fill->scale = this->scale;
@@ -26,7 +26,7 @@ void VisualSlider::InitVisuals()
 	this->AddChild(_fill);
 
 	//Create the player key sprite
-	_playerKey = new MyEntity();
+	_playerKey = new Entity();
 	if (_playerId == 1) { _playerKey->SetSprite(_player1Sprite); } //If player 1, set player1 key sprite to the playerkey sprite
 	else { _playerKey->SetSprite(_player2Sprite); } //If player 2, set player2 key sprite to the playerkey sprite
 	_playerKey->position = this->position;

@@ -1,9 +1,9 @@
 #ifndef VISUALSLIDER_H 
 #define VISUALSLIDER_H
 
-#include "MyEntity.h"
+#include "entity.h"
 
-class VisualSlider : public MyEntity
+class VisualSlider : public Entity
 {
 public:
 	/// @brief constructor
@@ -38,10 +38,10 @@ private:
 	bool _perfectTiming = false;
 
 	///@brief The filling of the visual slider
-	MyEntity* _fill = nullptr;
+	Entity* _fill = nullptr;
 
 	///@brief The player key sprite
-	MyEntity* _playerKey = nullptr;
+	Entity* _playerKey = nullptr;
 
 	///@brief The amount of the scale that is filled
 	float _fillScaleAmount = 0;
