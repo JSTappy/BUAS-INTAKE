@@ -12,17 +12,14 @@ Player::Player(unsigned char id, short health, unsigned char power, unsigned cha
 
 	_ascendTimer = new Timer();
 	_attackingTimer = new Timer();
-	_waitingTimer = new Timer();
 
 	//Add the timers so they are able to update
-	this->AddChild(_waitingTimer);
-	this->AddChild(_attackingTimer);
 	this->AddChild(_ascendTimer);
+	this->AddChild(_attackingTimer);
 
 	//Stop the timers
 	_ascendTimer->StopTimer();
 	_attackingTimer->StopTimer();
-	_waitingTimer->StopTimer();
 
 	//These get assigned later
 	_target = nullptr;
@@ -69,7 +66,6 @@ void Player::Update(float deltaTime)
 			EnableJump(deltaTime);
 			return;
 	}
-	
 }
 
 void Player::AssignActionKey(unsigned char jumpKey)
@@ -80,7 +76,7 @@ void Player::AssignActionKey(unsigned char jumpKey)
 void Player::UpdateHealthText()
 {
 	//Set the health text to the player health
-	this->text->text = "Player: " + std::to_string(this->GetID()) + " HP: " + std::to_string(health) + " / " + std::to_string(_maxHealth);
+	this->text->text = "Player: " + std::to_string(this->GetID()) + " HP: " + std::to_string(health) + " / " + std::to_string(GetMaxHealth());
 }
 
 void Player::Move(float deltaTime)
@@ -359,7 +355,7 @@ void Player::HandleProjectileMash()
 		if (_energyStored >= 3) { _energyStored = 3; } //Higher than or 3
 
 		//spawn projectile you fire at the opponent
-		this->FireProjectile(_target, 1, 1);
+		this->FireProjectile(_target);
 		_attackPerformed = true;
 		if (this->health > this->GetMaxHealth() / 10) //take 10% damage standard
 		{

@@ -27,7 +27,6 @@ public:
 	/// @param deltaTime
 	/// @return void
 	virtual void Update(float deltaTime);
-
 	
 private:
 

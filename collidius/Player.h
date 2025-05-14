@@ -144,9 +144,6 @@ private:
 	///@brief Timer to check how far along specific attacks you are
 	Timer* _attackingTimer;
 
-	///@brief Timer to check if the action should already be performed or not
-	Timer* _waitingTimer;
-
 	///@brief Check if the player should fall
 	bool _shouldFall;
 

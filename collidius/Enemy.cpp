@@ -81,7 +81,7 @@ void Enemy::HandleAction(){}
 
 void Enemy::UpdateHealthText()
 {
-	this->text->text = "Enemy: " + std::to_string(this->GetID()) + " HP: " + std::to_string(health) + " / " + std::to_string(_maxHealth);
+	this->text->text = "Enemy: " + std::to_string(this->GetID()) + " HP: " + std::to_string(health) + " / " + std::to_string(GetMaxHealth());
 }
 
 void Enemy::PerformAttack(unsigned char attackLevel)
@@ -99,12 +99,12 @@ void Enemy::BasicAttack(char damage, GameEntity* target)
 
 void Enemy::ProjectileAttack(GameEntity* target)
 {
-	FireProjectile(target, 1,1);
+	FireProjectile(target);
 	_target->gameEntityState = _target->defending;
 	TurnManager::Instance()->battleText->text = "WATCH OUT!";
 }
 
-void Enemy::FireProjectile(GameEntity* target, unsigned char amount, float interval)
+void Enemy::FireProjectile(GameEntity* target)
 {
 	//make eye shine corresponding to the player position
 	_target = target;

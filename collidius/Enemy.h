@@ -26,7 +26,7 @@ public:
 	void BasicAttack(char damage, GameEntity* target);
 	void ProjectileAttack(GameEntity* target);
 	void HandleProjectileAction() override;
-	void FireProjectile(GameEntity* target, unsigned char amount, float interval) override;
+	void FireProjectile(GameEntity* target) override;
 	void HandleAction();
 	void PerformAttack(unsigned char attackLevel);
 	void UpdateHealthText() override;
