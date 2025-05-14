@@ -69,7 +69,7 @@ public:
 
 	virtual void UpdateHealthText() {};
 
-	MyEntity* hitBox;
+	Entity* hitBox;
 
 protected:
 
@@ -95,7 +95,7 @@ protected:
 	glm::vec3 ObtainNormalizedVector(glm::vec3 targetPosition);
 	glm::vec3 _initialTargetVector;
 	short _maxHealth;
-	MyEntity* _damageSprite;
+	Entity* _damageSprite;
 
 	Audio::Sound* _hitSound = new Audio::Sound("assets/audio/hitone.ogg", Audio::Sound::Type::Sound);
 	Audio::Sound* _critHitSound = new Audio::Sound("assets/audio/crithit.ogg", Audio::Sound::Type::Sound);
