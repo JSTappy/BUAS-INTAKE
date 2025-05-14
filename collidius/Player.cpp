@@ -149,8 +149,8 @@ void Player::SelectBlock()
 
 void Player::HandleAction()
 {
-	unsigned char actionType = _actionBlock->ConfirmAction().x; //The type of action chosen, Attack (0), Defense (1), Item (2), Special (3)
-	unsigned char actionIndex = _actionBlock->ConfirmAction().y; //The index of the chosen action type, 0, 1, 2, 3
+	unsigned char actionType = _actionBlock->GetConfirmedAction().x; //The type of action chosen, Attack (0), Defense (1), Item (2), Special (3)
+	unsigned char actionIndex = _actionBlock->GetConfirmedAction().y; //The index of the chosen action type, 0, 1, 2, 3
 
 	switch (actionType)
 	{
