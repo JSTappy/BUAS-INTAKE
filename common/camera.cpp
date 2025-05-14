@@ -28,30 +28,6 @@ void Camera::computeViewMatrixFromInput(GLFWwindow* window, float deltaTime)
 	static glm::vec3 position = glm::vec3( 0, 0, 10 ); // Initial position : on +Z
 	float speed = 300.0f; // units / second
 
-	// Move up
-	//if (glfwGetKey( window, GLFW_KEY_UP ) == GLFW_PRESS){
-	//	position += up * deltaTime * speed;
-	//	// std::cout << "Moving Up" << std::endl;
-	//}
-	//// Move down
-	//if (glfwGetKey( window, GLFW_KEY_DOWN ) == GLFW_PRESS){
-	//	position -= up * deltaTime * speed;
-	//	// std::cout << "Moving Down" << std::endl;
-
-	//}
-	//// Strafe right
-	//if (glfwGetKey( window, GLFW_KEY_RIGHT ) == GLFW_PRESS){
-	//	position += right * deltaTime * speed;
-	//	// std::cout << "Moving Right" << std::endl;
-
-	//}
-	//// Strafe left
-	//if (glfwGetKey( window, GLFW_KEY_LEFT ) == GLFW_PRESS){
-	//	position -= right * deltaTime * speed;
-	//	// std::cout << "Moving Left" << std::endl;
-
-	//}
-
 	// View matrix
 	_viewMatrix = glm::lookAt(
 			position, /* Camera is at (xpos,ypos,zpos), in World Space */
