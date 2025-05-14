@@ -36,6 +36,10 @@ private:
 
 	///@brief Handle the tutorial with dialogue and music
 	void HandleTutorial();
+
+	void CheckToShowImages(int textCount);
+
+	Entity* _tutorialImage;
 	
 	///@brief The background
 	Entity* _layer1;
@@ -85,16 +89,21 @@ private:
 	///@brief The dialogue that will play as a tutorial
 	std::vector<const char*> _introDialogue
 	{
-		"...",
+		"Press [SPACEBAR] to commence forth...",
 		"'Its just us two left, huh Cole?'",
 		"'I guess you're right... Lee.'",
 		"'This gorilla... Sean is something else.'",
 		"'Alright, we can choose to attack, defend or use an item.'",
 		"'We jump to hit the action block and choose what we do right?'",
 		"'Exactly! when we do, we can choose from 4 actions.'",
-		"'We deal massive damage if we use our actions.'",
+		"'We deal massive damage if we use our actions right.'",
+		"'Be careful though! the gorilla attacks by throwing bananas.'",
+		"'How do we know where he is gonna throw them?'",
+		"'I think his eyes say alot...'",
+		"'We can jump over them or choose to stay still.'",
 		"'Let's get him Cole! We humans have no limits!'",
 		"'Damn right Lee! Let's charge together at full power!'",
+		"..."
 	};
 };
 

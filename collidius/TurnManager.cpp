@@ -55,7 +55,7 @@ void TurnManager::DecideTurnOrder()
 
 	//After the for loop, set the next in turns state to choosing
 	_nextInTurn->gameEntityState = _nextInTurn->choosing;
-	battleText->text = "Choosing Action" + std::to_string(_nextInTurn->GetID());
+	battleText->text = "Choosing Action";
 }
 
 void TurnManager::DecideNextInTurn()
@@ -70,7 +70,6 @@ void TurnManager::DecideNextInTurn()
 			completedTurnEntities++;
 			continue;
 		}
-
 		//If the above was not true, and the entities speed was higher than the last speed, set that entity to the next in turn
 		if (_gameEntities[i]->speed > lastSpeed)
 		{
@@ -108,7 +107,6 @@ void TurnManager::GiveTurnToNext()
 
 	//Complete the turn and teleport the next in turn to its start position. next dereference it and set the timer started to false
 	_nextInTurn->completedTurn = true;
-	_nextInTurn->TeleportToPosition(_nextInTurn->GetStartPos());
 	_nextInTurn = nullptr;
 	_timerStarted = false;
 

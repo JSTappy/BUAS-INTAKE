@@ -82,7 +82,9 @@ void MyScene::Update(float deltaTime)
 {
 	if (!setupComplete) { HandleTutorial(); return; } //Handle the tutorial if it has not been completed yet
 	if (GetInput()->GetKeyDown(KEY_Z)) { TurnManager::Instance()->DisplayStats(); } //Display stats if the Z key is pressed
-	if (GetInput()->GetKeyDown(KEY_T)) //Display the hitboxes if the T key is pressed
+
+	//Display the hitboxes if the T key is pressed
+	if (GetInput()->GetKeyDown(KEY_T)) 
 	{
 		_displayHitboxes = !_displayHitboxes;
 		for (size_t i = 0; i < _gameEntities.size(); i++)
@@ -115,44 +117,52 @@ void MyScene::Update(float deltaTime)
 	_bgm->setVolume(0.5f);
 	_bgm->play();
 }
+
+void MyScene::CheckToShowImages(int textCount)
+{
+	if (textCount == 4)
+	{
+		_tutorialImage = new Entity();
+		_layer3->AddChild(_tutorialImage);
+		_tutorialImage->SetSprite("assets/sprites/tutorialslide1.tga");
+		_tutorialImage->position = glm::vec3(WIDTH / 2, 294.0f, 0);
+	}
+	if (textCount == 6)
+	{
+		_tutorialImage->SetSprite("assets/sprites/tutorialslide2.tga");
+	}
+	if (textCount == 7)
+	{
+		_tutorialImage->SetSprite("assets/sprites/tutorialslide3.tga");
+	}
+	if (textCount == 8)
+	{
+		_tutorialImage->SetSprite("assets/sprites/tutorialslide4.tga");
+	}
+	if (textCount == 12)
+	{
+		_layer3->RemoveChild(_tutorialImage);
+		delete _tutorialImage;
+		_tutorialImage = nullptr;
+	}
+}
 void MyScene::HandleTutorial()
 {
-	if (GetInput()->GetKeyDown(SPACE)) { CompleteTutorial(); return; } //Skip the tutorial when pressing Space Key
-
-	/*	If the textinterval is below or equal to the amount of seconds the start timer
-		And the textcount is still smaller than the intro dialogue strings size
-		And if the text interval is below 24.39f
-
-		Switch to the next intro dialogue string
-	*/
-	if (_textinterval <= _startTimer->GetSeconds() && _textcount < _introDialogue.size() && _textinterval < 24.39f)
+	if (_textcount >= _introDialogue.size() - 1 && !setupComplete) 
+	{
+		CompleteTutorial();
+		return;
+	}
+	if (GetInput()->GetKeyDown(SPACE))
 	{
 		_textcount++;
+		CheckToShowImages(_textcount);
 		TurnManager::Instance()->battleText->text = _introDialogue[_textcount];
-		_textinterval += 2.71f;
-		return;
 	}
-	
-	//If the text interval is smaller than 24.39f, return because the if statement above this does not get called every frame
-	if (_textinterval < 24.39f)return;
-
-	//Play the intro once the last string is on screen and the time is below the interval
-	if (_startTimer->GetSeconds() <= 24.39f)
-	{
-		//Play the intro if it isnt playing already
-		if (_intro->isPlaying())return;
-		_intro->play();
-		_intro->setVolume(0.8f);
-		return;
-	}
-	if (!setupComplete)CompleteTutorial(); //Complete the tutorial if the timer exceeds the 24.39f threshold
 }
 void MyScene::CompleteTutorial() 
 {
 	//Start the game
 	TurnManager::Instance()->StartGame(); 
-	_startTimer->StopTimer(); //Stop the timer
-	_startTimer->isPlaying = false;
-	if (_intro->isPlaying())_intro->stop(); //Stop the music
 	setupComplete = true;
 }
