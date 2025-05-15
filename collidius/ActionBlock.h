@@ -31,9 +31,6 @@ public:
 	///@brief Displays the commands of an action
 	void OpenCommandWindow();
 
-	///@brief Cleans up / Deletes things that should be deleted
-	void CleanUp();
-
 	///@brief Get the Action index and the Action type
 	///@return glm::vec2(_spriteCounter, _commandWindow->GetSelectedAction()),;
 	glm::vec2 GetConfirmedAction() {return glm::vec2(_spriteCounter, _commandWindow->GetSelectedAction());}

@@ -14,7 +14,9 @@ ActionBlock::ActionBlock()
 }
 ActionBlock::~ActionBlock()
 {
-
+	this->RemoveChild(_commandWindow);
+	delete _commandWindow;
+	_commandWindow = nullptr;
 }
 
 void ActionBlock::NextBlock()
@@ -59,13 +61,4 @@ void ActionBlock::OpenCommandWindow()
 	_commandWindow->position = glm::vec3(128 * (_commandWindow->scale.x / 2), 128 * (_commandWindow->scale.y / 2), 0.0f);
 	this->AddChild(_commandWindow);
 	_commandWindow->DisplayCommands(_spriteCounter);
-}
-
-void ActionBlock::CleanUp()
-{
-	//Destroy the command window
-	_commandWindow->CleanUp();
-	this->RemoveChild(_commandWindow);
-	delete _commandWindow;
-	_commandWindow = nullptr;
 }

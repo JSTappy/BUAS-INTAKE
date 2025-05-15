@@ -29,8 +29,6 @@ public:
 	/// @return _selectedActionCount
 	unsigned char GetSelectedAction() { return _selectedActionCount; }
 
-	void CleanUp();
-
 private:
 
 	///@brief Arrow sprite

@@ -16,7 +16,20 @@ CommandWindow::CommandWindow()
 
 CommandWindow::~CommandWindow()
 {
+	//Remove the actions
+	for (size_t i = 0; i < _actions.size(); i++)
+	{
+		this->RemoveChild(_actions[i]);
+		_actions.erase(_actions.begin() + i);
+		delete _actions[i];
+		_actions[i] = nullptr;
+	}
+	_actions.clear();
 
+	//Destroy the arrow
+	this->RemoveChild(_arrow);
+	delete _arrow;
+	_arrow = nullptr;
 }
 
 void CommandWindow::Update(float deltaTime)
@@ -113,22 +126,4 @@ void CommandWindow::SnapArrowToEntity(Entity* entity)
 			TurnManager::Instance()->battleText->text = _itemStrings[_selectedActionCount];
 			break;
 	}
-}
-
-void CommandWindow::CleanUp()
-{
-	//Remove the actions
-	for (size_t i = 0; i < _actions.size(); i++)
-	{
-		this->RemoveChild(_actions[i]);
-		_actions.erase(_actions.begin() + i);
-		delete _actions[i];
-		_actions[i] = nullptr;
-	}
-	_actions.clear();
-
-	//Destroy the arrow
-	this->RemoveChild(_arrow);
-	delete _arrow;
-	_arrow = nullptr;
 }

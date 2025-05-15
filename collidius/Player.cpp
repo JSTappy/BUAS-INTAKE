@@ -29,9 +29,23 @@ Player::Player(unsigned char id, short health, unsigned char power, unsigned cha
 
 Player::~Player()
 {
+	ClearHUD();
+
 	this->RemoveChild(_waitingTimer);
 	this->RemoveChild(_attackingTimer);
 	this->RemoveChild(_ascendTimer);
+
+	delete _waitingTimer;
+	delete _attackingTimer;
+	delete _ascendTimer;
+
+	_waitingTimer = nullptr;
+	_attackingTimer = nullptr;
+	_ascendTimer = nullptr;
+
+	delete _jumpSound;
+	_jumpSound = nullptr;
+
 }
 
 void Player::Update(float deltaTime) 
@@ -546,7 +560,6 @@ void Player::ClearHUD()
 	if (_actionBlock != nullptr) //Delete the action block if it exists
 	{
 		this->RemoveChild(_actionBlock);
-		_actionBlock->CleanUp();
 		delete _actionBlock;
 		_actionBlock = nullptr;
 	}
