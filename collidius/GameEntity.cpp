@@ -52,6 +52,7 @@ GameEntity::GameEntity(unsigned char ID, short Health, unsigned char Power, unsi
 
 GameEntity::~GameEntity()
 {
+	//Delete the timers and sprites
 	this->RemoveChild(_movingTimer);
 	this->RemoveChild(_movingTimer);
 	this->RemoveChild(_damageSpriteTimer);
@@ -67,21 +68,25 @@ GameEntity::~GameEntity()
 	_waitingTimer = nullptr;
 	_damageSpriteTimer = nullptr;
 
+	//Delete every item
 	for (Item* item : _items)
 	{
 		delete item;
 	}
 	 _items.clear();
 
+	 //Delete every projectile
 	for (Projectile* projectile : _projectiles)
 	{
 		delete projectile;
 	}
 	_projectiles.clear();
 
-
+	//Dereference target
 	 _target = nullptr;
 
+
+	 //Destroy the sounds
 	 delete _hitSound;
 	 delete _critHitSound;
 	 delete _projectileSound;

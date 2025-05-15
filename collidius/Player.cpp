@@ -261,7 +261,7 @@ void Player::JumpAttack(GameEntity* target)
 	_initialTargetVector = ObtainNormalizedVector(_target->position);
 	gameEntityState = attacking;
 	_isGrounded = true;
-	TurnManager::Instance()->battleText->text = "Press the [Action Key] when landing on its head!";
+	TurnManager::Instance()->battleText->text = "Press the [Action Key] when landing on its head (3 times)!";
 }
 
 void Player::MashProjectileAttack(GameEntity* target)
@@ -272,7 +272,7 @@ void Player::MashProjectileAttack(GameEntity* target)
 	gameEntityState = attacking;
 	InitiateVisualSlider();
 	_target = target;
-	TurnManager::Instance()->battleText->text = "MASH THE [Action Key] TO FIRE A STRONG PROJECTILE!";
+	TurnManager::Instance()->battleText->text = "Mash the [Action Key] to fire a strong projectile!";
 }
 
 void Player::DashAttack(GameEntity* target)
