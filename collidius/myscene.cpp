@@ -199,19 +199,19 @@ void MyScene::CheckToShowImages(char textCount)
 		_gameStateImage->SetSprite("assets/sprites/tutorialslide1.tga");
 		_gameStateImage->position = glm::vec3(WIDTH / 2, 294.0f, 0);
 	}
-	if (textCount == 6)
+	if (textCount == 8)
 	{
 		_gameStateImage->SetSprite("assets/sprites/tutorialslide2.tga");
 	}
-	if (textCount == 7)
+	if (textCount == 10)
 	{
 		_gameStateImage->SetSprite("assets/sprites/tutorialslide3.tga");
 	}
-	if (textCount == 8)
+	if (textCount == 13)
 	{
 		_gameStateImage->SetSprite("assets/sprites/tutorialslide4.tga");
 	}
-	if (textCount == 12)
+	if (textCount == 17)
 	{
 		_layer3->RemoveChild(_gameStateImage);
 		delete _gameStateImage;

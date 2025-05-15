@@ -97,14 +97,19 @@ private:
 	///@brief The dialogue that will play as a tutorial
 	std::vector<const char*> _introDialogue
 	{
-		"Press [SPACEBAR] to commence forth...",
+		"*Press [SPACEBAR] to commence forth...",
 		"'Its just us two left, huh Cole?'",
 		"'I guess you're right... Lee.'",
 		"'This gorilla... Sean is something else.'",
 		"'Alright, we can choose to attack, defend or use an item.'",
-		"'We jump to hit the action block and choose what we do right?'",
+		"*You press the Q key to jump as the player at the top",
+		"*You press the K key to jump as the player at the bottom",
+		"'So we jump to hit the action block and choose what we do?'",
 		"'Exactly! when we do, we can choose from 4 actions.'",
+		"*Use the WASD keys to navigate through the menus",
 		"'We deal massive damage if we use our actions right.'",
+		"*IMPORTANT: Keep looking at this window when you can",
+		"*This window will provide info about the attack execution",
 		"'Be careful though! the gorilla attacks by throwing bananas.'",
 		"'How do we know where he is gonna throw them?'",
 		"'I think his eyes say alot...'",
