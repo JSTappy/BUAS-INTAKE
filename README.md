@@ -28,7 +28,7 @@ Install the following:
 
 - Visual Studio 2022 Community Edition
 
-Then open the `Buas_Intake.sln` file after you cloned or downloaded this repository. Once you opened this file, you will have to make sure to right click the Buas_Intake directory in Visual Studio and set it as the start up project if it is not done already. After that, you navigate to Build and then press 'Build Solution' or alternatively press 'CTRL + SHIFT + B'. Once its done building, you can either click on the green play arrow in Visual Studio, or you can navigate through the Debug / Release folder to run the '.exe' file there.
+Then open the `Buas_Intake.sln` file after you cloned or downloaded this repository. Once you opened this file, you will have to make sure to right click the Buas_Intake directory in Visual Studio and set it as the start up project if it is not done already. After that, you navigate to Build and then press 'Build Solution' or alternatively press 'CTRL + SHIFT + B'. Once its done building, you can either click on the green play arrow in Visual Studio, or you can navigate through the Debug / Release folder in order to run the '.exe' file there.
 
 Libraries used:
 ---------
