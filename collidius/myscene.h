@@ -97,13 +97,13 @@ private:
 	///@brief The dialogue that will play as a tutorial
 	std::vector<const char*> _introDialogue
 	{
-		"*Press [SPACEBAR] to commence forth...",
+		"*Press [SPACEBAR] to see the next text message",
 		"'Its just us two left, huh Cole?'",
 		"'I guess you're right... Lee.'",
 		"'This gorilla... Sean is something else.'",
 		"'Alright, we can choose to attack, defend or use an item.'",
 		"*You press the Q key to jump as the player at the top",
-		"*You press the K key to jump as the player at the bottom",
+		"*You press the E key to jump as the player at the bottom",
 		"'So we jump to hit the action block and choose what we do?'",
 		"'Exactly! when we do, we can choose from 4 actions.'",
 		"*Use the WASD keys to navigate through the menus",
