@@ -313,6 +313,11 @@ void Player::HandlePunch(float deltaTime)
 
 void Player::HandleJumpAttack(float deltaTime)
 {
+	if (_target == nullptr)
+	{
+		ResetToIdle();
+		return;
+	}
 	if (this->position.x >= _target->position.x - 256 && _isGrounded) //check if the player should jump towards the enemy already
 	{
 		Jump(750, 1.25f);

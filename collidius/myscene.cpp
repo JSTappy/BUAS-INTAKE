@@ -68,8 +68,7 @@ MyScene::MyScene() : Scene()
 	//Initiate the timer
 	_endTimer = new Timer();
 	this->AddChild(_endTimer);
-	_endTimer->StartTimer();
-	_endTimer->isPlaying = true;
+	_endTimer->StopTimer();
 }
 
 MyScene::~MyScene()
@@ -79,7 +78,7 @@ MyScene::~MyScene()
 
 void MyScene::Update(float deltaTime)
 {
-	if (_endTimer->GetSeconds() <= 10)return;
+	if (_endTimer->GetSeconds() <= 10 && _endTimer->isPlaying)return;
 	if (_gameComplete)
 	{
 		shouldCloseGame = true;
