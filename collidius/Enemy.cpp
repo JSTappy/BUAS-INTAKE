@@ -103,6 +103,10 @@ void Enemy::HandleChoosing(float deltaTime)
 
 void Enemy::UpdateHealthText()
 {
+	if (health <= 0)
+	{
+		this->text->text = "Enemy: " + std::to_string(this->GetID()) + " HP: " + std::to_string(0) + " / " + std::to_string(GetMaxHealth()); return;
+	}
 	this->text->text = "Enemy: " + std::to_string(this->GetID()) + " HP: " + std::to_string(health) + " / " + std::to_string(GetMaxHealth());
 }
 

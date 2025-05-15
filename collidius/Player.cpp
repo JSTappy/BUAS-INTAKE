@@ -89,6 +89,11 @@ void Player::AssignActionKey(unsigned char jumpKey)
 
 void Player::UpdateHealthText()
 {
+	if (health <= 0)
+	{
+		this->text->text = "Player: " + std::to_string(this->GetID()) + " HP: " + std::to_string(0) + " / " + std::to_string(GetMaxHealth()); 
+		return;
+	}
 	//Set the health text to the player health
 	this->text->text = "Player: " + std::to_string(this->GetID()) + " HP: " + std::to_string(health) + " / " + std::to_string(GetMaxHealth());
 }

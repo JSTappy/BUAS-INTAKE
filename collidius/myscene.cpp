@@ -131,7 +131,6 @@ void MyScene::Update(float deltaTime)
 		return;
 	}
 	if (!setupComplete) { HandleTutorial(); return; } //Handle the tutorial if it has not been completed yet
-	if (GetInput()->GetKeyDown(KEY_Z)) { TurnManager::Instance()->DisplayStats(); } //Display stats if the Z key is pressed
 
 	//Display the hitboxes if the T key is pressed
 	if (GetInput()->GetKeyDown(KEY_T)) 

@@ -26,9 +26,6 @@ public:
 	///@param GameEntity* for the GameEntity that gets added
 	void AddGameEntities(GameEntity* ge);
 
-	///@brief Displays the _nextInTurn's stats like health power etc.
-	void DisplayStats();
-
 	///@brief Dereference the entity and remove it from the correct list(s)
 	///@param GameEntity* for the GameEntity that gets Dereferenced
 	void KillEntity(GameEntity* ge);
