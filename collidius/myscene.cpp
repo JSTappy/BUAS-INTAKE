@@ -26,7 +26,7 @@ MyScene::MyScene() : Scene()
 	_layer3->AddChild(_uiDisplay);
 	
 	//Add Player 1
-	_player1 = new Player(1, 1, 40, 9, 44, 0, 10);
+	_player1 = new Player(1, 74, 40, 9, 44, 0, 10);
 	_player1->SetSprite("assets/sprites/kchar.tga");
 	_player1->text = _uiDisplay->playerOneText; //Set the player one text to the ui player one text so it can render on layer 3
 	_player1->UpdateHealthText();
@@ -37,7 +37,7 @@ MyScene::MyScene() : Scene()
 	_gameEntities.push_back(_player1);
 
 	//Add Player 1
-	_player2 = new Player(2, 1, 35, 16, 36, 0, 10);
+	_player2 = new Player(2, 97, 35, 16, 36, 0, 10);
 	_player2->SetSprite("assets/sprites/jchar.tga");
 	_player2->text = _uiDisplay->playerTwoText; //Set the player two text to the ui player two text so it can render on layer 3
 	_player2->UpdateHealthText();
@@ -48,7 +48,7 @@ MyScene::MyScene() : Scene()
 	_gameEntities.push_back(_player2);
 
 	//Add the Enemy
-	_enemy = new Enemy(3, 1, 30, 15, 60, 0, 10);
+	_enemy = new Enemy(3, 1063, 30, 15, 60, 0, 10);
 	_enemy->SetSprite("assets/sprites/gorilla.tga");
 	_enemy->text = _uiDisplay->enemyText; //Set the enemy text to the ui enemy text so it can render on layer 3
 	_enemy->UpdateHealthText();

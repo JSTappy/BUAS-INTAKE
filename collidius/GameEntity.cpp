@@ -168,7 +168,7 @@ void GameEntity::HandleProjectileCollision(Projectile* p, GameEntity* t)
 	float projHalfWidth = (p->sprite->GetWidth() * p->scale.x) / 2;
 	float projHalfHeight = (p->sprite->GetHeight() * p->scale.y) / 2;
 
-	//Compute the projectile's AABB edges in world space
+	//Calculate projectile's AABB edges in the scene
 	float projLeft = p->position.x - projHalfWidth;
 	float projRight = p->position.x + projHalfWidth;
 	float projTop = p->position.y - projHalfHeight;
@@ -178,14 +178,13 @@ void GameEntity::HandleProjectileCollision(Projectile* p, GameEntity* t)
 	float targetHalfWidth = (t->sprite->GetWidth() * t->scale.x) / 2;
 	float targetHalfHeight = (t->sprite->GetHeight() * t->scale.y) / 2;
 
-	//Compute the targets AABB edges in world space
+	//Calculate the targets AABB edges in the scene
 	float targetLeft = t->position.x - targetHalfWidth;
 	float targetRight = t->position.x + targetHalfWidth;
 	float targetTop = t->position.y - targetHalfHeight;
 	float targetBottom = t->position.y + targetHalfHeight;
 
-	//Perform AABB collision detection
-	//If any part of the projectile's bounding box overlaps with the target's, it's a hit
+	//If any part of the projectile's hitbox overlaps with the targets hitbox, hit
 	if (projRight >= targetLeft &&
 		projLeft <= targetRight &&
 		projBottom >= targetTop &&

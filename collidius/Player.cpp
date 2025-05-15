@@ -103,7 +103,7 @@ void Player::Move(float deltaTime)
 	}
 	if (!_isGrounded && _shouldFall && gameEntityState == attacking) //Jump Attack exclusive gravity logic
 	{
-		_velocity.y += (_gravity * 0.8f) * deltaTime;
+		_velocity.y += (_gravity * 0.5f) * deltaTime;
 		return;
 	}
 	if (!_isGrounded && _shouldFall) //When aerial and when you should be falling
@@ -260,6 +260,7 @@ void Player::JumpAttack(GameEntity* target)
 	_target = target;
 	_initialTargetVector = ObtainNormalizedVector(_target->position);
 	gameEntityState = attacking;
+	_isGrounded = true;
 	TurnManager::Instance()->battleText->text = "Press the [Action Key] when landing on its head!";
 }
 
@@ -322,7 +323,7 @@ void Player::HandlePunch(float deltaTime)
 
 	if (this->position.x >= _target->position.x - 256) return; //When you are close to the enemy, don't move towards it
 
-	MoveTowardsPosition(_target->position - glm::vec3(_initialTargetVector.x + 64, _target->position.y, 0), 800, deltaTime); //Move towards the enemy
+	MoveTowardsPosition(_initialTargetVector, 800, deltaTime); //Move towards the enemy
 }
 
 void Player::HandleJumpAttack(float deltaTime)
@@ -332,15 +333,14 @@ void Player::HandleJumpAttack(float deltaTime)
 		ResetToIdle();
 		return;
 	}
-	if (this->position.x >= _target->position.x - 256 && _isGrounded) //check if the player should jump towards the enemy already
+	if (this->position.x >= _target->position.x - 256 && _isGrounded) //Check if the player should jump towards the enemy already
 	{
 		Jump(750, 1.25f);
 		return;
 	}
-	//third, handle the attack. It jumps on the enemy three times if the button presses are timed correctly
 	if (_jumpAttacksHit <= 3 && this->position.x >= _target->position.x) //If the enemy has not been juped on 3 times yet
 	{
-		if (this->position.y + this->sprite->GetHeight() / 2 >= _target->position.y - _target->sprite->GetHeight() / 2)//calculate if the player collides with the enemy
+		if (this->position.y + this->sprite->GetHeight() / 2 >= _target->position.y - _target->sprite->GetHeight() / 2)//Calculate if the player collides with the enemy
 		{
 			if (GetInput()->GetKeyDown(_actionKey)) //When getting the action key while being in range to jump on the enemy
 			{
@@ -352,7 +352,7 @@ void Player::HandleJumpAttack(float deltaTime)
 				return;
 			}
 		}
-		if (this->position.y >= _target->position.y - _target->sprite->GetHeight() / 2.25f)//calculate if the player collides with the enemy
+		if (this->position.y >= _target->position.y - _target->sprite->GetHeight() / 3.0f)//Calculate if the player is too low and missed the jump window
 		{
 			ResetToIdle();
 		}
