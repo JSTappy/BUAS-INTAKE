@@ -36,9 +36,18 @@ private:
 	///@brief Handle the tutorial with dialogue and music
 	void HandleTutorial();
 
-	void CheckToShowImages(int textCount);
+	///@brief Handle the tutorial with dialogue and music
+	void CompleteGame(char status);
 
-	Entity* _tutorialImage;
+	void CheckToShowImages(char textCount);
+
+	void CheckCompletion();
+
+	char _playersLeft = 2;
+
+	bool _gameComplete = false;
+
+	Entity* _gameStateImage;
 	
 	///@brief The background
 	Entity* _layer1;
@@ -61,8 +70,8 @@ private:
 	///@brief The window at the bottom of the screen with the HP and battle text
 	UIWindow* _uiDisplay;
 
-	///@brief Timer for the intro
-	Timer* _startTimer;
+	///@brief Timer for closing the game after winning
+	Timer* _endTimer;
 
 	///@brief the background music that will loop
 	Audio::Sound* _bgm = new Audio::Sound("assets/audio/bgm.ogg", Audio::Sound::Type::Music);

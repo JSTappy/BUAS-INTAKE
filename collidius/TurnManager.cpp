@@ -23,6 +23,7 @@ TurnManager::~TurnManager()
 
 void TurnManager::Update(float deltaTime)
 {
+	if (stopUpdating)return;
 	//Update the waitingtimer because it does not automatically update like in Entity
 	_waitingTimer->Update(deltaTime);
 

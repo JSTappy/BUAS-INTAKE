@@ -48,6 +48,8 @@ public:
 
 	///@brief The text at the bottom of the screen that shows you instructions, action functions and more over the state of the game
 	Text* battleText = nullptr;
+
+	bool stopUpdating = false;
 private:
 
 	///@brief Will decide the order in which entity can perform an action based on their speeds

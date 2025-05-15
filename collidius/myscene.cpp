@@ -4,9 +4,6 @@
 
 MyScene::MyScene() : Scene()
 {
-	//Initiate the timer
-	_startTimer = new Timer();
-	this->AddChild(_startTimer);
 
 	//Add the layers
 	_layer1 = new Entity();
@@ -29,7 +26,7 @@ MyScene::MyScene() : Scene()
 	_layer3->AddChild(_uiDisplay);
 	
 	//Add Player 1
-	_player1 = new Player(1, 74, 40, 9, 44, 0, 10);
+	_player1 = new Player(1, 1, 40, 9, 44, 0, 10);
 	_player1->SetSprite("assets/sprites/kchar.tga");
 	_player1->text = _uiDisplay->playerOneText; //Set the player one text to the ui player one text so it can render on layer 3
 	_player1->UpdateHealthText();
@@ -40,7 +37,7 @@ MyScene::MyScene() : Scene()
 	_gameEntities.push_back(_player1);
 
 	//Add Player 1
-	_player2 = new Player(2, 97, 35, 16, 36, 0, 10);
+	_player2 = new Player(2, 1, 35, 16, 36, 0, 10);
 	_player2->SetSprite("assets/sprites/jchar.tga");
 	_player2->text = _uiDisplay->playerTwoText; //Set the player two text to the ui player two text so it can render on layer 3
 	_player2->UpdateHealthText();
@@ -51,7 +48,7 @@ MyScene::MyScene() : Scene()
 	_gameEntities.push_back(_player2);
 
 	//Add the Enemy
-	_enemy = new Enemy(3, 1063, 30, 15, 60, 0, 10);
+	_enemy = new Enemy(3, 1, 30, 15, 60, 0, 10);
 	_enemy->SetSprite("assets/sprites/gorilla.tga");
 	_enemy->text = _uiDisplay->enemyText; //Set the enemy text to the ui enemy text so it can render on layer 3
 	_enemy->UpdateHealthText();
@@ -68,9 +65,11 @@ MyScene::MyScene() : Scene()
 	TurnManager::Instance()->battleText = _uiDisplay->text; //Set turnmanager battle text to uiwindow battle text so it can render on layer 3
 	TurnManager::Instance()->battleText->text = _introDialogue[0];
 
-	//Start the timer
-	_startTimer->StartTimer();
-	_startTimer->isPlaying = true;
+	//Initiate the timer
+	_endTimer = new Timer();
+	this->AddChild(_endTimer);
+	_endTimer->StartTimer();
+	_endTimer->isPlaying = true;
 }
 
 MyScene::~MyScene()
@@ -80,6 +79,12 @@ MyScene::~MyScene()
 
 void MyScene::Update(float deltaTime)
 {
+	if (_endTimer->GetSeconds() <= 10)return;
+	if (_gameComplete)
+	{
+		shouldCloseGame = true;
+		return;
+	}
 	if (!setupComplete) { HandleTutorial(); return; } //Handle the tutorial if it has not been completed yet
 	if (GetInput()->GetKeyDown(KEY_Z)) { TurnManager::Instance()->DisplayStats(); } //Display stats if the Z key is pressed
 
@@ -103,11 +108,33 @@ void MyScene::Update(float deltaTime)
 			_gameEntities[i]->alive = false;
 			_layer2->RemoveChild(_gameEntities[i]);
 			TurnManager::Instance()->KillEntity(_gameEntities[i]); //Remove the game entity from the turnmanagers list as well
+			switch (_gameEntities[i]->GetID())
+			{
+				case 1: //Player 1 died
+					_playersLeft--;
+					std::cout << "AMOUNT OF PLAYERS LEFT: " << std::to_string(_playersLeft) << std::endl;
+					if (_playersLeft < 1)
+					{
+						CompleteGame(0);
+						return;
+					}
+					break;
+				case 2: //Player 2 died
+					_playersLeft--;
+					std::cout << "AMOUNT OF PLAYERS LEFT: " << std::to_string(_playersLeft) << std::endl;
+					if (_playersLeft < 1)
+					{
+						CompleteGame(0);
+						return;
+					}
+					break;
+				case 3: //Enemy died
+					CompleteGame(_playersLeft);
+					return;
+			}
 			delete _gameEntities[i]; //Delete it here
 			_gameEntities[i] = nullptr;
 			_gameEntities.erase(_gameEntities.begin() + i); //remove it from the list
-
-			//TODO complete game screen
 		}
 	}
 
@@ -118,33 +145,83 @@ void MyScene::Update(float deltaTime)
 	_bgm->play();
 }
 
-void MyScene::CheckToShowImages(int textCount)
+void MyScene::CheckToShowImages(char textCount)
 {
 	if (textCount == 4)
 	{
-		_tutorialImage = new Entity();
-		_layer3->AddChild(_tutorialImage);
-		_tutorialImage->SetSprite("assets/sprites/tutorialslide1.tga");
-		_tutorialImage->position = glm::vec3(WIDTH / 2, 294.0f, 0);
+		_gameStateImage = new Entity();
+		_layer3->AddChild(_gameStateImage);
+		_gameStateImage->SetSprite("assets/sprites/tutorialslide1.tga");
+		_gameStateImage->position = glm::vec3(WIDTH / 2, 294.0f, 0);
 	}
 	if (textCount == 6)
 	{
-		_tutorialImage->SetSprite("assets/sprites/tutorialslide2.tga");
+		_gameStateImage->SetSprite("assets/sprites/tutorialslide2.tga");
 	}
 	if (textCount == 7)
 	{
-		_tutorialImage->SetSprite("assets/sprites/tutorialslide3.tga");
+		_gameStateImage->SetSprite("assets/sprites/tutorialslide3.tga");
 	}
 	if (textCount == 8)
 	{
-		_tutorialImage->SetSprite("assets/sprites/tutorialslide4.tga");
+		_gameStateImage->SetSprite("assets/sprites/tutorialslide4.tga");
 	}
 	if (textCount == 12)
 	{
-		_layer3->RemoveChild(_tutorialImage);
-		delete _tutorialImage;
-		_tutorialImage = nullptr;
+		_layer3->RemoveChild(_gameStateImage);
+		delete _gameStateImage;
+		_gameStateImage = nullptr;
 	}
+}
+
+void MyScene::CompleteGame(char status)
+{
+	_gameStateImage = new Entity();
+	_layer3->AddChild(_gameStateImage);
+	_gameStateImage->SetSprite("assets/sprites/endingslide.tga");
+	_gameStateImage->position = glm::vec3(WIDTH / 2, 294.0f, 0);
+	_gameComplete = true;
+	switch (status)
+	{
+		case 0: //Enemy wins
+			std::cout << "ENDING ENEMY WINS: " << std::endl;
+			TurnManager::Instance()->battleText->text = "Sean the gorilla has defeated everyone! he is stronger after all!";
+			break;
+		case 1: //Single player wins
+			for (size_t i = 0; i < _gameEntities.size(); i++)
+			{
+				if (_gameEntities[i]->GetID() == 1) //Player 1 wins
+				{
+					TurnManager::Instance()->battleText->text = "Lee is the last one standing! But Cole was not so lucky";
+					break;
+				}
+				//Player 2 wins
+				TurnManager::Instance()->battleText->text = "Cole Has won! But Lee was not so lucky";
+				break;
+			}
+			break;
+		case 2: //Players win
+			TurnManager::Instance()->battleText->text = "The humans truly have no limits! They won!";
+			break;
+	}
+	for (size_t i = 0; i < _gameEntities.size(); i++)
+	{
+		_gameEntities[i]->alive = false;
+		_layer2->RemoveChild(_gameEntities[i]);
+		TurnManager::Instance()->KillEntity(_gameEntities[i]); //Remove the game entity from the turnmanagers list as well
+		delete _gameEntities[i]; //Delete it here
+		_gameEntities[i] = nullptr;
+		_gameEntities.erase(_gameEntities.begin() + i); //remove it from the list
+	}
+	TurnManager::Instance()->stopUpdating = true;
+	_endTimer->StartOverTimer();
+	_endTimer->isPlaying = true;
+}
+
+void MyScene::CheckCompletion()
+{
+
+
 }
 void MyScene::HandleTutorial()
 {

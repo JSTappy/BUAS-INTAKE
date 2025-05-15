@@ -22,7 +22,7 @@ void Game::Run(Scene* scene)
 	// Render the scene
 	_renderer.RenderScene(scene);
 
-	if (glfwGetKey(_renderer.GetWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(_renderer.GetWindow()) == 0)
+	if (!scene->shouldCloseGame)
 	{
 		running = true;
 	}

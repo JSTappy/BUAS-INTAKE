@@ -27,6 +27,8 @@ public:
 	void AddSprites(); 
 	void AddSprite(Sprite* sprite);
 
+	bool shouldCloseGame = false;
+
 protected:
 	std::vector<Sprite*> _sprites;
 
