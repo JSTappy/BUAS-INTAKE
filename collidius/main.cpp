@@ -8,6 +8,8 @@
 
 int main( void )
 {
+	srand(static_cast<unsigned int>(time(nullptr)));
+
 	Game game;
 	MyScene* myscene = new MyScene();
 	do

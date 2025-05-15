@@ -188,6 +188,7 @@ void MyScene::Update(float deltaTime)
 
 void MyScene::CheckToShowImages(char textCount)
 {
+	//make the sprite and change it when its needed
 	if (textCount == 4)
 	{
 		_gameStateImage = new Entity();
@@ -209,6 +210,7 @@ void MyScene::CheckToShowImages(char textCount)
 	}
 	if (textCount == 17)
 	{
+		//Remove it at the end
 		_layer3->RemoveChild(_gameStateImage);
 		delete _gameStateImage;
 		_gameStateImage = nullptr;
@@ -257,19 +259,16 @@ void MyScene::CompleteGame(char status)
 	_endTimer->StartOverTimer();
 	_endTimer->isPlaying = true;
 }
-
-void MyScene::CheckCompletion()
-{
-
-
-}
 void MyScene::HandleTutorial()
 {
+	//When the dialogue is not all played yet
 	if (_textcount >= _introDialogue.size() - 1 && !setupComplete) 
 	{
 		CompleteTutorial();
 		return;
 	}
+
+	//Advance to next text string
 	if (GetInput()->GetKeyDown(SPACE))
 	{
 		_textcount++;

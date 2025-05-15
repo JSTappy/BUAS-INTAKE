@@ -21,7 +21,7 @@ public:
 	///@param glm::vec3 targetPosition, the position of the target
 	void SetTarget(glm::vec3 targetPosition);
 
-	///@brief Set the target position this projectile needs to go towards
+	///@brief The speed at which this projectile will move towards the target position
 	float speed;
 
 	///@brief Hitbox Sprite

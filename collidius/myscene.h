@@ -36,17 +36,19 @@ private:
 	///@brief Handle the tutorial with dialogue and music
 	void HandleTutorial();
 
-	///@brief Handle the tutorial with dialogue and music
+	///@brief Complete the game in a certain way based on how many players are left
 	void CompleteGame(char status);
 
+	///@brief Check what images to show in the tutorial
 	void CheckToShowImages(char textCount);
 
-	void CheckCompletion();
-
+	///@brief Handle the tutorial with dialogue and music
 	char _playersLeft = 2;
 
+	///@brief Check if the game is completed, if true, exit game
 	bool _gameComplete = false;
 
+	//Image to show with both the tutorial as well as the end screen
 	Entity* _gameStateImage;
 	
 	///@brief The background

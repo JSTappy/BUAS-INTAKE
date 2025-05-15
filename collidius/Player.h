@@ -21,8 +21,6 @@ public:
 	///@brief Player Destructor
 	virtual ~Player();
 
-	// --- Functions --- //
-
 	///@brief Update method
 	///@param deltaTime
 	virtual void Update(float deltaTime) override;
@@ -43,8 +41,6 @@ public:
 	unsigned char GetTurnsToSkip() { return _turnsToSkip; }
 
 private:
-
-	// --- Functions --- //
 
 	///@brief Applies the velocity and gravity to the player
 	///@param float deltaTime
@@ -171,9 +167,10 @@ private:
 	///@brief Gravity, the downwards force
 	float _gravity = 5000;
 
-	/// @brief The velocity of the player
+	///@brief The velocity of the player
 	glm::vec3 _velocity = glm::vec3(0,0,0);
 
+	///@brief the jumping sound
 	Audio::Sound* _jumpSound = new Audio::Sound("assets/audio/jump.ogg", Audio::Sound::Type::Sound);
 };
 
