@@ -395,20 +395,20 @@ void Player::HandleProjectileMash()
 
 void Player::HandleDashAttack(float deltaTime)
 {
-	if (_attackingTimer->GetSeconds() > 2)  //If you did nothing within 2 seconds
+	if (_attackingTimer->GetSeconds() > 3)  //If you did nothing within 2 seconds
 	{
-		if (TurnManager::Instance()->battleText->text != "You Charged for too long...") { TurnManager::Instance()->battleText->text = "You Charged for too long..."; }
+		if (TurnManager::Instance()->battleText->text != "You waited too long...") { TurnManager::Instance()->battleText->text = "You waited too long..."; }
 		MoveTowardsPosition(_initialTargetVector, 600, deltaTime); //Moving towards the enemy position
 		if (this->position.x + this->sprite->GetWidth() / 2 >= _target->position.x - _target->sprite->GetWidth() / 2) //if the player hits the enemy
 		{
-			this->defense -= this->defense / 10; //only substract defense from the player
-			TurnManager::Instance()->battleText->text = "Player defense - 10%";
-			DealDamage(_target, 0.01f); //deal little damage
+			this->defense = std::max<short>(this->defense - 3, 0); //Only substract defense from the player and make sure it does not go below 0
+			TurnManager::Instance()->battleText->text = "Player defense - 3";
+			DealDamage(_target, 0.01f); //Deal little damage
 			ResetToIdle();
 		}
 		return;
 	}
-	if (_attackPerformed) //if the attack has been performed
+	if (_attackPerformed) //If the attack has been performed
 	{
 		if (_energyStored > 1) //Move faster towards the enemy with more charge
 		{
@@ -421,9 +421,9 @@ void Player::HandleDashAttack(float deltaTime)
 		if (this->position.x + this->sprite->GetWidth() / 2 >= _target->position.x - _target->sprite->GetWidth() / 2) //If the player hits the enemy
 		{
 			//Substract both player and Enemy defenses
-			this->defense -= this->defense / 10;
-			_target->defense -= _target->defense / 10;
-			TurnManager::Instance()->battleText->text = "Player & enemy defense - 10%";
+			this->defense = std::max<short>(this->defense - 3, 0); //Make sure it does not go below 0
+			_target->defense = std::max<short>(_target->defense - 3, 0); //Make sure it does not go below 0
+			TurnManager::Instance()->battleText->text = "Player & enemy defense - 3";
 			if (_energyStored > 2.25f) //Cap out damage at 2.25 for balancing
 			{
 				DealDamage(_target, 2.25f);
