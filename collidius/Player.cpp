@@ -214,19 +214,22 @@ void Player::PerformDefenseAction(unsigned char defenseLevel)
 	switch (defenseLevel) //Check to see which defense action should be performed
 	{
 		case 0: //Increase defense by 1
-			this->defense += 1;
+			this->defense = std::min(this->defense + 1, 255);
 			ResetToIdle();
 			return;
+
 		case 1: //15% damage reduction, but you skip a turn
 			this->_damageReduction = 0.15f;
 			this->_turnsToSkip = 1;
 			ResetToIdle();
 			return;
+
 		case 2: //Defense for power trade-off
-			this->defense += 4;
-			this->power -= 4;
+			this->defense = std::min(this->defense + 4, 255);
+			this->power = std::max(this->power - 4, 1);
 			ResetToIdle();
 			return;
+
 		case 3: //50% damage reduction, but you skip 3 turns
 			this->_damageReduction = 0.5f;
 			this->_turnsToSkip = 3;
