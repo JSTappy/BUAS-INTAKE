@@ -73,7 +73,53 @@ MyScene::MyScene() : Scene()
 
 MyScene::~MyScene()
 {
+	//Clean up game entities
+	for (GameEntity* entity : _gameEntities)
+	{
+		if (entity)
+		{
+			_layer2->RemoveChild(entity);
+			TurnManager::Instance()->KillEntity(entity);
+			delete entity;
+		}
+	}
+	_gameEntities.clear();
 
+	//Destroy sprite on layer 3
+	_layer3->RemoveChild(_gameStateImage);
+	delete _gameStateImage;
+	_gameStateImage = nullptr;
+	
+	//Destroy layers
+	this->RemoveChild(_layer1);
+	this->RemoveChild(_layer2);
+	this->RemoveChild(_layer3);
+
+	delete _layer1; 
+	delete _layer2; 
+	delete _layer3;
+
+	_layer1 = nullptr;
+	_layer2 = nullptr; 
+	_layer3 = nullptr;
+
+	//Destroy UI display
+	delete _uiDisplay; 
+	_uiDisplay = nullptr;
+
+	//Destroy game entity pointers
+	_player1 = nullptr;
+	_player2 = nullptr;
+	_enemy = nullptr;
+
+	//Destroy timer
+	this->RemoveChild(_endTimer);
+	delete _endTimer;
+	_endTimer = nullptr;
+
+	//Destroy audio
+	delete _bgm; _bgm = nullptr; 
+	delete _intro; _intro = nullptr; 
 }
 
 void MyScene::Update(float deltaTime)
