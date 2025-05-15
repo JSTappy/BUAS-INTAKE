@@ -16,6 +16,7 @@ Controls:
 - T To visualise the hitboxes of the players and the enemy
   
 - [ESCAPE] optional, to close the game
+
 JST2D
 ---------
 JST2D is a 2D framework based on OpenGL(2.1+). It compiles and runs on Windows. This framework will get updated as time goes along. but not via this repository. I will continue this framework via my other repository: <https://github.com/JSTappy/JST2D>
