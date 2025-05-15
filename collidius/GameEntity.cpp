@@ -162,10 +162,6 @@ void GameEntity::DealDamage(GameEntity* target, float multiplier)
 	}
 
 	hpAfterAttack = target->health; //Health after taking the hit
-	std::cout << "######################################################################### " << std::endl;
-	std::cout << "Target HP Before Attack: " << hpBeforeAttack << " / " << target->_maxHealth << std::endl;
-	std::cout << "Target HP After Attack: " << target->health << " / " << target->_maxHealth << std::endl;
-	std::cout << "######################################################################### " << std::endl;
 	ShowDamage(_target, hpBeforeAttack - hpAfterAttack); //Make the sprite and show the damage
 	_target->UpdateHealthText(); //Update the targets health text
 }

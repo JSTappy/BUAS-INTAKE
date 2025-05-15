@@ -26,7 +26,6 @@ void ActionBlock::NextBlock()
 	{
 		_spriteCounter = 0;
 		this->SetSprite(_actionBlocks[_spriteCounter]); //Set the correct sprite based off of the sprite counter
-		std::cout << _spriteCounter << std::endl;
 		return;
 	}
 	_spriteCounter++;
@@ -40,7 +39,6 @@ void ActionBlock::PreviousBlock()
 	{
 		_spriteCounter = 2;
 		this->SetSprite(_actionBlocks[_spriteCounter]); //Set the correct sprite based off of the sprite counter
-		std::cout << _spriteCounter << std::endl;
 		return;
 	}
 	_spriteCounter--;

@@ -149,7 +149,6 @@ void MyScene::Update(float deltaTime)
 		//If the health of the game entity is 0, kill it
 		if (_gameEntities[i]->health <= 0)
 		{
-			std::cout << "Game Entity Defeated" << std::endl;
 			_gameEntities[i]->alive = false;
 			_layer2->RemoveChild(_gameEntities[i]);
 			TurnManager::Instance()->KillEntity(_gameEntities[i]); //Remove the game entity from the turnmanagers list as well
@@ -157,7 +156,6 @@ void MyScene::Update(float deltaTime)
 			{
 				case 1: //Player 1 died
 					_playersLeft--;
-					std::cout << "AMOUNT OF PLAYERS LEFT: " << std::to_string(_playersLeft) << std::endl;
 					if (_playersLeft < 1)
 					{
 						CompleteGame(0);
@@ -166,7 +164,6 @@ void MyScene::Update(float deltaTime)
 					break;
 				case 2: //Player 2 died
 					_playersLeft--;
-					std::cout << "AMOUNT OF PLAYERS LEFT: " << std::to_string(_playersLeft) << std::endl;
 					if (_playersLeft < 1)
 					{
 						CompleteGame(0);
@@ -229,7 +226,6 @@ void MyScene::CompleteGame(char status)
 	switch (status)
 	{
 		case 0: //Enemy wins
-			std::cout << "ENDING ENEMY WINS: " << std::endl;
 			TurnManager::Instance()->battleText->text = "Sean the gorilla has defeated everyone! he is stronger after all!";
 			break;
 		case 1: //Single player wins

@@ -136,21 +136,6 @@ void TurnManager::AddGameEntities(GameEntity* ge)
 	}
 }
 
-void TurnManager::DisplayStats()
-{
-	//Print these values to the console window
-	battleText->text = "Game Entity ID: " + std::to_string(static_cast<unsigned int>(_nextInTurn->GetID()));
-	std::cout << "######################################################################### " << std::endl;
-	std::cout << "Game Entity ID: " << std::to_string(static_cast<unsigned int>(_nextInTurn->GetID())) << std::endl;
-	std::cout << "Health: " << _nextInTurn->health << std::endl;
-	std::cout << "Power: " << std::to_string(static_cast<unsigned int>(_nextInTurn->power)) << std::endl;
-	std::cout << "Defense: " << std::to_string(static_cast<unsigned int>(_nextInTurn->defense)) << std::endl;
-	std::cout << "Speed: " << std::to_string(static_cast<unsigned int>(_nextInTurn->speed)) << std::endl;
-	std::cout << "Damage reduction: " << _nextInTurn->GetDamageReduction() * 100 << "%" << std::endl;
-	std::cout << "Critical chance: " << std::to_string(static_cast<unsigned int>(_nextInTurn->GetCriticalChance())) << "%" << std::endl;
-	std::cout << "######################################################################### " << std::endl;
-}
-
 
 void TurnManager::KillEntity(GameEntity* ge)
 {
@@ -160,7 +145,6 @@ void TurnManager::KillEntity(GameEntity* ge)
 	//Check if its a player
 	if (Player* player = dynamic_cast<Player*>(ge))
 	{
-		std::cout << "Player Killed" << std::endl;
 		_players.erase(std::remove(_players.begin(), _players.end(), player), _players.end());
 	}
 	//No need to remove the enemy from a list since there is none, the enemy deletion gets done in the scene
@@ -172,7 +156,6 @@ Player* TurnManager::GetRandomPlayer()
 	if (_players.size() > 0)
 	{
 		unsigned char randomPlayer = rand() % _players.size();
-		std::cout << randomPlayer << std::endl;
 		return _players[randomPlayer];
 	}
 
