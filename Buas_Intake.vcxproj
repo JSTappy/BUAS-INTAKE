@@ -64,7 +64,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)external\glew-2.2.0\lib\Release\x64;$(ProjectDir)external\glfw-3.4\lib\x64;$(ProjectDir)\external\freetype\release_static\vs2015-2022\win64;$(ProjectDir)\external\jpvanoosten-audio\lib\Debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);glew32s.lib;opengl32.lib;glfw3.lib;freetype.lib;audio.lib;</AdditionalDependencies>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);glew32s.lib;opengl32.lib;glfw3.lib;freetype.lib;audio.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /Y /I "$(ProjectDir)assets" "$(OutDir)assets"</Command>
@@ -91,7 +91,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)external\glew-2.2.0\lib\Release\x64;$(ProjectDir)external\glfw-3.4\lib\x64;$(ProjectDir)\external\freetype\release_static\vs2015-2022\win64;$(ProjectDir)\external\jpvanoosten-audio\lib\Release</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);glew32s.lib;opengl32.lib;glfw3.lib;freetype.lib;audio.lib;</AdditionalDependencies>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);glew32s.lib;opengl32.lib;glfw3.lib;freetype.lib;audio.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /Y /I "$(ProjectDir)assets" "$(OutDir)assets"</Command>

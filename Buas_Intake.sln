@@ -4,6 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Buas_Intake", "Buas_Intake.vcxproj", "{09C8658A-4E4A-4928-822F-965D82D9A1FC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{297CA8CB-2FED-4C72-8ED5-5ACB6ED6EFCA} = {297CA8CB-2FED-4C72-8ED5-5ACB6ED6EFCA}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Audio", "external\jpvanoosten-audio\Audio.vcxproj", "{297CA8CB-2FED-4C72-8ED5-5ACB6ED6EFCA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{09C8658A-4E4A-4928-822F-965D82D9A1FC}.Debug|x64.Build.0 = Debug|x64
 		{09C8658A-4E4A-4928-822F-965D82D9A1FC}.Release|x64.ActiveCfg = Release|x64
 		{09C8658A-4E4A-4928-822F-965D82D9A1FC}.Release|x64.Build.0 = Release|x64
+		{297CA8CB-2FED-4C72-8ED5-5ACB6ED6EFCA}.Debug|x64.ActiveCfg = Debug|x64
+		{297CA8CB-2FED-4C72-8ED5-5ACB6ED6EFCA}.Debug|x64.Build.0 = Debug|x64
+		{297CA8CB-2FED-4C72-8ED5-5ACB6ED6EFCA}.Release|x64.ActiveCfg = Release|x64
+		{297CA8CB-2FED-4C72-8ED5-5ACB6ED6EFCA}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
