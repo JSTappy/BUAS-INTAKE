@@ -141,9 +141,12 @@ void GameEntity::DealDamage(GameEntity* target, float multiplier)
 		target->health -= 255;
 		isCriticalHit = true; //Crit hit
 	}
-	else if (IsCriticalHit() && attackStat * 1.5f <= 255) //If the attack is a crit, and the total damage output is lower than 255
+	else if (IsCriticalHit())
 	{
-		target->health -= attackStat * 1.5f - target->defense - (attackStat - target->defense) * target->GetDamageReduction(); //Apply crit damage
+		float rawDamage = attackStat * 1.5f - target->defense - (attackStat - target->defense) * target->GetDamageReduction();
+		short finalDamage = static_cast<short>(std::min(rawDamage, 255.0f)); //Clamp final damage
+
+		target->health -= finalDamage;
 		isCriticalHit = true;
 	}
 	else
@@ -206,7 +209,6 @@ void GameEntity::HandleProjectileCollision(Projectile* p, GameEntity* t)
 
 void GameEntity::ToggleHitboxDisplay(bool displaying) 
 {
-
 	_shouldDisplayHitboxes = displaying;
 	if (_shouldDisplayHitboxes) //If the hitboxes should be displayed
 	{

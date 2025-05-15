@@ -177,9 +177,6 @@ void Player::HandleAction()
 		case 2: //Item action
 			UseItem(actionIndex);
 			break;
-		case 3:	//Special action
-			//TODO
-			break;
 	}
 }
 
