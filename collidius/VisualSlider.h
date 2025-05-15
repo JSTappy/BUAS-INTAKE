@@ -47,10 +47,10 @@ private:
 	float _fillScaleAmount = 0;
 
 	///@brief The action key sprite for player 1
-	std::string _player1Sprite = ("assets/sprites/k.tga");
+	std::string _player1Sprite = ("assets/sprites/q.tga");
 
 	///@brief The action key sprite for player 2
-	std::string _player2Sprite = ("assets/sprites/j.tga");
+	std::string _player2Sprite = ("assets/sprites/e.tga");
 };
 
 #endif // VISUALSLIDER_H 
