@@ -52,7 +52,43 @@ GameEntity::GameEntity(unsigned char ID, short Health, unsigned char Power, unsi
 
 GameEntity::~GameEntity()
 {
+	this->RemoveChild(_movingTimer);
+	this->RemoveChild(_movingTimer);
+	this->RemoveChild(_damageSpriteTimer);
+	this->RemoveChild(_damageSprite);
 
+	delete _damageSprite;
+	delete _movingTimer;
+	delete _waitingTimer;
+	delete _damageSpriteTimer;
+
+	_damageSprite = nullptr;
+	_movingTimer = nullptr;
+	_waitingTimer = nullptr;
+	_damageSpriteTimer = nullptr;
+
+	for (Item* item : _items)
+	{
+		delete item;
+	}
+	 _items.clear();
+
+	for (Projectile* projectile : _projectiles)
+	{
+		delete projectile;
+	}
+	_projectiles.clear();
+
+
+	 _target = nullptr;
+
+	 delete _hitSound;
+	 delete _critHitSound;
+	 delete _projectileSound;
+
+	 _hitSound = nullptr;
+	 _critHitSound = nullptr;
+	 _projectileSound = nullptr;
 }
 
 void GameEntity::Update(float deltaTime)

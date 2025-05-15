@@ -10,7 +10,8 @@ Item::Item(char itemType, char uses)
 
 Item::~Item()
 {
-
+	delete _itemSound;
+	_itemSound = nullptr;
 }
 
 void Item::ApplyItem(GameEntity* target) 

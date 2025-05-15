@@ -10,7 +10,9 @@ Enemy::Enemy(unsigned char id, short health, unsigned char power, unsigned char 
 
 Enemy::~Enemy()
 {
-
+	this->RemoveChild(_starIndicator);
+	delete _starIndicator;
+	_starIndicator = nullptr;
 }
 
 void Enemy::Update(float deltaTime)
