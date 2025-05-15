@@ -31,4 +31,5 @@ Libraries
 - glew: <http://glew.sourceforge.net/>
 - glm: <http://glm.g-truc.net/>
 - Freetype: <https://freetype.org/>
-- Audio: <https://github.com/jpvanoosten/Audio/tree/main/inc/Audio>
+- Audio: <https://github.com/jpvanoosten/Audio/tree/main>
+
